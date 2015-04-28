@@ -82,7 +82,17 @@
 							</p>
 						</header>
 						<p>
-							This was the first full week since we got the necessary hardware for this project. We met up with Professor Reynolds on Thursday to learn about I2C. We read the signals coming from the SCL and SDA pins to determine what value is stored in the given register. You read the data pin on the rising edge of the clock and that will give you one bit of data.  Reading the register mapping data sheet of the IMU, we determined that there were some default values in the register, we used that to compare it to the oscilloscope data and verified that it matches. Then we uploaded code to print the data read from the MPU6050 (IMU) to the serial monitor. For the accelerometer part of the IMU, we found the value of G to be 16384 at the default accel sensitivity. We then used Matlab to see how consistent our values were. We oriented our IMU so that x = 0, y = 0, z = G. We noted on some of the deviations and determined that there was about +/- 200 for each x,y,z. In our last meeting, we adjusted our roadmap and discussed how we will distribute the work. We also discussed where the hard part lies, what parts are relatively easy, and what we should work on early.
+							This was the first full week since we got the necessary hardware for this project. 
+							We met up with Professor Reynolds on Thursday to learn about I2C. 
+							We read the signals coming from the SCL and SDA pins to determine what value is stored in the given register. 
+							You read the data pin on the rising edge of the clock and that will give you one bit of data.  
+							Reading the register mapping data sheet of the IMU, we determined that there were some default values in the register, we used that to compare it to the oscilloscope data and verified that it matches. 
+							Then we uploaded code to print the data read from the MPU6050 (IMU) to the serial monitor. 
+							For the accelerometer part of the IMU, we found the value of G to be 16384 at the default acceleration sensitivity. 
+							We then used Matlab to see how consistent our values were. 
+							We oriented our IMU so that x = 0, y = 0, z = G. We noted on some of the deviations and determined that there was about +/- 200 for each x,y,z.
+							In our last meeting, we adjusted our roadmap and discussed how we will distribute the work. 
+							We also discussed where the hard part lies, what parts are relatively easy, and what we should work on early.
 							
 						</p>
 				
