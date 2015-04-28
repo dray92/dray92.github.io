@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Week 2 Updates</title>
+		<title>Week 3 Updates</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -76,39 +76,16 @@
 				<div class="container">
 					<article id="main" class="special">
 						<header>
-							<h2><a href="#">Week 2</a></h2>
+							<h2><a href="#">Week 4</a></h2>
 							<p>
-								Updates from the week of April 6th
+								Updates from the week of April 20th
 							</p>
 						</header>
 						<p>
-							- The team discussed the overall project at a very high level
+							This was the first full week since we got the necessary hardware for this project. We met up with Professor Reynolds on Thursday to learn about I2C. We read the signals coming from the SCL and SDA pins to determine what value is stored in the given register. You read the data pin on the rising edge of the clock and that will give you one bit of data.  Reading the register mapping data sheet of the IMU, we determined that there were some default values in the register, we used that to compare it to the oscilloscope data and verified that it matches. Then we uploaded code to print the data read from the MPU6050 (IMU) to the serial monitor. For the accelerometer part of the IMU, we found the value of G to be 16384 at the default accel sensitivity. We then used Matlab to see how consistent our values were. We oriented our IMU so that x = 0, y = 0, z = G. We noted on some of the deviations and determined that there was about +/- 200 for each x,y,z. In our last meeting, we adjusted our roadmap and discussed how we will distribute the work. We also discussed where the hard part lies, what parts are relatively easy, and what we should work on early.
+							
 						</p>
-						<p>
-							- Potential hardware components that would be needed were researched and
-							chosen
-						</p>
-						<p>
-							- Looked into sensors and microcontrollers. In particular we 
-							looked into Inertial Motion Units (IMUs) and microphones sensors. 
-							At first, we were clueless of which microcontroller to get. 
-							We didn’t know if we wanted a basic one or one that already 
-							has a bunch of built in peripherals. We have some idea of 
-							what microcontroller to get but haven’t made any purchase yet.
-						</p>
-						<p>
-							- Bought IMU, sensors, breadboard, buttons, and other hardware 
-							components that might be needed for the project.
-						</p>
-						<p>
-							- Prepared other supplies (wires, some IC chips, microcontrollers) 
-							for Tuesday’s (04/14/2015) lab session.
-						</p>
-						
-						<p>
-							List of purchases made so far: <br/>
-							<a href="#" class="image"><img src="images/Costs.png" alt="" width="516" height="296" /></a>
-						</p>
+				
 					</article>
 					<hr />
 		
