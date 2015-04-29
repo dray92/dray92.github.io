@@ -644,20 +644,20 @@ void setup()
   //
 
   error = MPU6050_read (MPU6050_WHO_AM_I, &c, 1);
-//  Serial.print(F("WHO_AM_I : "));
-//  Serial.print(c, HEX);
-//  Serial.print(F(", error = "));
-//  Serial.println(error, DEC);
+  Serial.print(F("WHO_AM_I : "));
+  Serial.print(c, HEX);
+  Serial.print(F(", error = "));
+  Serial.println(error, DEC);
 
   // According to the datasheet, the 'sleep' bit
   // should read a '1'.
   // That bit has to be cleared, since the sensor
   // is in sleep mode at power-up.
   error = MPU6050_read (MPU6050_PWR_MGMT_1, &c, 1);
-//  Serial.print(F("PWR_MGMT_1 : "));
-//  Serial.print(c, HEX);
-//  Serial.print(F(", error = "));
-//  Serial.println(error, DEC);
+  Serial.print(F("PWR_MGMT_1 : "));
+  Serial.print(c, HEX);
+  Serial.print(F(", error = "));
+  Serial.println(error, DEC);
 
 
   // Clear the 'sleep' bit to start the sensor.
@@ -673,20 +673,14 @@ void loop()
   if (button.uniquePress())
   {
     awake = !awake;
-    delay(1000);
-    Serial.println("2");
-    delay(1000);
-    Serial.println("1");  
-    delay(1000);
-    Serial.println("0");
   }
   if (awake)
   {
-
-    
-//    Serial.println(F(""));
-//    Serial.println(F("MPU-6050"));
-
+      
+  
+    Serial.println(F(""));
+    Serial.println(F("MPU-6050"));
+  
     // Read the raw values.
     // Read 14 bytes at once,
     // containing acceleration, temperature and gyro.
@@ -694,8 +688,8 @@ void loop()
     // there is no filter enabled, and the values
     // are not very stable.
     error = MPU6050_read (MPU6050_ACCEL_XOUT_H, (uint8_t *) &accel_t_gyro, sizeof(accel_t_gyro));
-//    Serial.print(F("Read accel, temp and gyro, error = "));
-//    Serial.println(error,DEC);
+    Serial.print(F("Read accel, temp and gyro, error = "));
+    Serial.println(error,DEC);
   
     // Swap all high and low bytes.
     // After this, the registers values are swapped,
@@ -715,11 +709,11 @@ void loop()
   
     // Print the raw acceleration values
   
-//    Serial.print(F("accel x,y,z: "));
+    Serial.print(F("accel x,y,z: "));
     Serial.print(accel_t_gyro.value.x_accel, DEC);
-    Serial.print(F(" "));
+    Serial.print(F(", "));
     Serial.print(accel_t_gyro.value.y_accel, DEC);
-    Serial.print(F(" "));
+    Serial.print(F(", "));
     Serial.print(accel_t_gyro.value.z_accel, DEC);
     Serial.println(F(""));
   
@@ -729,22 +723,22 @@ void loop()
     //   340 per degrees Celsius, -512 at 35 degrees.
     // At 0 degrees: -512 - (340 * 35) = -12412
   
-//    Serial.print(F("temperature: "));
-//    dT = ( (double) accel_t_gyro.value.temperature + 12412.0) / 340.0;
-//    Serial.print(dT, 3);
-//    Serial.print(F(" degrees Celsius"));
-//    Serial.println(F(""));
+    Serial.print(F("temperature: "));
+    dT = ( (double) accel_t_gyro.value.temperature + 12412.0) / 340.0;
+    Serial.print(dT, 3);
+    Serial.print(F(" degrees Celsius"));
+    Serial.println(F(""));
   
   
     // Print the raw gyro values.
   
-//    Serial.print(F("gyro x,y,z : "));
+    Serial.print(F("gyro x,y,z : "));
     Serial.print(accel_t_gyro.value.x_gyro, DEC);
-    Serial.print(F(" "));
+    Serial.print(F(", "));
     Serial.print(accel_t_gyro.value.y_gyro, DEC);
-    Serial.print(F(" "));
+    Serial.print(F(", "));
     Serial.print(accel_t_gyro.value.z_gyro, DEC);
-    Serial.print(F(" "));
+    Serial.print(F(", "));
     Serial.println(F(""));
   }
   delay(10);
