@@ -11,9 +11,7 @@ public class Main {
 		
 		
 
-		
-		double max = Math.pow(2, 16);
-		System.out.println("Max: " + max);
+
 		int datapts = 0;
 		if (data1.length < data2.length) {
 			datapts = data1.length;
@@ -25,15 +23,15 @@ public class Main {
 		double sum = 0.0;
 		
 		for (int j = 0; j < datapts; j++) {
-			sum += Math.pow((data1[j].accelX - data2[j].accelX)/max, 2);
-			sum += Math.pow((data1[j].accelY - data2[j].accelY)/max, 2);
-			sum += Math.pow((data1[j].accelZ - data2[j].accelZ)/max, 2);
-			sum += Math.pow((data1[j].gyroX -data2[j].gyroX)/max, 2);
-			sum += Math.pow((data1[j].gyroY -data2[j].gyroY)/max, 2);
-			sum += Math.pow((data1[j].gyroZ -data2[j].gyroZ)/max, 2);
+			sum += Math.pow((data1[j].accelX - data2[j].accelX), 2);
+			sum += Math.pow((data1[j].accelY - data2[j].accelY), 2);
+			sum += Math.pow((data1[j].accelZ - data2[j].accelZ), 2);
+			sum += Math.pow((data1[j].gyroX -data2[j].gyroX), 2);
+			sum += Math.pow((data1[j].gyroY -data2[j].gyroY), 2);
+			sum += Math.pow((data1[j].gyroZ -data2[j].gyroZ), 2);
 			
 		}
-		
+		sum = sum/datapts;
 		double average = Math.sqrt(sum);
 		System.out.println(average);
 		
