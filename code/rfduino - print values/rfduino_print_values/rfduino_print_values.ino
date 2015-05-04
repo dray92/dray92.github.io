@@ -710,28 +710,27 @@ void loop()
     // After this, the registers values are swapped,
     // so the structure name like x_accel_l does no
     // longer contain the lower byte.
-//    uint8_t swap;
-//    #define SWAP(x,y) swap = x; x = y; y = swap
-//  
-//    SWAP (accel_t_gyro.reg.x_accel_h, accel_t_gyro.reg.x_accel_l);
-//    SWAP (accel_t_gyro.reg.y_accel_h, accel_t_gyro.reg.y_accel_l);
-//    SWAP (accel_t_gyro.reg.z_accel_h, accel_t_gyro.reg.z_accel_l);
-//    SWAP (accel_t_gyro.reg.t_h, accel_t_gyro.reg.t_l);
-//    SWAP (accel_t_gyro.reg.x_gyro_h, accel_t_gyro.reg.x_gyro_l);
-//    SWAP (accel_t_gyro.reg.y_gyro_h, accel_t_gyro.reg.y_gyro_l);
-//    SWAP (accel_t_gyro.reg.z_gyro_h, accel_t_gyro.reg.z_gyro_l);
-//  
+    uint8_t swap;
+    #define SWAP(x,y) swap = x; x = y; y = swap
+  
+    SWAP (accel_t_gyro.reg.x_accel_h, accel_t_gyro.reg.x_accel_l);
+    SWAP (accel_t_gyro.reg.y_accel_h, accel_t_gyro.reg.y_accel_l);
+    SWAP (accel_t_gyro.reg.z_accel_h, accel_t_gyro.reg.z_accel_l);
+    SWAP (accel_t_gyro.reg.t_h, accel_t_gyro.reg.t_l);
+    SWAP (accel_t_gyro.reg.x_gyro_h, accel_t_gyro.reg.x_gyro_l);
+    SWAP (accel_t_gyro.reg.y_gyro_h, accel_t_gyro.reg.y_gyro_l);
+    SWAP (accel_t_gyro.reg.z_gyro_h, accel_t_gyro.reg.z_gyro_l);
+  
   
     // Print the raw acceleration values
   
 //    Serial.print(F("accel x,y,z: "));
-//    Serial.print(accel_t_gyro.value.x_accel, DEC);
-//    
-//    Serial.print(F(" "));
-//    Serial.print(accel_t_gyro.value.y_accel, DEC);
-//    Serial.print(F(" "));
-//    Serial.print(accel_t_gyro.value.z_accel, DEC);
-//    Serial.println(F(""));
+    Serial.print(accel_t_gyro.value.x_accel, DEC);
+    Serial.print(F(" "));
+    Serial.print(accel_t_gyro.value.y_accel, DEC);
+    Serial.print(F(" "));
+    Serial.print(accel_t_gyro.value.z_accel, DEC);
+    Serial.println(F(""));
 
     uint8_t accelx_h = accel_t_gyro.reg.x_accel_h;
     uint8_t accelx_l = accel_t_gyro.reg.x_accel_l;
@@ -747,9 +746,9 @@ void loop()
     uint8_t gyroz_l = accel_t_gyro.reg.z_gyro_l;
 
     
-    const char string[] = {(char) accelx_h, (char) accelx_l, (char) accely_h, (char) accely_l, (char) accelz_h, (char) accelz_l, (char) gyrox_h, (char) gyrox_l, (char) gyroy_h, (char) gyroy_l, (char) gyroz_h, (char) gyroz_l };
-    const char* ch = &string[0];
-    RFduinoBLE.send(ch, 12);
+//    const char string[] = {(char) accelx_h, (char) accelx_l, (char) accely_h, (char) accely_l, (char) accelz_h, (char) accelz_l, (char) gyrox_h, (char) gyrox_l, (char) gyroy_h, (char) gyroy_l, (char) gyroz_h, (char) gyroz_l };
+//    const char* ch = &string[0];
+//    RFduinoBLE.send(ch, 12);
 //    RFduinoBLE.sendByte(accel_t_gyro.reg.z_gyro_h);
 //
 //    RFduinoBLE.sendByte(accel_t_gyro.reg.z_gyro_l);
@@ -769,29 +768,29 @@ void loop()
     // Print the raw gyro values.
   
 //    Serial.print(F("gyro x,y,z : "));
-//    Serial.print(accel_t_gyro.value.x_gyro, DEC);
-//    Serial.print(F(" "));
-//    Serial.print(accel_t_gyro.value.y_gyro, DEC);
-//    Serial.print(F(" "));
-//    Serial.print(accel_t_gyro.value.z_gyro, DEC);
-//    Serial.print(F(" "));
-//    Serial.println(F(""));
+    Serial.print(accel_t_gyro.value.x_gyro, DEC);
+    Serial.print(F(" "));
+    Serial.print(accel_t_gyro.value.y_gyro, DEC);
+    Serial.print(F(" "));
+    Serial.print(accel_t_gyro.value.z_gyro, DEC);
+    Serial.print(F(" "));
+    Serial.println(F(""));
 
 
 
-    if (plus.uniquePress()) 
-    {
-      RFduinoBLE.send('P');
-//      Serial.println('P');
-      awake = false;
-    }
-    if (minus.uniquePress()) 
-    {
-      RFduinoBLE.send('N');
-//      Serial.println('N');
-      awake = false;
-    }
-    delay(100);
+//    if (plus.uniquePress()) 
+//    {
+//      RFduinoBLE.send('P');
+////      Serial.println('P');
+//      awake = false;
+//    }
+//    if (minus.uniquePress()) 
+//    {
+//      RFduinoBLE.send('N');
+////      Serial.println('N');
+//      awake = false;
+//    }
+//    delay(100);
   }
 
  
