@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Xml;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +30,8 @@ import com.lannbox.rfduinotest.R;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScanCallback {
@@ -58,8 +61,9 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
     private Button sendValueButton;
     private Button clearButton;
     private LinearLayout dataLayout;
-    private String[] data1;
-    private int dataIndex1;
+    private int i;
+
+
 
     private final BroadcastReceiver bluetoothStateReceiver = new BroadcastReceiver() {
         @Override
@@ -112,27 +116,34 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
             } else if (RFduinoService.ACTION_DATA_AVAILABLE.equals(action)) {
                 byte[] data = intent.getByteArrayExtra(RFduinoService.EXTRA_DATA);
                 if (data.length > 0) {
-                    String dataStr = new String(data);
+                    String dataStr = null;
+                    String dataToHex = HexAsciiHelper.bytesToHex(data);
+                    try {
+                        dataStr = new String(data, "US-ASCII");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
                     if ( dataStr.equals("S00000000000") ) {
                         Log.d("Feedback Char", "S");
 //                        startsRFduino();
                     } else if ( dataStr.equals("P00000000000")) {
                         Log.d("Feedback Char", "P");
+
 //                        positiveRFduino();
                         // collectdatafunction
                     } else if (dataStr.equals("N00000000000")) {
                         Log.d("Feedback Char", "N");
+
 //                        negativeRFduino();
                         // collectdatafunction
+
                     }
 
-                    dataIndex1++;
-                    Log.d("Inside", dataStr);
-                    if (dataIndex1 < 2000000) {
-                        data1[dataIndex1] = dataStr;
-                    }
-
-
+                    generateNoteOnSD("data1.txt", dataToHex + "\n");
+                    Log.d("DataSTR:", dataToHex);
+                    i++;
+                    Log.d("i:", Integer.toString(i));
 
                 }
 
@@ -145,13 +156,11 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        data1 = new String[200];
-        dataIndex1 = 0;
-
+        i = 0;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analyze);
-        generateNoteOnSD("data1.txt", "Hellow World");
+
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // Bluetooth
@@ -353,12 +362,6 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
     }
 
     public void done(View view) {
-        Log.d("dataIndexI",Integer.toString(dataIndex1));
-        String temp = "434343";
-        String temp2 = data1[13];
-        Log.d("value at 13", data1[13].toString());
-        Log.d("value at 13", temp2.toString());
-        Log.d("value at 13", temp);
         Intent intent = new Intent(this, SummaryActivity.class);
         startActivity(intent);
     }
@@ -370,12 +373,19 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
             if (!root.exists()) {
                 root.mkdirs();
             }
+
             File gpxfile = new File(root, sFileName);
-            FileWriter writer = new FileWriter(gpxfile);
+            FileWriter writer;
+            if (gpxfile.exists()) {
+                writer = new FileWriter(gpxfile, true);
+            } else {
+                writer = new FileWriter(gpxfile);
+            }
+
             writer.append(sBody);
             writer.flush();
             writer.close();
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         }
         catch(IOException e)
         {
@@ -384,6 +394,7 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
 //            iError();
         }
     }
+
 
 
 
