@@ -1,16 +1,28 @@
 package com.lannbox.rfduinotest;
 
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.lannbox.rfduinotest.R;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+
 public class SummaryActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        try {
+            calculateConsistencyScore(1);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
     }
@@ -36,5 +48,24 @@ public class SummaryActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void calculateConsistencyScore(int formNumber) throws FileNotFoundException {
+
+        // get SD card directory
+        File sdcard = new File(Environment.getExternalStorageDirectory(), "Notes");
+        // get the text file
+        File file = new File(sdcard, "data1.txt");
+
+        Scanner scanFile = new Scanner(file);
+
+        while (scanFile.hasNextLine()) {
+            String line = scanFile.nextLine();
+            Log.d("line:", line);
+        }
+
+
+
     }
 }
