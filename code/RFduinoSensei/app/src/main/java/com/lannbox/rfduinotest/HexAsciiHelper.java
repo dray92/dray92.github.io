@@ -32,7 +32,7 @@ public class HexAsciiHelper {
         StringBuilder hex = new StringBuilder();
         for (int i = offset; i < offset + length; i++) {
             hex.append(String.format("%02X", data[i]));
-            Log.d("255",String.format("%02X", data[i]) );
+            // Log.d("255",String.format("%02X", data[i]) );
         }
 
         return hex.toString();
