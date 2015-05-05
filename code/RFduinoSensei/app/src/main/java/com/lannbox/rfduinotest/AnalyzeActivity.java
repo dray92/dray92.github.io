@@ -61,7 +61,7 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
     private Button sendValueButton;
     private Button clearButton;
     private LinearLayout dataLayout;
-    private int i;
+
 
 
 
@@ -126,24 +126,22 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
 
                     if ( dataStr.equals("S00000000000") ) {
                         Log.d("Feedback Char", "S");
-//                        startsRFduino();
+                        generateNoteOnSD("data1.txt", "SSSSSSSSSSSS\n");
                     } else if ( dataStr.equals("P00000000000")) {
                         Log.d("Feedback Char", "P");
+                        generateNoteOnSD("data1.txt", "PPPPPPPPPPPP\n");
 
-//                        positiveRFduino();
-                        // collectdatafunction
                     } else if (dataStr.equals("N00000000000")) {
                         Log.d("Feedback Char", "N");
+                        generateNoteOnSD("data1.txt", "NNNNNNNNNNNN\n");
 
-//                        negativeRFduino();
-                        // collectdatafunction
-
+                    } else {
+                        generateNoteOnSD("data1.txt", dataToHex + "\n");
                     }
 
-                    generateNoteOnSD("data1.txt", dataToHex + "\n");
+
                     Log.d("DataSTR:", dataToHex);
-                    i++;
-                    Log.d("i:", Integer.toString(i));
+
 
                 }
 
@@ -156,7 +154,7 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        i = 0;
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analyze);
