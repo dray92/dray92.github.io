@@ -680,6 +680,10 @@ void loop()
   if (button.uniquePress())
   {
     awake = !awake;
+    if (awake = true) {
+      RFduinoBLE.send("S00000000000", 12);
+    }
+    
     delay(1000);
     Serial.println("2");
     delay(1000);
@@ -747,9 +751,10 @@ void loop()
     uint8_t gyroz_l = accel_t_gyro.reg.z_gyro_l;
 
     
-    const char string[] = {(char) accelx_h, (char) accelx_l, (char) accely_h, (char) accely_l, (char) accelz_h, (char) accelz_l, (char) gyrox_h, (char) gyrox_l, (char) gyroy_h, (char) gyroy_l, (char) gyroz_h, (char) gyroz_l };
-    const char* ch = &string[0];
-    RFduinoBLE.send(ch, 12);
+    char string[12] = {(char) accelx_h, (char) accelx_l, (char) accely_h, (char) accely_l, (char) accelz_h, (char) accelz_l, (char) gyrox_h, (char) gyrox_l, (char) gyroy_h, (char) gyroy_l, (char) gyroz_h, (char) gyroz_l };
+  
+    
+    RFduinoBLE.send(string, 12);
 //    RFduinoBLE.sendByte(accel_t_gyro.reg.z_gyro_h);
 //
 //    RFduinoBLE.sendByte(accel_t_gyro.reg.z_gyro_l);
@@ -781,13 +786,13 @@ void loop()
 
     if (plus.uniquePress()) 
     {
-      RFduinoBLE.send('P');
+      RFduinoBLE.send("P00000000000", 12);
 //      Serial.println('P');
       awake = false;
     }
     if (minus.uniquePress()) 
     {
-      RFduinoBLE.send('N');
+      RFduinoBLE.send("N00000000000", 12);
 //      Serial.println('N');
       awake = false;
     }
