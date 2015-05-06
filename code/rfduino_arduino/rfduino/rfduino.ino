@@ -637,9 +637,9 @@ void setup()
 
   Serial.begin(9600);
   Wire.begin();
-  
+
   RFduinoBLE.advertisementData = "Sensei RFduino";
-  
+
   // start the BLE stack
   RFduinoBLE.begin();
 
@@ -651,20 +651,20 @@ void setup()
   //
 
   error = MPU6050_read (MPU6050_WHO_AM_I, &c, 1);
-//  Serial.print(F("WHO_AM_I : "));
-//  Serial.print(c, HEX);
-//  Serial.print(F(", error = "));
-//  Serial.println(error, DEC);
+  //  Serial.print(F("WHO_AM_I : "));
+  //  Serial.print(c, HEX);
+  //  Serial.print(F(", error = "));
+  //  Serial.println(error, DEC);
 
   // According to the datasheet, the 'sleep' bit
   // should read a '1'.
   // That bit has to be cleared, since the sensor
   // is in sleep mode at power-up.
   error = MPU6050_read (MPU6050_PWR_MGMT_1, &c, 1);
-//  Serial.print(F("PWR_MGMT_1 : "));
-//  Serial.print(c, HEX);
-//  Serial.print(F(", error = "));
-//  Serial.println(error, DEC);
+  //  Serial.print(F("PWR_MGMT_1 : "));
+  //  Serial.print(c, HEX);
+  //  Serial.print(F(", error = "));
+  //  Serial.println(error, DEC);
 
 
   // Clear the 'sleep' bit to start the sensor.
@@ -676,30 +676,30 @@ void loop()
   int error;
   double dT;
   accel_t_gyro_union accel_t_gyro;
-  
+
   if (button.uniquePress())
   {
     awake = !awake;
-    if (awake = true) {
+    if (awake) {
       RFduinoBLE.send("S00000000000", 12);
     }
-    
+
     delay(1000);
     Serial.println("2");
     delay(1000);
-    Serial.println("1");  
+    Serial.println("1");
     delay(1000);
     Serial.println("0");
   }
 
   if (awake)
   {
-   
-    
 
-    
-//    Serial.println(F(""));
-//    Serial.println(F("MPU-6050"));
+
+
+
+    //    Serial.println(F(""));
+    //    Serial.println(F("MPU-6050"));
     // Read the raw values.
     // Read 14 bytes at once,
     // containing acceleration, temperature and gyro.
@@ -707,35 +707,6 @@ void loop()
     // there is no filter enabled, and the values
     // are not very stable.
     error = MPU6050_read (MPU6050_ACCEL_XOUT_H, (uint8_t *) &accel_t_gyro, sizeof(accel_t_gyro));
-//    Serial.print(F("Read accel, temp and gyro, error = "));
-//    Serial.println(error,DEC);
-  
-    // Swap all high and low bytes.
-    // After this, the registers values are swapped,
-    // so the structure name like x_accel_l does no
-    // longer contain the lower byte.
-//    uint8_t swap;
-//    #define SWAP(x,y) swap = x; x = y; y = swap
-//  
-//    SWAP (accel_t_gyro.reg.x_accel_h, accel_t_gyro.reg.x_accel_l);
-//    SWAP (accel_t_gyro.reg.y_accel_h, accel_t_gyro.reg.y_accel_l);
-//    SWAP (accel_t_gyro.reg.z_accel_h, accel_t_gyro.reg.z_accel_l);
-//    SWAP (accel_t_gyro.reg.t_h, accel_t_gyro.reg.t_l);
-//    SWAP (accel_t_gyro.reg.x_gyro_h, accel_t_gyro.reg.x_gyro_l);
-//    SWAP (accel_t_gyro.reg.y_gyro_h, accel_t_gyro.reg.y_gyro_l);
-//    SWAP (accel_t_gyro.reg.z_gyro_h, accel_t_gyro.reg.z_gyro_l);
-//  
-  
-    // Print the raw acceleration values
-  
-//    Serial.print(F("accel x,y,z: "));
-//    Serial.print(accel_t_gyro.value.x_accel, DEC);
-//    
-//    Serial.print(F(" "));
-//    Serial.print(accel_t_gyro.value.y_accel, DEC);
-//    Serial.print(F(" "));
-//    Serial.print(accel_t_gyro.value.z_accel, DEC);
-//    Serial.println(F(""));
 
     uint8_t accelx_h = accel_t_gyro.reg.x_accel_h;
     uint8_t accelx_l = accel_t_gyro.reg.x_accel_l;
@@ -750,57 +721,83 @@ void loop()
     uint8_t gyroz_h = accel_t_gyro.reg.z_gyro_h;
     uint8_t gyroz_l = accel_t_gyro.reg.z_gyro_l;
 
-    
     char string[12] = {(char) accelx_h, (char) accelx_l, (char) accely_h, (char) accely_l, (char) accelz_h, (char) accelz_l, (char) gyrox_h, (char) gyrox_l, (char) gyroy_h, (char) gyroy_l, (char) gyroz_h, (char) gyroz_l };
-  
+
+
+    /*-------------
+    @author: Debo
+    @date: 05/04/2015
+
+    initializing 16-bit unsigned integers for printing to the console
+    printing to the console
+    -----------*/
+    // initialing uints
+    int16_t accel_x = 0, accel_y = 0, accel_z = 0, gyro_x = 0, gyro_y = 0, gyro_z = 0;
     
+    // accelerometer
+    // bitshifts for accel_x 
+    accel_x = accel_t_gyro.reg.x_accel_h;
+    accel_x = accel_x << 8;
+    accel_x |= accel_t_gyro.reg.x_accel_l;
+    
+    // bitshifts for accel_y 
+    accel_y = accel_t_gyro.reg.y_accel_h;
+    accel_y = accel_y << 8;
+    accel_y |= accel_t_gyro.reg.y_accel_l;
+    
+    // bitshifts for accel_z 
+    accel_z = accel_t_gyro.reg.z_accel_h;
+    accel_z = accel_z << 8;
+    accel_z |= accel_t_gyro.reg.z_accel_l;
+    
+    // gyroscope
+    // bitshifts for gyro_x 
+    gyro_x = accel_t_gyro.reg.x_gyro_h;
+    gyro_x = gyro_x << 8;
+    gyro_x |= accel_t_gyro.reg.x_gyro_l;
+    
+    // bitshifts for gyro_y 
+    gyro_y = accel_t_gyro.reg.y_gyro_h;
+    gyro_y = gyro_y << 8;
+    gyro_y |= accel_t_gyro.reg.y_gyro_l;
+    
+    // bitshifts for gyro_z 
+    gyro_z = accel_t_gyro.reg.z_gyro_h;
+    gyro_z = gyro_z << 8;
+    gyro_z |= accel_t_gyro.reg.z_gyro_l;
+    
+    // printing to the serial monitor
+//    Serial.print("Accelerometer ");
+    Serial.print(accel_x, DEC);
+    Serial.print(' ');
+    Serial.print(accel_y, DEC);
+    Serial.print(' ');
+    Serial.println(accel_z, DEC);
+//    Serial.print("Gyroscope ");
+    Serial.print(gyro_x, DEC);
+    Serial.print(' ');
+    Serial.print(gyro_y, DEC);
+    Serial.print(' ');
+    Serial.println(gyro_z, DEC);
+
+    // sending data
     RFduinoBLE.send(string, 12);
-//    RFduinoBLE.sendByte(accel_t_gyro.reg.z_gyro_h);
-//
-//    RFduinoBLE.sendByte(accel_t_gyro.reg.z_gyro_l);
-    // The temperature sensor is -40 to +85 degrees Celsius.
-    // It is a signed integer.
-    // According to the datasheet:
-    //   340 per degrees Celsius, -512 at 35 degrees.
-    // At 0 degrees: -512 - (340 * 35) = -12412
-  
-//    Serial.print(F("temperature: "));
-//    dT = ( (double) accel_t_gyro.value.temperature + 12412.0) / 340.0;
-//    Serial.print(dT, 3);
-//    Serial.print(F(" degrees Celsius"));
-//    Serial.println(F(""));
-  
-  
-    // Print the raw gyro values.
-  
-//    Serial.print(F("gyro x,y,z : "));
-//    Serial.print(accel_t_gyro.value.x_gyro, DEC);
-//    Serial.print(F(" "));
-//    Serial.print(accel_t_gyro.value.y_gyro, DEC);
-//    Serial.print(F(" "));
-//    Serial.print(accel_t_gyro.value.z_gyro, DEC);
-//    Serial.print(F(" "));
-//    Serial.println(F(""));
 
-
-
-    if (plus.uniquePress()) 
+    if (plus.uniquePress())
     {
       RFduinoBLE.send("P00000000000", 12);
-//      Serial.println('P');
       awake = false;
     }
-    if (minus.uniquePress()) 
+    if (minus.uniquePress())
     {
       RFduinoBLE.send("N00000000000", 12);
-//      Serial.println('N');
       awake = false;
     }
     delay(100);
   }
 
- 
-  
+
+
   /*
   //  accel_t_gyro_union accel_t_gyro;
   //  int16_t accel_x = 0, accel_y = 0;
@@ -851,7 +848,7 @@ int MPU6050_read(int start, uint8_t *buffer, int size)
     buffer[i++] = Wire.read();
   }
   if ( i != size)
-    return (-11); 
+    return (-11);
 
   return (0);  // return : no error
 }
