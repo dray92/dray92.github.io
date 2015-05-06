@@ -1,12 +1,78 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.lannbox.rfduinotest.SummaryActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/formGroupSummary" >
+
+        <RadioButton android:id="@+id/firstFormSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Form 1"
+            android:checked="true"
+            />
+        <RadioButton android:id="@+id/secondFormSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Form 2"
+            />
+
+        <RadioButton android:id="@+id/thirdFormSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Form 3"
+            />
+
+        </RadioGroup>
+
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Calculate Consistency Score"
+            android:onClick="calculateConsistencyScore" />
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Draw 3d model of motion"
+            android:onClick="drawMotion" />
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Report Statistics"
+            android:onClick="reportStatistics" />
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Save Data"
+            android:onClick="saveData" />
+
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Delete Data"
+            android:onClick="deleteData" />
+    </LinearLayout>
+
 
 </RelativeLayout>

@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Xml;
 import android.view.KeyEvent;
@@ -34,7 +35,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScanCallback {
+public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapter.LeScanCallback {
     final private static int STATE_BLUETOOTH_OFF = 1;
     final private static int STATE_DISCONNECTED = 2;
     final private static int STATE_CONNECTING = 3;
@@ -62,7 +63,8 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
     private Button clearButton;
     private LinearLayout dataLayout;
 
-
+    private String sportSelected;
+    private String formSelected;
 
 
     private final BroadcastReceiver bluetoothStateReceiver = new BroadcastReceiver() {
@@ -157,6 +159,13 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
 
 
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        sportSelected = intent.getStringExtra("SPORT_ID");
+        formSelected = intent.getStringExtra("FORM_ID");
+//        Can be buggy with back button
+//        Log.d("IN ANALYZE: sport id:", sportSelected);
+//        Log.d("IN ANALYZE: form id:", formSelected);
         setContentView(R.layout.activity_analyze);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -361,6 +370,14 @@ public class AnalyzeActivity extends Activity implements BluetoothAdapter.LeScan
 
     public void done(View view) {
         Intent intent = new Intent(this, SummaryActivity.class);
+
+
+
+        intent.putExtra("SPORT_ID", formSelected);
+        intent.putExtra("FORM_ID", sportSelected);
+
+
+
         startActivity(intent);
     }
 
