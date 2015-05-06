@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<!--
+	Helios by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Week 5 Updates</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/jquery.scrolly.min.js"></script>
+		<script src="js/jquery.onvisible.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-desktop.css" />
+			<link rel="stylesheet" href="css/style-noscript.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	</head>
+	<body class="homepage">
+
+		<!-- Header -->
+			<div id="header">
+						
+				<!-- Inner -->
+					<div class="inner">
+						<header>
+							<h1><a href="index.html" id="logo">Sensei</a></h1>
+							<hr />
+							<p>Guide to a Perfect Swing</p>
+						</header>
+						<footer>
+							<a href="#main" class="button circled scrolly">Week5</a>
+						</footer>
+					</div>
+				
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li>
+								<a href="">About Sensei</a>
+								<ul>
+									<li>									<li>
+									<a href="">Swing Analyzer &hellip;</a>
+										<ul>
+											<li><a href="#">Golf</a></li>
+											<li><a href="#">Tennis</a></li>
+											<li><a href="#">Badminton</a></li>
+											<li><a href="#">Basketball</a></li>
+										</ul>
+									</li>
+									<li><a href="#">Score Keeper</a></li>
+								</ul>
+							</li>
+							<li><a href="product-proposal.html">Product Proposal</a></li>
+							<li><a href="updates.html">Updates</a></li>
+							<li><a href="contact.html">Contact</a></li>
+						</ul>
+					</nav>
+
+			</div>
+			
+		<!-- Main -->
+			<div class="wrapper style1">
+
+				<div class="container">
+					<article id="main" class="special">
+						<header>
+							<h2><a href="#">Week 3</a></h2>
+							<p>
+								Updates from the week of April 27th
+							</p>
+						</header>
+						<h3>Objective for Week 5</h3>
+						
+							<li>Android App</li>
+							<li>Communication via bluetooth</li>
+						</br>
+						<h3>Summary of what we did this week</h3>
+						<p>This week we focused on the Android app. This includes the bluetooth connection from RFduino to Android phone. The data that is sent from the RFduino to the bluetooth is encoded from 12 bytes of information into 24 hexadecimal characters. We also encoded every button from the RFduino to sequence of byte characters. We were able to make three activities screens. The interface for the activities is at a beta level and just supports the necessary input controls to make the backend stuff work. Our first screen is able to send the input data that is used for setup to the next activity. The second activity does all the bluetooth connections and reads the data from the IMU/RFduino. The last activity we implemented gives the user the option to statistically measure and graph their stroke out on a 3d plane. Essentially we have complemented the functionality for the first two activities and the only thing we need to do is to finish the third activity. We need to implement a function that calculates a consistency score for the user's stroke and also redraw this stroke onto a 3d plane.</p>
+						<h3>Android App Interface (BETA)</h3>
+						</br>
+						<a><img src="images\week5_sensei_home.jpg" alt="" height="30%" width="30%"/></a>
+						<a><img src="images\week5_sensei_analyze.jpg" alt="" height="30%" width="30%"></a>
+						<a><img src="images\week5_sensei_summary.jpg" alt="" height="30%" width="30%"/></a>
+						</br>
+						</br>
+						<h3>How to use: </h3>
+						<ol type="1">
+							<li><b>1.</b> Pick sport and form to analyze. <i>Android app screen 1</i> </li>
+							<li><b>2.</b> Pick sport and form to analyze. <i>Android app screen 1</i> </li>
+							<li><b>3.</b> Turn on bluetooth. <i>Android app screen 2</i> </li>
+							<li><b>4.</b> Scan bluetooth for RFduino. <i>Android app screen 2</i> </li>
+							<li><b>5.</b> Connect to RFduino: This will wake the RFduino up. <i>Android app screen 2</i> </li>
+							<li><b>6.</b> Press start button then stroke/shot/motion. <i>RFduino</i> </li>
+							<li><b>7.</b>  Press feedback button when done with motion, +/-. <i>RFduino</i> </li>
+							<li><b>8.</b> Repeat steps <b>6</b> &amp; <b>7</b> until done button (android app screen 2) is pressed</li>
+							<li><b>9.</b> Summarize and analyze a form, draw 3d model of stroke, consistency score, save data or delete data. <i>Android app screen 3</i> </li>
+
+						</ol>
+						<h3>Data file that is created</h3>
+						</br>
+
+						<a><img src="images\week5_data1.jpg" alt="" height="30%" width="30%"/></a>
+
+						<h3>Objectives for next week</h3>
+						<p>Use the data file to produce results and output it to the Android screen</p>
+
+						<footer>
+							<a href="#header" class="button circled scrolly">Back to Top</a>
+						</footer>
+					
+					</article>
+					<hr />
+		
+				</div>
+
+			</div>
+
+		<!-- Footer -->
+			<div id="footer">
+				
+			</div>
+
+	</body>
+</html>
