@@ -589,15 +589,16 @@
 
 Kalman kalmanX; // Create the Kalman instances
 Kalman kalmanY;
+Kalman kalmanZ;
 
 /* IMU Data */
 double accX, accY, accZ;
 double gyroX, gyroY, gyroZ;
 int16_t tempRaw;
 
-double gyroXangle, gyroYangle; // Angle calculate using the gyro only
-double compAngleX, compAngleY; // Calculated angle using a complementary filter
-double kalAngleX, kalAngleY; // Calculated angle using a Kalman filter
+double gyroXangle, gyroYangle, gyroZangle; // Angle calculate using the gyro only
+double compAngleX, compAngleY, compAngleZ; // Calculated angle using a complementary filter
+double kalAngleX, kalAngleY, kalAngleZ; // Calculated angle using a Kalman filter
 
 uint32_t timer;
 uint8_t i2cData[14]; // Buffer for I2C data
@@ -688,18 +689,27 @@ void setup()
 #ifdef RESTRICT_PITCH // Eq. 25 and 26
   double roll  = atan2(accY, accZ) * RAD_TO_DEG;
   double pitch = atan(-accX / sqrt(accY * accY + accZ * accZ)) * RAD_TO_DEG;
+  double yaw = atan(-accZ / sqrt(accY * accY + accX * accX)) * RAD_TO_DEG;
+  if(accY == 0 && accX == 0) yaw = 90;
 #else // Eq. 28 and 29
   double roll  = atan(accY / sqrt(accX * accX + accZ * accZ)) * RAD_TO_DEG;
   double pitch = atan2(-accX, accZ) * RAD_TO_DEG;
+  double yaw = atan(-accZ / sqrt(accY * accY + accX * accX)) * RAD_TO_DEG;
+  if(accY == 0 && accX == 0) yaw = 90;
 #endif
 
   kalmanX.setAngle(roll); // Set starting angle
   kalmanY.setAngle(pitch);
+  kalmanZ.setAngle(yaw);
+  
   gyroXangle = roll;
   gyroYangle = pitch;
+  gyroZangle = yaw;
+  
   compAngleX = roll;
   compAngleY = pitch;
-
+  compAngleZ = yaw;
+  
   timer = micros();
 }
 
@@ -744,26 +754,31 @@ void loop()
     #ifdef RESTRICT_PITCH // Eq. 25 and 26
       double roll  = atan2(accY, accZ) * RAD_TO_DEG;
       double pitch = atan(-accX / sqrt(accY * accY + accZ * accZ)) * RAD_TO_DEG;
+      double yaw = atan(-accZ / sqrt(accY * accY + accX * accX)) * RAD_TO_DEG;
+      if(accY == 0 && accX == 0) yaw = 90;
     #else // Eq. 28 and 29
       double roll  = atan(accY / sqrt(accX * accX + accZ * accZ)) * RAD_TO_DEG;
       double pitch = atan2(-accX, accZ) * RAD_TO_DEG;
+      double yaw = atan(-accZ / sqrt(accY * accY + accX * accX)) * RAD_TO_DEG;
+      if(accY == 0 && accX == 0) yaw = 90;
     #endif
     
     double gyroXrate = gyroX / 131.0; // Convert to deg/s
     double gyroYrate = gyroY / 131.0; // Convert to deg/s
+    double gyroZrate = gyroZ / 131.0; // Convert to deg/s
     
-    uint8_t accelx_h = accel_t_gyro.reg.x_accel_h;
-    uint8_t accelx_l = accel_t_gyro.reg.x_accel_l;
-    uint8_t accely_h = accel_t_gyro.reg.y_accel_h;
-    uint8_t accely_l = accel_t_gyro.reg.y_accel_l;
-    uint8_t accelz_h = accel_t_gyro.reg.z_accel_h;
-    uint8_t accelz_l = accel_t_gyro.reg.z_accel_l;
-    uint8_t gyrox_h = accel_t_gyro.reg.x_gyro_h;
-    uint8_t gyrox_l = accel_t_gyro.reg.x_gyro_l;
-    uint8_t gyroy_h = accel_t_gyro.reg.y_gyro_h;
-    uint8_t gyroy_l = accel_t_gyro.reg.y_gyro_l;
-    uint8_t gyroz_h = accel_t_gyro.reg.z_gyro_h;
-    uint8_t gyroz_l = accel_t_gyro.reg.z_gyro_l;
+    uint8_t accelx_h = i2cData[0];
+    uint8_t accelx_l = i2cData[1];
+    uint8_t accely_h = i2cData[2];
+    uint8_t accely_l = i2cData[3];
+    uint8_t accelz_h = i2cData[4];
+    uint8_t accelz_l = i2cData[5];
+    uint8_t gyrox_h  = i2cData[8];
+    uint8_t gyrox_l  = i2cData[9];
+    uint8_t gyroy_h = i2cData[10];
+    uint8_t gyroy_l = i2cData[11];
+    uint8_t gyroz_h = i2cData[12];
+    uint8_t gyroz_l = i2cData[13];
 
     #ifdef RESTRICT_PITCH
       // This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
@@ -772,12 +787,15 @@ void loop()
         compAngleX = roll;
         kalAngleX = roll;
         gyroXangle = roll;
-      } else
+      } else {
         kalAngleX = kalmanX.getAngle(roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
-    
-      if (abs(kalAngleX) > 90)
-        gyroYrate = -gyroYrate; // Invert rate, so it fits the restriced accelerometer reading
+      }
+      
+      if (abs(kalAngleX) > 90) {
+        gyroYrate = -gyroYrate; // Invert rate, so it fits the restricted accelerometer reading
+      }
       kalAngleY = kalmanY.getAngle(pitch, gyroYrate, dt);
+    
     #else
       // This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
       if ((pitch < -90 && kalAngleY > 90) || (pitch > 90 && kalAngleY < -90)) {
@@ -785,13 +803,16 @@ void loop()
         compAngleY = pitch;
         kalAngleY = pitch;
         gyroYangle = pitch;
-      } else
+      } else {
         kalAngleY = kalmanY.getAngle(pitch, gyroYrate, dt); // Calculate the angle using a Kalman filter
-    
-        if (abs(kalAngleY) > 90)
-          gyroXrate = -gyroXrate; // Invert rate, so it fits the restriced accelerometer reading
-        kalAngleX = kalmanX.getAngle(roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
-      #endif
+      }
+      
+      if (abs(kalAngleY) > 90) {
+        gyroXrate = -gyroXrate; // Invert rate, so it fits the restriced accelerometer reading
+      }
+      
+      kalAngleX = kalmanX.getAngle(roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
+    #endif
     
 
   gyroXangle += gyroXrate * dt; // Calculate gyro angle without any filter
@@ -810,47 +831,47 @@ void loop()
 
     char string[12] = {(char) accelx_h, (char) accelx_l, (char) accely_h, (char) accely_l, (char) accelz_h, (char) accelz_l, (char) gyrox_h, (char) gyrox_l, (char) gyroy_h, (char) gyroy_l, (char) gyroz_h, (char) gyroz_l };
 
-    /*-------------
-    @author: Debo
-    @date: 05/04/2015
-
-    initializing 16-bit unsigned integers for printing to the console
-    printing to the console
-    -----------*/
-    // initialing uints
-    int16_t accel_x = 0, accel_y = 0, accel_z = 0, gyro_x = 0, gyro_y = 0, gyro_z = 0;
-    
-    // accelerometer
-    // bitshifts for accel_x 
-    accel_x = accel_t_gyro.reg.x_accel_h;
-    accel_x = accel_x << 8;
-    accel_x |= accel_t_gyro.reg.x_accel_l;
-    
-    // bitshifts for accel_y 
-    accel_y = accel_t_gyro.reg.y_accel_h;
-    accel_y = accel_y << 8;
-    accel_y |= accel_t_gyro.reg.y_accel_l;
-    
-    // bitshifts for accel_z 
-    accel_z = accel_t_gyro.reg.z_accel_h;
-    accel_z = accel_z << 8;
-    accel_z |= accel_t_gyro.reg.z_accel_l;
-    
-    // gyroscope
-    // bitshifts for gyro_x 
-    gyro_x = accel_t_gyro.reg.x_gyro_h;
-    gyro_x = gyro_x << 8;
-    gyro_x |= accel_t_gyro.reg.x_gyro_l;
-    
-    // bitshifts for gyro_y 
-    gyro_y = accel_t_gyro.reg.y_gyro_h;
-    gyro_y = gyro_y << 8;
-    gyro_y |= accel_t_gyro.reg.y_gyro_l;
-    
-    // bitshifts for gyro_z 
-    gyro_z = accel_t_gyro.reg.z_gyro_h;
-    gyro_z = gyro_z << 8;
-    gyro_z |= accel_t_gyro.reg.z_gyro_l;
+//    /*-------------
+//    @author: Debo
+//    @date: 05/04/2015
+//
+//    initializing 16-bit unsigned integers for printing to the console
+//    printing to the console
+//    -----------*/
+//    // initialing uints
+//    int16_t accel_x = 0, accel_y = 0, accel_z = 0, gyro_x = 0, gyro_y = 0, gyro_z = 0;
+//    
+//    // accelerometer
+//    // bitshifts for accel_x 
+//    accel_x = accel_t_gyro.reg.x_accel_h;
+//    accel_x = accel_x << 8;
+//    accel_x |= accel_t_gyro.reg.x_accel_l;
+//    
+//    // bitshifts for accel_y 
+//    accel_y = accel_t_gyro.reg.y_accel_h;
+//    accel_y = accel_y << 8;
+//    accel_y |= accel_t_gyro.reg.y_accel_l;
+//    
+//    // bitshifts for accel_z 
+//    accel_z = accel_t_gyro.reg.z_accel_h;
+//    accel_z = accel_z << 8;
+//    accel_z |= accel_t_gyro.reg.z_accel_l;
+//    
+//    // gyroscope
+//    // bitshifts for gyro_x 
+//    gyro_x = accel_t_gyro.reg.x_gyro_h;
+//    gyro_x = gyro_x << 8;
+//    gyro_x |= accel_t_gyro.reg.x_gyro_l;
+//    
+//    // bitshifts for gyro_y 
+//    gyro_y = accel_t_gyro.reg.y_gyro_h;
+//    gyro_y = gyro_y << 8;
+//    gyro_y |= accel_t_gyro.reg.y_gyro_l;
+//    
+//    // bitshifts for gyro_z 
+//    gyro_z = accel_t_gyro.reg.z_gyro_h;
+//    gyro_z = gyro_z << 8;
+//    gyro_z |= accel_t_gyro.reg.z_gyro_l;
     
     // printing to the serial monitor
     Serial.print("Accelerometer "); Serial.print(accX); Serial.print(" ");
