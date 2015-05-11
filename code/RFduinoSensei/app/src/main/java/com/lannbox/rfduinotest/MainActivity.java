@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Radio Form Selected:", formSelected);
         Log.d("Radio Sport Selected:", sportSelected);
 
+
         Intent intent = new Intent(this, AnalyzeActivity.class);
 
         intent.putExtra("SPORT_ID", formSelected);

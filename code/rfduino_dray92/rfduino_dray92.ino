@@ -892,10 +892,11 @@ void loop()
     Serial.print(pitch); Serial.print(" ");
     Serial.print(gyroYangle); Serial.print(" ");
     Serial.print(compAngleY); Serial.print(" ");
-    Serial.print(kalAngleY); Serial.print(" ");
+    Serial.print(kalAngleY); Serial.println(" ");
     
     // sending data
     RFduinoBLE.send(string, 12);
+    
 
     if (plus.uniquePress())
     {

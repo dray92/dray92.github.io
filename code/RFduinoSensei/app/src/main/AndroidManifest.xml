@@ -24,13 +24,16 @@
         <!--android:maxSdkVersion="18" />-->
 
     <application
+
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:configChanges="orientation|screenSize" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,7 +46,8 @@
         <activity
             android:name=".AnalyzeActivity"
             android:label="@string/title_activity_analyze"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation|screenSize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.lannbox.rfduinotest.MainActivity" />
@@ -51,7 +55,8 @@
         <activity
             android:name=".SummaryActivity"
             android:label="@string/title_activity_summary"
-            android:parentActivityName=".AnalyzeActivity" >
+            android:parentActivityName=".AnalyzeActivity"
+            android:configChanges="orientation|screenSize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.lannbox.rfduinotest.AnalyzeActivity" />

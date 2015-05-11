@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
@@ -168,8 +169,9 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
 //        Log.d("IN ANALYZE: form id:", formSelected);
         setContentView(R.layout.activity_analyze);
 
+//        if (bluetoothAdapter == null) {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
+//        }
         // Bluetooth
         enableBluetoothButton = (Button) findViewById(R.id.enableBluetooth);
         enableBluetoothButton.setOnClickListener(new View.OnClickListener() {
@@ -271,7 +273,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
     @Override
     protected void onStop() {
         super.onStop();
-
+        Log.d("AnalyzeActivity.onStop", "Stopping");
         bluetoothAdapter.stopLeScan(this);
 
         unregisterReceiver(scanModeReceiver);
@@ -407,6 +409,17 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
             e.printStackTrace();
 //            importError = e.getMessage();
 //            iError();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Log.d("AnalyzeActivity", "ORIENTATION_LANDSCAPE");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Log.d("AnalyzeActivity", "ORIENTATION_PORTRAIT");
         }
     }
 
