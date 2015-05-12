@@ -106,6 +106,25 @@ public class SummaryActivity extends AppCompatActivity {
             Log.d("line:", line);
         }
 
+        SensorData data = new SensorData(file, 10000, 10000);
+        int i = 1;
+        int j = 1;
+        int numberOfStrokes = data.numberOfStrokes;
+
+        for (int i = 1; i<= numberOfStrokes; i++) {
+            if (data.strokeArray[i].length() > 0) {
+                Log.d("accelX:", Integer.toString(data.strokeArray[i][j].accelX));
+                while ()
+            }
+
+        }
+        data.strokeArray;
+
+
+
+
+
+
 
 
     }
