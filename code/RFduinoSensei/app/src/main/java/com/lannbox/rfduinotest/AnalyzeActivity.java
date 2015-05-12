@@ -30,10 +30,13 @@ import android.widget.Toast;
 import com.lannbox.rfduinotest.R;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapter.LeScanCallback {
@@ -129,17 +132,17 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
 
                     if ( dataStr.equals("S00000000000") ) {
                         Log.d("Feedback Char", "S");
-                        generateNoteOnSD("data1.txt", "SSSSSSSSSSSS\n");
+                        generateNoteOnSD("temp.txt", "SSSSSSSSSSSS\n");
                     } else if ( dataStr.equals("P00000000000")) {
                         Log.d("Feedback Char", "P");
-                        generateNoteOnSD("data1.txt", "PPPPPPPPPPPP\n");
+                        generateNoteOnSD("temp.txt", "PPPPPPPPPPPP\n");
 
                     } else if (dataStr.equals("N00000000000")) {
                         Log.d("Feedback Char", "N");
-                        generateNoteOnSD("data1.txt", "NNNNNNNNNNNN\n");
+                        generateNoteOnSD("temp.txt", "NNNNNNNNNNNN\n");
 
                     } else {
-                        generateNoteOnSD("data1.txt", dataToHex + "\n");
+                        generateNoteOnSD("temp.txt", dataToHex + "\n");
                     }
 
 
@@ -164,6 +167,9 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
         Intent intent = getIntent();
         sportSelected = intent.getStringExtra("SPORT_ID");
         formSelected = intent.getStringExtra("FORM_ID");
+
+
+
 //        Can be buggy with back button
 //        Log.d("IN ANALYZE: sport id:", sportSelected);
 //        Log.d("IN ANALYZE: form id:", formSelected);
@@ -370,13 +376,38 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
         });
     }
 
-    public void done(View view) {
+    public void done(View view) throws FileNotFoundException {
         Intent intent = new Intent(this, SummaryActivity.class);
+        intent.putExtra("SPORT_ID", sportSelected);
+        intent.putExtra("FORM_ID", formSelected);
+
+        Log.d("done", formSelected);
+
+        File root = new File(Environment.getExternalStorageDirectory(), "temp_sensei");
+        if (!root.exists()) {
+            root.mkdirs();
+        }
+
+        String tempFileName = "temp.txt";
+        File tempFile = new File(root, tempFileName);
+
+        Scanner scanFile = new Scanner(tempFile);
+        int formSelectedInt = Integer.parseInt(formSelected);
+        String dataFile  = "data" + formSelectedInt + ".txt";
+
+        Log.d("Datafile", dataFile);
+
+        while (scanFile.hasNextLine()) {
+            String line = scanFile.nextLine();
+            generateNoteOnSD(dataFile, line + "\n");
+        }
+
+        PrintWriter writer = new PrintWriter(tempFile);
+        writer.print("");
+        writer.close();
 
 
 
-        intent.putExtra("SPORT_ID", formSelected);
-        intent.putExtra("FORM_ID", sportSelected);
 
 
 
@@ -386,7 +417,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
     public void generateNoteOnSD(String sFileName, String sBody){
         try
         {
-            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+            File root = new File(Environment.getExternalStorageDirectory(), "temp_sensei");
             if (!root.exists()) {
                 root.mkdirs();
             }

@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.lannbox.rfduinotest.R;
 
@@ -21,22 +24,19 @@ import java.util.Scanner;
 public class SummaryActivity extends AppCompatActivity {
     private String sportSelected;
     private String formSelected;
+    private int formSelectedInt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         Intent intent = getIntent();
         sportSelected = intent.getStringExtra("SPORT_ID");
         formSelected = intent.getStringExtra("FORM_ID");
-
+        formSelectedInt = Integer.parseInt(formSelected);
         Log.d("sport id:", sportSelected);
         Log.d("form id:", formSelected);
 
 
-        try {
-            calculateConsistencyScore(1);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
@@ -91,12 +91,13 @@ public class SummaryActivity extends AppCompatActivity {
 //    }
 
 
-    public void calculateConsistencyScore(int formNumber) throws FileNotFoundException {
+    public void calculateConsistencyScore(View view) throws FileNotFoundException {
 
         // get SD card directory
-        File sdcard = new File(Environment.getExternalStorageDirectory(), "Notes");
+        File sdcard = new File(Environment.getExternalStorageDirectory(), "temp_sensei");
         // get the text file
-        File file = new File(sdcard, "data1.txt");
+        String filename = "data" + formSelectedInt + ".txt";
+        File file = new File(sdcard, filename);
 
         Scanner scanFile = new Scanner(file);
 
@@ -107,5 +108,21 @@ public class SummaryActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void deleteData(View view) throws FileNotFoundException {
+
+        RadioGroup radioFormGroup = (RadioGroup) findViewById(R.id.formGroupSummary);
+        //radioSportGroup = (RadioGroup) findViewById(R.id.sportGroup);
+        int selectedFormId = radioFormGroup.getCheckedRadioButtonId();
+        //int selectedSportId = radioSportGroup.getCheckedRadioButtonId();
+        RadioButton radioFormSelected = (RadioButton) findViewById(selectedFormId);
+        // radioFormSelected = (RadioButton) findViewById(selectedSportId);
+
+        String formSelected = radioFormSelected.getText().toString();
+
+        // String sportSelected = radioSportSelected.getText().toString();
+        String fileNameToDelete = "data" + formSelected + ".txt";
+        FileHelper.clearContents(fileNameToDelete, getApplicationContext());
     }
 }
