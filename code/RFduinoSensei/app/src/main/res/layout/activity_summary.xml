@@ -24,19 +24,19 @@
         <RadioButton android:id="@+id/firstFormSummary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
+            android:text="Form 1"
             android:checked="true"
             />
         <RadioButton android:id="@+id/secondFormSummary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2"
+            android:text="Form 2"
             />
 
         <RadioButton android:id="@+id/thirdFormSummary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3"
+            android:text="Form 3"
             />
 
         </RadioGroup>

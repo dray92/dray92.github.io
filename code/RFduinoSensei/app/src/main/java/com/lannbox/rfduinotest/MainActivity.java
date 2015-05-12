@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, AnalyzeActivity.class);
 
-        intent.putExtra("SPORT_ID", sportSelected);
-        intent.putExtra("FORM_ID", formSelected);
+        intent.putExtra("SPORT_ID", formSelected);
+        intent.putExtra("FORM_ID", sportSelected);
 
         startActivity(intent);
     }
