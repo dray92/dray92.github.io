@@ -19,12 +19,44 @@ import com.lannbox.rfduinotest.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class SummaryActivity extends AppCompatActivity {
     private String sportSelected;
     private String formSelected;
     private int formSelectedInt;
+
+
+    private List<List<SensorData>> sensorData;
+
+    public void fillSensorDataList(File file) throws FileNotFoundException {
+        sensorData = new LinkedList<List<SensorData>>();
+        Scanner scanFile = new Scanner(file);
+        int i = 0;
+        int j = 0;
+        while (scanFile.hasNextLine()) {
+            String line = scanFile.nextLine();
+            if (line.contains("SSSSSSSSSSSS")) {
+                sensorData.add(i, new LinkedList<SensorData>());
+
+                while (scanFile.hasNextLine() && !line.contains("NNNNNNNNNNNN") && !line.contains("PPPPPPPPPPPP")) {
+                    line = scanFile.nextLine();
+                    sensorData.get(i).add(j, new SensorData(line));
+                    j++;
+
+                }
+
+                i++;
+                j = 0;
+
+            }
+        }
+
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -106,19 +138,11 @@ public class SummaryActivity extends AppCompatActivity {
             Log.d("line:", line);
         }
 
-        SensorData data = new SensorData(file, 10000, 10000);
-        int i = 1;
-        int j = 1;
-        int numberOfStrokes = data.numberOfStrokes;
+        fillSensorDataList(file);
 
-        for (int i = 1; i<= numberOfStrokes; i++) {
-            if (data.strokeArray[i].length() > 0) {
-                Log.d("accelX:", Integer.toString(data.strokeArray[i][j].accelX));
-                while ()
-            }
 
-        }
-        data.strokeArray;
+
+
 
 
 
