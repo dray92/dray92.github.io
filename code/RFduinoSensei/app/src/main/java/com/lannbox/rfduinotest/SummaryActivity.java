@@ -110,6 +110,48 @@ public class SummaryActivity extends AppCompatActivity {
 
     }
 
+
+    public void reportStatistics(View view) throws FileNotFoundException {
+        int totalStrokes = 0;
+        int madeStrokes = 0;
+        int missedStrokes = 0;
+        double percentage = 0.0;
+        String formSelected = returnFormSelected();
+        String fileNameToReportStatistics = "data" + formSelected + ".txt";
+        File root = new File(Environment.getExternalStorageDirectory(), "temp_sensei");
+        if (!root.exists()) {
+            root.mkdirs();
+        }
+
+        File fileToReportStatistics = new File(root, fileNameToReportStatistics);
+        if (fileToReportStatistics.exists()) {
+            Scanner scanFile = new Scanner(fileToReportStatistics);
+
+            while (scanFile.hasNextLine()) {
+                String line = scanFile.nextLine();
+                if (line.contains("NNNNNNNNNNNN")) {
+
+                    missedStrokes++;
+                    totalStrokes++;
+                } else if (line.contains("PPPPPPPPPPPP")) {
+
+                    madeStrokes++;
+                    totalStrokes++;
+                }
+
+                Log.d("Summary-Line:", line);
+            }
+
+            percentage = (madeStrokes*1.0)/totalStrokes;
+
+            Log.d("Statistics: Made:", Integer.toString(madeStrokes));
+            Log.d("Statistics: Missed:", Integer.toString(missedStrokes));
+            Log.d("Summary-Statistics:", Double.toString(percentage));
+        }
+
+
+
+    }
     public void deleteData(View view) throws FileNotFoundException {
 
         RadioGroup radioFormGroup = (RadioGroup) findViewById(R.id.formGroupSummary);
@@ -119,10 +161,23 @@ public class SummaryActivity extends AppCompatActivity {
         RadioButton radioFormSelected = (RadioButton) findViewById(selectedFormId);
         // radioFormSelected = (RadioButton) findViewById(selectedSportId);
 
-        String formSelected = radioFormSelected.getText().toString();
+        String formSelected = returnFormSelected();
 
         // String sportSelected = radioSportSelected.getText().toString();
         String fileNameToDelete = "data" + formSelected + ".txt";
         FileHelper.clearContents(fileNameToDelete, getApplicationContext());
+    }
+
+    private String returnFormSelected(){
+        RadioGroup radioFormGroup = (RadioGroup) findViewById(R.id.formGroupSummary);
+        //radioSportGroup = (RadioGroup) findViewById(R.id.sportGroup);
+        int selectedFormId = radioFormGroup.getCheckedRadioButtonId();
+        //int selectedSportId = radioSportGroup.getCheckedRadioButtonId();
+        RadioButton radioFormSelected = (RadioButton) findViewById(selectedFormId);
+        // radioFormSelected = (RadioButton) findViewById(selectedSportId);
+
+        return formSelected = radioFormSelected.getText().toString();
+
+
     }
 }
