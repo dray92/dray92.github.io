@@ -28,12 +28,14 @@ public class SensorData {
     }
 
     public SensorData(String lineOfData) {
-        this.accelX = Integer.parseInt(lineOfData.substring(0,4), 16);
-        this.accelY = Integer.parseInt(lineOfData.substring(4,8), 16);
-        this.accelZ = Integer.parseInt(lineOfData.substring(8,12), 16);
-        this.gyroX = Integer.parseInt(lineOfData.substring(12,16), 16);
-        this.gyroY = Integer.parseInt(lineOfData.substring(16,20), 16);
-        this.gyroZ = Integer.parseInt(lineOfData.substring(20,24), 16);
+
+
+        this.accelX = Integer.valueOf(lineOfData.substring(0,4), 16).shortValue();
+        this.accelY = Integer.valueOf(lineOfData.substring(4,8), 16).shortValue();
+        this.accelZ = Integer.valueOf(lineOfData.substring(8,12), 16).shortValue();
+        this.gyroX = Integer.valueOf(lineOfData.substring(12,16), 16).shortValue();
+        this.gyroY = Integer.valueOf(lineOfData.substring(16,20), 16).shortValue();
+        this.gyroZ = Integer.valueOf(lineOfData.substring(20,24), 16).shortValue();
 
     }
 

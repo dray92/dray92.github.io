@@ -40,11 +40,13 @@ public class SummaryActivity extends AppCompatActivity {
             String line = scanFile.nextLine();
             if (line.contains("SSSSSSSSSSSS")) {
                 sensorData.add(i, new LinkedList<SensorData>());
-
                 while (scanFile.hasNextLine() && !line.contains("NNNNNNNNNNNN") && !line.contains("PPPPPPPPPPPP")) {
                     line = scanFile.nextLine();
-                    sensorData.get(i).add(j, new SensorData(line));
-                    j++;
+                    if (!line.contains("NNNNNNNNNNNN") && !line.contains("PPPPPPPPPPPP")) {
+                        sensorData.get(i).add(j, new SensorData(line));
+                        j++;
+                    }
+
 
                 }
 
@@ -54,6 +56,18 @@ public class SummaryActivity extends AppCompatActivity {
             }
         }
 
+
+
+    }
+
+    public void printSensorDataList() {
+        for (int i = 0; i < sensorData.size(); i++) {
+            Log.d("Sensor Data:", "new stroke");
+            for (int j = 0; j < sensorData.get(i).size(); j++) {
+                SensorData s = sensorData.get(i).get(j);
+                Log.d("Sensor Data:", s.toString());
+            }
+        }
     }
 
 
@@ -66,7 +80,6 @@ public class SummaryActivity extends AppCompatActivity {
         formSelectedInt = Integer.parseInt(formSelected);
         Log.d("sport id:", sportSelected);
         Log.d("form id:", formSelected);
-
 
 
         super.onCreate(savedInstanceState);
@@ -140,7 +153,7 @@ public class SummaryActivity extends AppCompatActivity {
 
         fillSensorDataList(file);
 
-
+        printSensorDataList();
 
 
 
