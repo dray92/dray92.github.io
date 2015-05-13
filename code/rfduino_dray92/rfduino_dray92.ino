@@ -892,6 +892,7 @@ void loop()
     Serial.print(accXC); Serial.print(" ");
     Serial.print(accYC); Serial.print(" ");
     Serial.print(accZC); //Serial.println(" ");
+    //Serial.println(dt);
     
     // sending data
     RFduinoBLE.send(string, 12);
