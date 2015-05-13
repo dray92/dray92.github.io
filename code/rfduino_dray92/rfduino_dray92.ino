@@ -585,16 +585,17 @@
 // I2C address thus becomes 0x69.
 #define MPU6050_I2C_ADDRESS 0x68
 
-#define RESTRICT_PITCH // Comment out to restrict roll to ±90deg instead - please read: http://www.freescale.com/files/sensors/doc/app_note/AN3461.pdf
+//#define RESTRICT_PITCH // Comment out to restrict roll to ±90deg instead - please read: http://www.freescale.com/files/sensors/doc/app_note/AN3461.pdf
 
 Kalman kalmanX; // Create the Kalman instances
 Kalman kalmanY;
 Kalman kalmanZ;
 
 /* IMU Data */
-double accX, accY, accZ;
-double gyroX, gyroY, gyroZ;
+int16_t accX, accY, accZ;
+int16_t gyroX, gyroY, gyroZ;
 int16_t tempRaw;
+int16_t accXC, acYC, accZc, gravity = 15587;
 
 double gyroXangle, gyroYangle, gyroZangle; // Angle calculate using the gyro only
 double compAngleX, compAngleY, compAngleZ; // Calculated angle using a complementary filter
@@ -834,65 +835,31 @@ void loop()
 //    /*-------------
 //    @author: Debo
 //    @date: 05/04/2015
-//
-//    initializing 16-bit unsigned integers for printing to the console
-//    printing to the console
-//    -----------*/
-//    // initialing uints
-//    int16_t accel_x = 0, accel_y = 0, accel_z = 0, gyro_x = 0, gyro_y = 0, gyro_z = 0;
-//    
-//    // accelerometer
-//    // bitshifts for accel_x 
-//    accel_x = accel_t_gyro.reg.x_accel_h;
-//    accel_x = accel_x << 8;
-//    accel_x |= accel_t_gyro.reg.x_accel_l;
-//    
-//    // bitshifts for accel_y 
-//    accel_y = accel_t_gyro.reg.y_accel_h;
-//    accel_y = accel_y << 8;
-//    accel_y |= accel_t_gyro.reg.y_accel_l;
-//    
-//    // bitshifts for accel_z 
-//    accel_z = accel_t_gyro.reg.z_accel_h;
-//    accel_z = accel_z << 8;
-//    accel_z |= accel_t_gyro.reg.z_accel_l;
-//    
-//    // gyroscope
-//    // bitshifts for gyro_x 
-//    gyro_x = accel_t_gyro.reg.x_gyro_h;
-//    gyro_x = gyro_x << 8;
-//    gyro_x |= accel_t_gyro.reg.x_gyro_l;
-//    
-//    // bitshifts for gyro_y 
-//    gyro_y = accel_t_gyro.reg.y_gyro_h;
-//    gyro_y = gyro_y << 8;
-//    gyro_y |= accel_t_gyro.reg.y_gyro_l;
-//    
-//    // bitshifts for gyro_z 
-//    gyro_z = accel_t_gyro.reg.z_gyro_h;
-//    gyro_z = gyro_z << 8;
-//    gyro_z |= accel_t_gyro.reg.z_gyro_l;
-    
+//    --------------*/
+
+
     // printing to the serial monitor
-    Serial.print("Accelerometer "); Serial.print(accX); Serial.print(" ");
+    Serial.print("Accelerometer "); 
+    Serial.print(accX); Serial.print(" ");
     Serial.print(accY); Serial.print(" ");
     Serial.println(accZ);
     
-    Serial.print("Gyroscope "); Serial.print(gyroX); Serial.print(" ");
+    Serial.print("Gyroscope "); 
+    Serial.print(gyroX); Serial.print(" ");
     Serial.print(gyroY); Serial.print(" ");
     Serial.println(gyroZ);
     
     Serial.print(roll); Serial.print(" ");
     Serial.print(gyroXangle); Serial.print(" ");
     Serial.print(compAngleX); Serial.print(" ");
-    Serial.print(kalAngleX); Serial.print(" ");
+    Serial.print((int)kalAngleX); Serial.print(" ");
   
     Serial.print(" ");
   
     Serial.print(pitch); Serial.print(" ");
     Serial.print(gyroYangle); Serial.print(" ");
     Serial.print(compAngleY); Serial.print(" ");
-    Serial.print(kalAngleY); Serial.println(" ");
+    Serial.print((int)kalAngleY); Serial.println(" ");
     
     // sending data
     RFduinoBLE.send(string, 12);
@@ -909,7 +876,7 @@ void loop()
       awake = false;
     }
     Serial.print("\r\n");
-    delay(2);
+    delay(2000);
   }
 
 

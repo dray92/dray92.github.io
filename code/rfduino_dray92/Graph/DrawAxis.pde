@@ -18,7 +18,7 @@ void drawAxisX() {
   for (int i = 1; i < gyroX.length;i++)
     gyroX[i-1] = gyroX[i];
 
-  /* Draw acceleromter x-axis */
+  /* Draw accelerometer x-axis */
   noFill();
   stroke(0, 255, 0); // Green
   // Redraw everything
