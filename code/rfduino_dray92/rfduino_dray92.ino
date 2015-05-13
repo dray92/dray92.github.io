@@ -595,7 +595,7 @@ Kalman kalmanZ;
 int16_t accX, accY, accZ;
 int16_t gyroX, gyroY, gyroZ;
 int16_t tempRaw;
-int16_t accXC, acYC, accZc, gravity = 15587;
+int16_t accXC, accYC, accZC, gravity = 15587;
 
 double gyroXangle, gyroYangle, gyroZangle; // Angle calculate using the gyro only
 double compAngleX, compAngleY, compAngleZ; // Calculated angle using a complementary filter
@@ -651,6 +651,8 @@ Button plus = Button(2, PULLDOWN);
 Button minus = Button(4, PULLDOWN);
 boolean awake = false;
 accel_t_gyro_union accel_t_gyro;
+
+int16_t initX = 0, initY = 0;
 
 void setup()
 {
@@ -710,6 +712,14 @@ void setup()
   compAngleX = roll;
   compAngleY = pitch;
   compAngleZ = yaw;
+  
+  if(abs(roll) < 5 && abs(pitch) < 5) {  // level with ground
+    initX = 0;
+    initY = 0;
+  } else {
+    initX = roll;
+    initY = pitch;
+  }
   
   timer = micros();
 }
@@ -796,6 +806,7 @@ void loop()
         gyroYrate = -gyroYrate; // Invert rate, so it fits the restricted accelerometer reading
       }
       kalAngleY = kalmanY.getAngle(pitch, gyroYrate, dt);
+      kalAngleZ = kalmanZ.getAngle(yaw, gyroZrate, dt);
     
     #else
       // This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
@@ -813,22 +824,28 @@ void loop()
       }
       
       kalAngleX = kalmanX.getAngle(roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
+      kalAngleZ = kalmanZ.getAngle(yaw, gyroZrate, dt);
     #endif
     
 
   gyroXangle += gyroXrate * dt; // Calculate gyro angle without any filter
   gyroYangle += gyroYrate * dt;
+  gyroZangle += gyroZrate * dt;
+  
   //gyroXangle += kalmanX.getRate() * dt; // Calculate gyro angle using the unbiased rate
   //gyroYangle += kalmanY.getRate() * dt;
 
   compAngleX = 0.93 * (compAngleX + gyroXrate * dt) + 0.07 * roll; // Calculate the angle using a Complimentary filter
   compAngleY = 0.93 * (compAngleY + gyroYrate * dt) + 0.07 * pitch;
+  compAngleZ = 0.93 * (compAngleZ + gyroZrate * dt) + 0.07 * yaw;
 
   // Reset the gyro angle when it has drifted too much
   if (gyroXangle < -180 || gyroXangle > 180)
     gyroXangle = kalAngleX;
   if (gyroYangle < -180 || gyroYangle > 180)
     gyroYangle = kalAngleY;
+  if (gyroZangle < -180 || gyroZangle > 180)
+    gyroZangle = kalAngleZ;
 
     char string[12] = {(char) accelx_h, (char) accelx_l, (char) accely_h, (char) accely_l, (char) accelz_h, (char) accelz_l, (char) gyrox_h, (char) gyrox_l, (char) gyroy_h, (char) gyroy_l, (char) gyroz_h, (char) gyroz_l };
 
@@ -837,7 +854,9 @@ void loop()
 //    @date: 05/04/2015
 //    --------------*/
 
-
+    accXC = accX - gravity * sin(abs(kalAngleY) * 1000 / 57296); // -x not working
+    accYC = accY - gravity * sin(kalAngleX * 1000 / 57296);      // not tested
+    accZC = accZ + gravity * sin(yaw * 1000 / 57296);            // not tested
     // printing to the serial monitor
     Serial.print("Accelerometer "); 
     Serial.print(accX); Serial.print(" ");
@@ -859,7 +878,19 @@ void loop()
     Serial.print(pitch); Serial.print(" ");
     Serial.print(gyroYangle); Serial.print(" ");
     Serial.print(compAngleY); Serial.print(" ");
-    Serial.print((int)kalAngleY); Serial.println(" ");
+    Serial.print((int)kalAngleY); Serial.print(" ");
+    
+    Serial.print(" ");
+  
+    Serial.print(yaw); Serial.print(" ");
+    Serial.print(gyroZangle); Serial.print(" ");
+    Serial.print(compAngleZ); Serial.print(" ");
+    Serial.print((int)kalAngleZ); Serial.println(" ");
+    
+    Serial.print("Accelerometer_Corrected "); 
+    Serial.print(accXC); Serial.print(" ");
+    Serial.print(accYC); Serial.print(" ");
+    Serial.println(accZC);
     
     // sending data
     RFduinoBLE.send(string, 12);
