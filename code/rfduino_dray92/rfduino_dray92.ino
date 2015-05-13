@@ -595,7 +595,8 @@ Kalman kalmanZ;
 int16_t accX, accY, accZ;
 int16_t gyroX, gyroY, gyroZ;
 int16_t tempRaw;
-int16_t accXC, accYC, accZC, gravity = 15587;
+int16_t accXC, accYC, accZC;
+int16_t gravity = 16500;  // averaged value based on testing
 
 double gyroXangle, gyroYangle, gyroZangle; // Angle calculate using the gyro only
 double compAngleX, compAngleY, compAngleZ; // Calculated angle using a complementary filter
@@ -854,16 +855,16 @@ void loop()
 //    @date: 05/04/2015
 //    --------------*/
 
-    accXC = accX - gravity * sin(abs(kalAngleY) * 1000 / 57296); // -x not working
+    accXC = accX + gravity * sin(kalAngleY * 1000 / 57296); // -x not working
     accYC = accY - gravity * sin(kalAngleX * 1000 / 57296);      // not tested
     accZC = accZ + gravity * sin(yaw * 1000 / 57296);            // not tested
     // printing to the serial monitor
-    Serial.print("Accelerometer "); 
+    //Serial.print("Accelerometer "); 
     Serial.print(accX); Serial.print(" ");
     Serial.print(accY); Serial.print(" ");
     Serial.println(accZ);
     
-    Serial.print("Gyroscope "); 
+    //Serial.print("Gyroscope "); 
     Serial.print(gyroX); Serial.print(" ");
     Serial.print(gyroY); Serial.print(" ");
     Serial.println(gyroZ);
@@ -887,10 +888,10 @@ void loop()
     Serial.print(compAngleZ); Serial.print(" ");
     Serial.print((int)kalAngleZ); Serial.println(" ");
     
-    Serial.print("Accelerometer_Corrected "); 
+    //Serial.print("Accelerometer_Corrected "); 
     Serial.print(accXC); Serial.print(" ");
     Serial.print(accYC); Serial.print(" ");
-    Serial.println(accZC);
+    Serial.print(accZC); //Serial.println(" ");
     
     // sending data
     RFduinoBLE.send(string, 12);
@@ -907,7 +908,7 @@ void loop()
       awake = false;
     }
     Serial.print("\r\n");
-    delay(2000);
+    //delay(2000);
   }
 
 
