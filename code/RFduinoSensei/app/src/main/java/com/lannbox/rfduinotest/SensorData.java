@@ -16,7 +16,6 @@ public class SensorData {
     public int accelX, accelY, accelZ;
     public int gyroX, gyroY, gyroZ;
 
-
     public SensorData(int accelX, int accelY, int accelZ, int gyroX, int gyroY, int gyroZ) {
         this.accelX = accelX;
         this.accelY = accelY;
@@ -37,10 +36,16 @@ public class SensorData {
         this.gyroY = Integer.valueOf(lineOfData.substring(16,20), 16).shortValue();
         this.gyroZ = Integer.valueOf(lineOfData.substring(20,24), 16).shortValue();
 
+
     }
 
+    public double getMagAccel() {
+        return Math.sqrt(Math.pow(accelX,2) + Math.pow(accelY,2) + Math.pow(accelZ,2)) / (Math.pow(2,5));
+    }
 
-
+    public double getMagGyro() {
+        return Math.sqrt(Math.pow(gyroX,2) + Math.pow(gyroY,2) + Math.pow(gyroZ,2));
+    }
 
     public String toString() {
         return this.accelX + ", " + this.accelY + ", " + this.accelZ + ", " + this.gyroX + ", " + this.gyroY + ", " + this.gyroZ;

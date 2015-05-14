@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup radioSportGroup;
     private RadioButton radioSportSelected;
 
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

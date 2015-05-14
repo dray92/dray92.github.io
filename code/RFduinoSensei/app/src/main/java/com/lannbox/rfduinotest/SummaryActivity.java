@@ -19,9 +19,15 @@ import com.lannbox.rfduinotest.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+
+
+
+
+
 
 public class SummaryActivity extends AppCompatActivity {
     private String sportSelected;
@@ -30,6 +36,39 @@ public class SummaryActivity extends AppCompatActivity {
 
 
     private List<List<SensorData>> sensorData;
+
+
+
+
+    public double dtw(double[] t, double[] r) {
+        int d[][];
+        d = new int[t.length][r.length];
+        for(int i = 0  ; i < t.length; i++)
+            for(int j = 0  ; j < r.length ; j++)
+                d[i][j]= (int) Math.pow((t[i]-r[j]), 2);
+
+        double[][] D = new double[t.length][r.length];
+
+        D[0][0] = d[0][0];
+
+        for(int i = 1 ; i < t.length ; i++)
+            D[i][1]=d[i][1]+D[i-1][1];
+
+        for(int i = 1 ; i < r.length ; i++)
+            D[1][i]=d[1][i]+D[1][i-1];
+
+        for(int n = 1 ; n < t.length ; n++)
+            for(int m = 1 ; m < r.length ; m++)
+                D[n][m] = d[n][m] + min( D[n-1][m], D[n-1][m-1], D[n][m-1] );
+
+        return D[t.length-1][r.length-1];
+
+    }
+
+    private double min(double a, double b, double c) {
+        double min = Math.min( a, b);
+        return Math.min(min, c);
+    }
 
     public void fillSensorDataList(File file) throws FileNotFoundException {
         sensorData = new LinkedList<List<SensorData>>();
@@ -58,6 +97,10 @@ public class SummaryActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public double calculateMag(int x, int y, int z) {
+        return Math.sqrt(1.0*(Math.pow(x,2) + Math.pow(y,2) + Math.pow(z, 2)));
     }
 
     public void printSensorDataList() {
@@ -154,6 +197,29 @@ public class SummaryActivity extends AppCompatActivity {
         fillSensorDataList(file);
 
         printSensorDataList();
+
+        List<SensorData> data1 = sensorData.get(0);
+        List<SensorData> data2 = sensorData.get(1);
+        double r[] = new double[data1.size()];
+        double s[] = new double[data2.size()];
+
+        for (int i = 0; i < data1.size(); i++) {
+            r[i] = data1.get(i).getMagAccel();
+        }
+        for (int j = 0; j < data2.size(); j++) {
+            s[j] = 2* data2.get(j).getMagAccel();
+        }
+
+        Log.d("R array:", Arrays.toString(r));
+        Log.d("S array:", Arrays.toString(s));
+
+        Log.d("DTW: ", Double.toString(dtw(r, s)));
+
+        double t[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
+        double u[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
+        double doublet[] = {2.0, 4,0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0};
+
+        Log.d("DTW: ", Double.toString(dtw(t,doublet)));
 
 
 
