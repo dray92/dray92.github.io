@@ -12,6 +12,7 @@ import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.os.Environment;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -70,7 +71,8 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
     private String sportSelected;
     private String formSelected;
 
-
+    Vibrator v;
+    boolean vibrateFlag;
     private final BroadcastReceiver bluetoothStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -131,9 +133,12 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
                     }
 
                     if ( dataStr.equals("S00000000000") ) {
+
+
+                        vibrateFlag = true;
                         Log.d("Feedback Char", "S");
                         generateNoteOnSD("temp.txt", "SSSSSSSSSSSS\n");
-                    } else if ( dataStr.equals("P00000000000")) {
+                    } else if ( dataStr.contains("P00000000000")) {
                         Log.d("Feedback Char", "P");
                         generateNoteOnSD("temp.txt", "PPPPPPPPPPPP\n");
 
@@ -141,9 +146,18 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
                         Log.d("Feedback Char", "N");
                         generateNoteOnSD("temp.txt", "NNNNNNNNNNNN\n");
 
+//                    } else if ( dataStr.equals("R00000000000")) {
+//                        Log.d("Feedback Char", "R");
+//                        generateNoteOnSD("temp.txt", "RRRRRRRRRRRR\n");
+//
                     } else {
+                        if (vibrateFlag) {
+                            vibrateFlag = false;
+                            v.vibrate(700);
+                        }
                         generateNoteOnSD("temp.txt", dataToHex + "\n");
                     }
+
 
 
                     Log.d("DataSTR:", dataToHex);
@@ -168,8 +182,8 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
         sportSelected = intent.getStringExtra("SPORT_ID");
         formSelected = intent.getStringExtra("FORM_ID");
 
-
-
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrateFlag = false;
 //        Can be buggy with back button
 //        Log.d("IN ANALYZE: sport id:", sportSelected);
 //        Log.d("IN ANALYZE: form id:", formSelected);
@@ -279,7 +293,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("AnalyzeActivity.onStop", "Stopping");
+//        Log.d("AnalyzeActivity.onStop", "Stopping");
         bluetoothAdapter.stopLeScan(this);
 
         unregisterReceiver(scanModeReceiver);
@@ -452,6 +466,20 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Log.d("AnalyzeActivity", "ORIENTATION_PORTRAIT");
         }
+    }
+
+    public void clearData(View view) throws FileNotFoundException {
+
+        File root = new File(Environment.getExternalStorageDirectory(), "temp_sensei");
+        if (!root.exists()) {
+            root.mkdirs();
+        }
+
+        String tempFileName = "temp.txt";
+        File tempFile = new File(root, tempFileName);
+        PrintWriter writer = new PrintWriter(tempFile);
+        writer.print("");
+        writer.close();
     }
 
 

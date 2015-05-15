@@ -79,9 +79,9 @@ public class SummaryActivity extends AppCompatActivity {
             String line = scanFile.nextLine();
             if (line.contains("SSSSSSSSSSSS")) {
                 sensorData.add(i, new LinkedList<SensorData>());
-                while (scanFile.hasNextLine() && !line.contains("NNNNNNNNNNNN") && !line.contains("PPPPPPPPPPPP")) {
+                while (scanFile.hasNextLine() && !line.contains("NNNNNNNNNNNN") && !line.contains("PPPPPPPPPPPP") && !line.contains("RRRRRRRRRRRR")) {
                     line = scanFile.nextLine();
-                    if (!line.contains("NNNNNNNNNNNN") && !line.contains("PPPPPPPPPPPP")) {
+                    if (!line.contains("NNNNNNNNNNNN") && !line.contains("PPPPPPPPPPPP") && !line.contains("RRRRRRRRRRRR")) {
                         sensorData.get(i).add(j, new SensorData(line));
                         j++;
                     }
@@ -202,24 +202,34 @@ public class SummaryActivity extends AppCompatActivity {
         List<SensorData> data2 = sensorData.get(1);
         double r[] = new double[data1.size()];
         double s[] = new double[data2.size()];
-
+        double r2[] = new double[data1.size()];
+        double s2[] = new double[data2.size()];
+        for (int k = 0; k < data1.size(); k++) {
+            r2[k] = data1.get(k).getMagGyro();
+        }
+        for (int l = 0; l < data2.size(); l++) {
+            s2[l] = data2.get(l).getMagGyro();
+        }
         for (int i = 0; i < data1.size(); i++) {
             r[i] = data1.get(i).getMagAccel();
         }
         for (int j = 0; j < data2.size(); j++) {
-            s[j] = 2* data2.get(j).getMagAccel();
+            s[j] = data2.get(j).getMagAccel();
         }
+
 
         Log.d("R array:", Arrays.toString(r));
         Log.d("S array:", Arrays.toString(s));
 
-        Log.d("DTW: ", Double.toString(dtw(r, s)));
+        Log.d("R2 array:", Arrays.toString(r2));
+        Log.d("S2 array:", Arrays.toString(s2));
+        Log.d("DTW combined: ", Double.toString(dtw(r, s) + dtw(r2, s2)));
 
-        double t[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
-        double u[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
-        double doublet[] = {2.0, 4,0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0};
-
-        Log.d("DTW: ", Double.toString(dtw(t,doublet)));
+//        double t[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
+//        double u[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
+//        double doublet[] = {2.0, 4,0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0};
+//
+//        Log.d("DTW: ", Double.toString(dtw(t,doublet)));
 
 
 
