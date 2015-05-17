@@ -6,7 +6,7 @@
 // Register names according to the datasheet.
 // According to the InvenSense document
 // "MPU-6000 and MPU-6050 Register Map
-// and Descriptions Revision 3.2", there are no registers
+// and Descriptiondelas Revision 3.2", there are no registers
 // at 0x02 ... 0x18, but according other information
 // the registers in that unknown area are for gain
 // and offsets.
@@ -732,17 +732,23 @@ void loop()
 
   if (button.uniquePress())
   {
-    awake = !awake;
     if (awake) {
+      RFduinoBLE.send("R00000000000", 12);
+      awake = false;
+    } else {
       RFduinoBLE.send("S00000000000", 12);
+      awake = true;
+      delay(1000);
+      Serial.println("2");
+      delay(1000);
+      Serial.println("1");
+      delay(1000);
+      Serial.println("0");
     }
+      
+  
 
-    delay(1000);
-    Serial.println("2");
-    delay(1000);
-    Serial.println("1");
-    delay(1000);
-    Serial.println("0");
+
   }
 
   if (awake)
@@ -901,11 +907,7 @@ void loop()
     RFduinoBLE.send(string, 12);
     
        
-//    if (button.uniquePress())
-//    {
-//      RFduinoBLE.send("R00000000000", 12);
-//      awake = false;
-//    }
+
     if (plus.uniquePress())
     {
       RFduinoBLE.send("P00000000000", 12);
@@ -918,7 +920,7 @@ void loop()
       Serial.println("N!!!!");
       awake = false;
     }
-    delay(5);
+    delay(50);
     
 
   }
