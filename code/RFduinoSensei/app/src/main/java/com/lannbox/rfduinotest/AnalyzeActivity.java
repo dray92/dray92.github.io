@@ -68,6 +68,8 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
     private Button clearButton;
     private LinearLayout dataLayout;
 
+    public BluetoothGod myBluetoothDevice;
+
     private String sportSelected;
     private String formSelected;
 
@@ -379,7 +381,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
     public void onLeScan(BluetoothDevice device, final int rssi, final byte[] scanRecord) {
         bluetoothAdapter.stopLeScan(this);
         bluetoothDevice = device;
-
+        BluetoothGod.setBT(bluetoothDevice);
         AnalyzeActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -419,11 +421,6 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
         PrintWriter writer = new PrintWriter(tempFile);
         writer.print("");
         writer.close();
-
-
-
-
-
 
         startActivity(intent);
     }
