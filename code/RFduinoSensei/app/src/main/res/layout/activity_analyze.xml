@@ -146,8 +146,7 @@
             android:text="Clear Data"
             android:id="@+id/clearData"
             android:layout_marginTop="2dip"
-            android:singleLine="false"
-            android:onClick="clearData"/>
+            android:singleLine="false" />
 
         <Button
 

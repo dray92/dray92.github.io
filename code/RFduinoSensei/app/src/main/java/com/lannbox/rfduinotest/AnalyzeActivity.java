@@ -1,6 +1,5 @@
 package com.lannbox.rfduinotest;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -10,25 +9,18 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.Vibrator;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.Xml;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.lannbox.rfduinotest.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,7 +28,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -67,8 +58,6 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
     private Button sendValueButton;
     private Button clearButton;
     private LinearLayout dataLayout;
-
-    public BluetoothGod myBluetoothDevice;
 
     private String sportSelected;
     private String formSelected;
@@ -155,7 +144,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
                     } else {
                         if (vibrateFlag) {
                             vibrateFlag = false;
-                            v.vibrate(700);
+                            v.vibrate(1000);
                         }
                         generateNoteOnSD("temp.txt", dataToHex + "\n");
                     }
@@ -167,7 +156,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
 
                 }
 
-                addData(data);
+                //addData(data);
 
             }
         }
@@ -381,7 +370,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
     public void onLeScan(BluetoothDevice device, final int rssi, final byte[] scanRecord) {
         bluetoothAdapter.stopLeScan(this);
         bluetoothDevice = device;
-        BluetoothGod.setBT(bluetoothDevice);
+
         AnalyzeActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -394,10 +383,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
 
     public void done(View view) throws FileNotFoundException {
         Intent intent = new Intent(this, SummaryActivity.class);
-        intent.putExtra("SPORT_ID", sportSelected);
-        intent.putExtra("FORM_ID", formSelected);
 
-        Log.d("done", formSelected);
 
         File root = new File(Environment.getExternalStorageDirectory(), "temp_sensei");
         if (!root.exists()) {
@@ -421,6 +407,11 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
         PrintWriter writer = new PrintWriter(tempFile);
         writer.print("");
         writer.close();
+
+
+
+
+
 
         startActivity(intent);
     }

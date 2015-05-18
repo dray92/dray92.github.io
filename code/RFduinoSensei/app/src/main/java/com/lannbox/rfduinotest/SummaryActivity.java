@@ -1,24 +1,16 @@
 package com.lannbox.rfduinotest;
 
-import android.app.TaskStackBuilder;
 import android.content.Intent;
-import android.os.Environment;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.lannbox.rfduinotest.R;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +24,7 @@ import java.util.Scanner;
 public class SummaryActivity extends AppCompatActivity {
     private String sportSelected;
     private String formSelected;
-    private int formSelectedInt;
+
 
 
     private List<List<SensorData>> sensorData;
@@ -73,15 +65,49 @@ public class SummaryActivity extends AppCompatActivity {
     public void fillSensorDataList(File file) throws FileNotFoundException {
         sensorData = new LinkedList<List<SensorData>>();
         Scanner scanFile = new Scanner(file);
+        String line = "";
         int i = 0;
         int j = 0;
         while (scanFile.hasNextLine()) {
+
+            line = scanFile.nextLine();
+            if (line.equals("SSSSSSSSSSSS")) {
+                sensorData.add(i, new LinkedList<SensorData>());
+                while (scanFile.hasNextLine() && !line.equals("NNNNNNNNNNNN")  && !line.equals("PPPPPPPPPPPP") && !line.equals("523030303030303030303030")) {
+
+
+                    line = scanFile.nextLine();
+                    if (!line.equals("NNNNNNNNNNNN") && !line.equals("PPPPPPPPPPPP") && !line.equals("523030303030303030303030")) {
+                        sensorData.get(i).add(j, new SensorData(line));
+                        j++;
+                    }
+
+
+                }
+
+                i++;
+                j = 0;
+
+            }
+        }
+
+
+
+    }
+    public void fillSensorDataList2(File file) throws FileNotFoundException {
+        sensorData = new LinkedList<List<SensorData>>();
+        Scanner scanFile = new Scanner(file);
+        int i = 0;
+        int j = 0;
+        while (scanFile.hasNextLine()) {
+
             String line = scanFile.nextLine();
             if (line.contains("SSSSSSSSSSSS")) {
                 sensorData.add(i, new LinkedList<SensorData>());
-                while (scanFile.hasNextLine() && !line.contains("NNNNNNNNNNNN") && !line.contains("PPPPPPPPPPPP") && !line.contains("RRRRRRRRRRRR")) {
+
+                while (scanFile.hasNextLine() && !line.contains("NNNNNNNNNNNN") && !line.contains("PPPPPPPPPPPP") && !line.contains("523030303030303030303030")) {
                     line = scanFile.nextLine();
-                    if (!line.contains("NNNNNNNNNNNN") && !line.contains("PPPPPPPPPPPP") && !line.contains("RRRRRRRRRRRR")) {
+                    if (!line.contains("NNNNNNNNNNNN") && !line.contains("PPPPPPPPPPPP") && !line.contains("523030303030303030303030")) {
                         sensorData.get(i).add(j, new SensorData(line));
                         j++;
                     }
@@ -118,11 +144,8 @@ public class SummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         Intent intent = getIntent();
-        sportSelected = intent.getStringExtra("SPORT_ID");
-        formSelected = intent.getStringExtra("FORM_ID");
-        formSelectedInt = Integer.parseInt(formSelected);
-        Log.d("sport id:", sportSelected);
-        Log.d("form id:", formSelected);
+
+
 
 
         super.onCreate(savedInstanceState);
@@ -184,7 +207,9 @@ public class SummaryActivity extends AppCompatActivity {
         // get SD card directory
         File sdcard = new File(Environment.getExternalStorageDirectory(), "temp_sensei");
         // get the text file
-        String filename = "data" + formSelectedInt + ".txt";
+        String formSelected = returnFormSelected();
+        Log.d("Form selected in ccs:", formSelected);
+        String filename = "data" + formSelected + ".txt";
         File file = new File(sdcard, filename);
 
         Scanner scanFile = new Scanner(file);
@@ -197,34 +222,13 @@ public class SummaryActivity extends AppCompatActivity {
         fillSensorDataList(file);
 
         printSensorDataList();
+        int numberOfStrokes = sensorData.size();
 
-        List<SensorData> data1 = sensorData.get(0);
-        List<SensorData> data2 = sensorData.get(1);
-        double r[] = new double[data1.size()];
-        double s[] = new double[data2.size()];
-        double r2[] = new double[data1.size()];
-        double s2[] = new double[data2.size()];
-        for (int k = 0; k < data1.size(); k++) {
-            r2[k] = data1.get(k).getMagGyro();
+
+        Log.d("Number of strokes", Integer.toString(numberOfStrokes));
+        for (int i = 0; i < numberOfStrokes - 1; i++) {
+            calculateConsistencyScoreForTwoData(i, i+1);
         }
-        for (int l = 0; l < data2.size(); l++) {
-            s2[l] = data2.get(l).getMagGyro();
-        }
-        for (int i = 0; i < data1.size(); i++) {
-            r[i] = data1.get(i).getMagAccel();
-        }
-        for (int j = 0; j < data2.size(); j++) {
-            s[j] = data2.get(j).getMagAccel();
-        }
-
-
-        Log.d("R array:", Arrays.toString(r));
-        Log.d("S array:", Arrays.toString(s));
-
-        Log.d("R2 array:", Arrays.toString(r2));
-        Log.d("S2 array:", Arrays.toString(s2));
-        Log.d("DTW combined: ", Double.toString(dtw(r, s) + dtw(r2, s2)));
-
 //        double t[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
 //        double u[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
 //        double doublet[] = {2.0, 4,0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0};
@@ -240,6 +244,52 @@ public class SummaryActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public double calculateConsistencyScoreForTwoData(int index1, int index2){
+        double dtwAccel = 0.0;
+        double dtwGyro = 0.0;
+
+        if (index1 < sensorData.size() && index2 < sensorData.size() && index1 != index2) {
+            List<SensorData> data1 = sensorData.get(index1);
+            List<SensorData> data2 = sensorData.get(index2);
+            double r[] = new double[data1.size()];
+            double s[] = new double[data2.size()];
+            double r2[] = new double[data1.size()];
+            double s2[] = new double[data2.size()];
+
+            for (int i = 0; i < data1.size(); i++) {
+                r[i] = data1.get(i).getMagAccel();
+            }
+            for (int j = 0; j < data2.size(); j++) {
+                s[j] = data2.get(j).getMagAccel();
+            }
+
+            for (int k = 0; k < data1.size(); k++) {
+                r2[k] = data1.get(k).getMagGyro();
+            }
+            for (int l = 0; l < data2.size(); l++) {
+                s2[l] = data2.get(l).getMagGyro();
+            }
+
+
+
+            Log.d("R array:", Arrays.toString(r));
+            Log.d("S array:", Arrays.toString(s));
+
+            Log.d("R2 array:", Arrays.toString(r2));
+            Log.d("S2 array:", Arrays.toString(s2));
+
+            dtwAccel = dtw(r, s);
+            dtwGyro = dtw(r2, s2);
+
+            Log.d("DTW accel: ", Double.toString(dtwAccel));
+            Log.d("DTW gyro: ", Double.toString(dtwGyro));
+            Log.d("DTW combined: ", Double.toString(dtwAccel + dtwGyro));
+        } else {
+            Log.d("Error: index OOB", Integer.toString(index1) + " " + Integer.toString(index2));
+        }
+        return dtwAccel + dtwGyro;
     }
 
 
@@ -308,7 +358,7 @@ public class SummaryActivity extends AppCompatActivity {
         RadioButton radioFormSelected = (RadioButton) findViewById(selectedFormId);
         // radioFormSelected = (RadioButton) findViewById(selectedSportId);
 
-        return formSelected = radioFormSelected.getText().toString();
+        return radioFormSelected.getText().toString();
 
 
     }

@@ -44,7 +44,7 @@ public class SensorData {
     }
 
     public double getMagGyro() {
-        return Math.sqrt(Math.pow(gyroX,2) + Math.pow(gyroY,2) + Math.pow(gyroZ,2));
+        return Math.sqrt((Math.pow(gyroX,2) + Math.pow(gyroY,2) + Math.pow(gyroZ,2)) / (Math.pow(2,5)));
     }
 
     public String toString() {
