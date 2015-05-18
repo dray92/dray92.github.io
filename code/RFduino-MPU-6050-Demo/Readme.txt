@@ -1,0 +1,1 @@
+For the processing sketch you need to download the 32bit version of Processing from https://processing.org/download/?processing
