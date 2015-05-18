@@ -668,8 +668,8 @@ void setup()
   MPU6050_write_reg (MPU6050_PWR_MGMT_1, 0);
   i2cData[0] = 7; // Set the sample rate to 1000Hz - 8kHz/(7+1) = 1000Hz
   i2cData[1] = 0x00; // Disable FSYNC and set 260 Hz Acc filtering, 256 Hz Gyro filtering, 8 KHz sampling
-  i2cData[2] = 0x00; // Set Gyro Full Scale Range to ±250deg/s
-  i2cData[3] = 0x08; // Set Accelerometer Full Scale Range to ±2g
+  i2cData[2] = 0x10; // Set Gyro Full Scale Range to ±250deg/s
+  i2cData[3] = 0x08; // Set Accelerometer Full Scale Range to ±2g 0x08 for 4g, 0x10 8g, 0x18 for 16g
   while (i2cWrite(0x19, i2cData, 4, false)); // Write to all four registers at once
   while (i2cWrite(0x6B, 0x01, true)); // PLL with X axis gyroscope reference and disable sleep mode
   
@@ -797,7 +797,7 @@ void loop()
     uint8_t gyroy_l = i2cData[11];
     uint8_t gyroz_h = i2cData[12];
     uint8_t gyroz_l = i2cData[13];
-
+    
 //    #ifdef RESTRICT_PITCH
 //      // This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
 //      if ((roll < -90 && kalAngleX > 90) || (roll > 90 && kalAngleX < -90)) {
@@ -900,7 +900,6 @@ void loop()
 //    Serial.print(accZC); //Serial.println(" ");
 //    //Serial.println(dt);
 //    
-
     
 
     // sending data

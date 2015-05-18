@@ -129,6 +129,11 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
                         vibrateFlag = true;
                         Log.d("Feedback Char", "S");
                         generateNoteOnSD("temp.txt", "SSSSSSSSSSSS\n");
+                    } else if ( dataStr.contains("R00000000000")) {
+                        Log.d("Feedback Char", "R");
+                        generateNoteOnSD("temp.txt", "RRRRRRRRRRRR\n");
+
+
                     } else if ( dataStr.contains("P00000000000")) {
                         Log.d("Feedback Char", "P");
                         generateNoteOnSD("temp.txt", "PPPPPPPPPPPP\n");

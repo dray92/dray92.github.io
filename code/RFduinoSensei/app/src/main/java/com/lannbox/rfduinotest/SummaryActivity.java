@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Scanner;
 
 
-
+// todo: make a function that trims the data based on the threshold. 7FFF or some other value
+// detect shots by seeing when data exceeds the threshold
 
 
 
