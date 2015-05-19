@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Week 6 Updates</title>
+		<title>Week 7 Updates</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -39,7 +39,7 @@
 							<p>Guide to a Perfect Swing</p>
 						</header>
 						<footer>
-							<a href="#main" class="button circled scrolly">Week 6</a>
+							<a href="#main" class="button circled scrolly">Week 7</a>
 						</footer>
 					</div>
 				
@@ -76,50 +76,65 @@
 				<div class="container">
 					<article id="main" class="special">
 						<header>
-							<h2><a href="#">Week 6</a></h2>
+							<h2><a href="#">Week 7</a></h2>
 							<p>
-								Updates from the week of May 4th
+								Updates from the week of May 11th
 							</p>
 						</header>
-						<h3>Objective for Week 6</h3>
+						<h3>Objective for Week 7</h3>
 						
-							<li>Get a portable battery pack</li>
-							<li>Implement some features with using data set</li>
-							<li>Work on improving data set (physics & math)</li>
+							<li>Make proto-boards</li>
+							<li>Finish consistency check (working on android)</li>
+							<li>Changes in battery plan</li>
 						</br>
 						<h3>Summary of what we did this week</h3>
-						<h4>Battery pack</h4>
-						<p>This week, we ordered a battery pack that can be used to power our afduino. We have chosen carefully with the consideration of 
-							maximum output voltage and current it supports, the capacity (mAH) and the size. </p>
+						<h4>Make a proto-board</h4>
+						<p>This week, we started to make proto-boards. </br> 
+							Our first attempt was to make it on the smallest proto-board we could get from local store. </br>
+							Since we have another set of circuit boards, we have decided to use this first proto-board as a testing board. The picture in below is the first protoboard we made.</p>
 						</br>
-						<a><img src="images\week6_front.jpg" alt="" height="50%" width="50%"/></a>
-						<a><img src="images\week6_side.jpg" alt="" height="50%" width="50%"/></a>
+						<a><img src="images\week7_proto1.jpg" alt="" height="50%" width="50%"/></a>
+						<a><img src="images\week7_proto2.jpg" alt="" height="50%" width="50%"/></a>
 						</br>
-						<h4>Implementing features - goodshot/badshoot count feedback</h4>
-						<p> We also started making some features on the android App. Since we managed to have our data sent and received successfully from sensor to the phone
-							, we then started to use those data sets to implement some features. First feature we made was to show the statistic of goodshot/badshot.
-							What it does is, it keeps counting the goodshot or badshoot signal from the buttons and show the total shots made with the ratio of goodshot to the total shots.
-							With this feature, now we can have our first feedback application working from our device.</p>
-						<p> After making our goodshot feedback working, we then jumped to work on consistency check. We are still in the progress and we expect that our consistency check
-							gives the user how consistent their first data set was compared to second data set with the percentile representation. </p>
-						<h4>Plotting data on Android App</h4>
-						<p> We also worked on plotting our data set onto the phone. We already have our plots ready in matlab but we had never approached to plot on the phone.
-							For now, we will have our data set plotted on 2-D plane (xy (front view), yz (side view)) after finish taking the data by stop button. 
-							Then we are going to figure out plotting in 3-d plane for the trajectory application.
+						<p>We then observed that our components can be built in much smaller proto-board by looking at how much pins we are wasting on the first proto-board. </br>
+							We also figured out that our soldering and wiring could be done much better. </br>
+							So we decided to make another proto-board with much smaller one provided by our Professor. </br>
+							We also used much thinner wires for this time. </p>
+						</br>
+						<a><img src="images\week7_proto3.jpg" alt="" height="50%" width="50%"/></a>
+						<a><img src="images\week7_proto4.jpg" alt="" height="50%" width="50%"/></a>
+						</br>	
+						<p> As you see the pictures, the new proto-board is only about two quarters big. </p>
+						
+						<h4>Finish consistency check (working on android)</h4>
+						<p> The video below shows the testing sequences we took for our consistency check. </br>
+							Before we tested this, we have tested multiple cases and made sure our "Dynamic Time Warping" works properly too. </br>
+							We also implemented function on android to give user the consistency score in percentile.</p>
+						<video width="35%" height="35%" controls>
+						  <source src="videos\week7_testing.mp4" type="video/mp4">
+						</video>
+						
+						<h4>Changes in Battery</h4>
+						<p> After deeper researches in battery, we decided to use Li-on battery with its charger circuit and switch. </br>
+							Following components are the ones we bought in last week and expected to arrive on Tuesday of week 5/18. </br>
+							We considered the dimension of battery and charger carefully for our housing plan. </br>
+							Deeper analysis is expected to be done after we receive the batteries on Tuesday. </br>
+						
+						</br>
+						<a><img src="images\week7_battery1.jpg" alt="" height="30%" width="30%"/></a>
+						<a><img src="images\week7_battery2.jpg" alt="" height="30%" width="30%"/></a>
+						</br>	
 						</p>
-						<h4>Working on UI</h4>
-						<p> We also worked on UI of our App. We were discussing about what features can be made throughout the quarter and tried to optimize our UI to best-fit 
-							our applications. We are also going to put some visual elements such as background image and animation. But for now, we are mainly focused on the 
-							orientation of menu, button, and features on the screen.
-						</p>
-						<h4>Working on improving our data set</h4>
-						<p>
-							For hardware side, we are still working on improving our data set with math and physics analysis. We have the Kalman filter working.
-							We are still figuring out the way to generate our data set optimized for swing trajectory graph.
-						</p>
+						
+						
 						<h3>Objectives for next week</h3>
-						<p>We will try to switch to hardware side and start thinking about our PCB layout plan too.</p>
-						<a><img src="images\wk6_img100.png" alt="" height="50%" width="50%"/></a>
+						<p>We are going to work on housing plan for our product. </br>
+						Before we design our 3d printing model, we first drew the whole proto-board with exact dimension in the unit of millimeters. </br>
+						We then designed the sub parts of housing such as the cylinder columns for pushing buttons and spaces for strap on the sides. </br>
+						
+						We will also make our UI better and keep implmenting simple function in software. </br>
+						We have all the working data in matlab and we are trying to convert things to be able to run in android</p>
+						<a><img src="images\week7_housing1.jpg" alt="" height="50%" width="50%"/></a>
 						<footer>
 							<a href="#header" class="button circled scrolly">Back to Top</a>
 						</footer>
