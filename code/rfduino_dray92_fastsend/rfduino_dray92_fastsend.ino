@@ -919,7 +919,11 @@ void loop()
       Serial.println("N!!!!");
       //awake = false; // awake not cleared on minus press
     }
+<<<<<<< Updated upstream
     delay(5);
+=======
+    delay(10);
+>>>>>>> Stashed changes
     
 
   }
