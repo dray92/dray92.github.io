@@ -911,15 +911,15 @@ void loop()
     {
       RFduinoBLE.send("P00000000000", 12);
       Serial.println("P!!!!");
-      awake = false;
+      //awake = false; // awake not cleared on plus press
     }
     if (minus.uniquePress())
     {
       RFduinoBLE.send("N00000000000", 12);
       Serial.println("N!!!!");
-      awake = false;
+      //awake = false; // awake not cleared on minus press
     }
-    delay(50);
+    delay(5);
     
 
   }
