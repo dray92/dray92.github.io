@@ -66,6 +66,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
     Vibrator v;
     boolean vibrateFlag;
 
+    private int plus = 0, minus = 0;
 
     private final BroadcastReceiver bluetoothStateReceiver = new BroadcastReceiver() {
         @Override
@@ -135,9 +136,9 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
                         e.printStackTrace();
                     }
 
+
                     // Start button is pressed
                     if ( dataStr.equals("S00000000000") ) {
-
 
                         vibrateFlag = true;
                         Log.d("Feedback Char", "S");
@@ -150,11 +151,19 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
 
                     // Plus button is pressed while it is on
                     } else if ( dataStr.contains("P00000000000")) {
+                        plus++;
+                        Log.d("Plus", "" + plus);
+                        final TextView txtValue = (TextView) findViewById(R.id.textView9);
+                        txtValue.setText("Score: " + Integer.toString(plus-minus));
                         Log.d("Feedback Char", "P");
                         generateNoteOnSD("temp.txt", "PPPPPPPPPPPP\n");
 
                     // Negative button is pressed while it is on
                     } else if (dataStr.equals("N00000000000")) {
+                        minus++;
+                        Log.d("Minus", "" + minus);
+                        final TextView txtValue = (TextView) findViewById(R.id.textView9);
+                        txtValue.setText("Score: " + Integer.toString(plus - minus));
                         Log.d("Feedback Char", "N");
                         generateNoteOnSD("temp.txt", "NNNNNNNNNNNN\n");
 
