@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,7 +24,7 @@ import java.util.Scanner;
 
 
 public class SummaryActivity extends AppCompatActivity {
-    public final int CONSISTENCY_THRESHOLD = 20000000;
+    public final int CONSISTENCY_THRESHOLD = 5000000;
     private String sportSelected;
     private String formSelected;
 
@@ -232,9 +233,10 @@ public class SummaryActivity extends AppCompatActivity {
         for (int i = 0; i < numberOfStrokes - 1; i++) {
             consistencyScore += calculateConsistencyScoreForTwoData2(i, i+1);
         }
-        Log.d("consitencyScore:", Integer.toString(consistencyScore)+" out of " + Integer.toString((numberOfStrokes-1)*3));
+        int consistencyMax = (numberOfStrokes-1)*3;
+        Log.d("consistencyScore:", Integer.toString(consistencyScore)+" out of " + Integer.toString(consistencyMax));
 
-
+        Toast.makeText(getApplicationContext(), "Consistency score is " + Double.toString(100.0*consistencyScore/consistencyMax), Toast.LENGTH_LONG).show();
 
 //        double t[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
 //        double u[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
@@ -314,7 +316,7 @@ public class SummaryActivity extends AppCompatActivity {
         if (dtwAccelZ < CONSISTENCY_THRESHOLD) {
             consistencyScore+= 1;
         }
-        Log.d("consitencyScore for 2 data: ", Integer.toString(consistencyScore));
+        Log.d("consistecny for 2 data", Integer.toString(consistencyScore));
         return consistencyScore;
     }
 
