@@ -296,9 +296,6 @@ void setup(){
   Serial.print("Bank 1, Reg 6 = ");
   Serial.println(temp, HEX);
 
-// temp = regRead(0x6B);
-// Serial.println(temp, HEX);
-  
   regWrite(0x6D, 0x00);
   
   temp = regRead(0x00);
@@ -315,10 +312,6 @@ void setup(){
   temp = regRead(0x6B);
   Serial.println(temp, HEX);
   delay(5);
-// regWrite(0x25, 0x68); //Set Slave 0 to self
-//
-// regWrite(0x6A, 0x02);
-
   mem_init();
 delay(20);
 }
@@ -344,18 +337,6 @@ void dmp_init(){
       }
       Wire.endTransmission();
     }
-    
-// Wire.beginTransmission(MPU_ADDR);
-// Wire.write(MEM_R_W);
-// Wire.endTransmission();
-// Wire.requestFrom(MPU_ADDR, 16);
-// byte echoback[16];
-// for(int j = 0; j < 16; j++){
-// echoback[j] = Wire.read();
-// }
-// for(int j = 0; j < 16; j++){
-// Serial.print(echoback[j], HEX);
-// }
     
   }
   
@@ -403,22 +384,6 @@ void dmp_init(){
     incoming[i] = Wire.read();
   }
   
-// bank_sel(3);
-// Wire.beginTransmission(MPU_ADDR);
-// Wire.write(MEM_START_ADDR);
-// Wire.write(0x10);
-// Wire.endTransmission();
-// Wire.beginTransmission(MPU_ADDR);
-// Wire.write(MEM_R_W);
-// Wire.endTransmission();
-// Wire.beginTransmission(MPU_ADDR);
-// Wire.requestFrom(MPU_ADDR,16);
-// Wire.endTransmission();
-// byte incoming[16];
-// for(int i = 0; i < 16; i++){
-// incoming[i] = Wire.read();
-// }
-
 }
   
 void mem_init(){
@@ -545,12 +510,6 @@ void mem_init(){
   }
   Wire.endTransmission();
   
-// bank_sel(0x01);
-// regWrite(0x6E, 0x60);
-// Wire.beginTransmission(MPU_ADDR);
-// Wire.write(0x6F);
-// Wire.write(0x04); Wire.write(0x00); Wire.write(0x00); Wire.write(0x00);
-// Wire.endTransmission();
   
   bank_sel(0x00);
   regWrite(0x6E, 0x60);
@@ -636,24 +595,7 @@ boolean fifoReady(){
   if(fifoCountL == 42 || fifoCountL == 44){
     return 1;
   }
-// else if(fifoCountL != 0){
-// resetFifo();
-// }
-  
-  
-// else if(fifoCountL == 42){
-// getPacket();
-// bank_sel(0);
-// regWrite(0x6E, 0x60);
-// Wire.beginTransmission(MPU_ADDR);
-// Wire.write(0x40); Wire.write(0x00); Wire.write (0x00); Wire.write(0x00);
-// Wire.endTransmission();
-// resetFifo();
-// }
-  
-// if(Wire.read() == 0x2C){
-// return 1;
-// }
+
   else return 0;
 }
 
@@ -664,7 +606,8 @@ void resetFifo(){
 }
 
 void loop(){
-
+  
+  //establishing dt
   if(millis() >= lastRead + 10){
     lastRead = millis();
 // byte int_status = read_interrupt();
@@ -678,7 +621,7 @@ void loop(){
 // }
     if(fifoReady()){
       getPacket();
-      temp = regRead(0x3A);
+      temp = regRead(0x3A);    // reading temperature
       if(firstPacket){
         delay(1);
         bank_sel(0x00);
@@ -708,27 +651,10 @@ void loop(){
         processQuat();
         sendQuat();
       }
-// int receivedInts[10] = {(((int)received_packet[0] << 8) | received_packet[1]),
-// (((int)received_packet[4] << 8) | received_packet[5]),
-// (((int)received_packet[8] << 8) | received_packet[9]),
-// (((int)received_packet[12] << 8) | received_packet[13]),
-// (((int)received_packet[16] << 8) | received_packet[17]),
-// (((int)received_packet[20] << 8) | received_packet[21]),
-// (((int)received_packet[24] << 8) | received_packet[25]),
-// (((int)received_packet[28] << 8) | received_packet[29]),
-// (((int)received_packet[32] << 8) | received_packet[33]),
-// (((int)received_packet[36] << 8) | received_packet[37])
-// };
-//
-// for(int i = 0; i<10; i++){
-// Serial.print(receivedInts[i], DEC); Serial.print(" ");
-// }
-// Serial.println();
-  
-  // sendPacket();
+
     }
   }
-
+  
 }
 
 void check_MPU(){

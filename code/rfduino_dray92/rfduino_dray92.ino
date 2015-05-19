@@ -888,11 +888,8 @@ void loop()
     Serial.print(compAngleZ); Serial.print(" ");
     Serial.print((int)kalAngleZ); Serial.println(" ");
     
-    //Serial.print("Accelerometer_Corrected "); 
-    Serial.print(accXC); Serial.print(" ");
-    Serial.print(accYC); Serial.print(" ");
-    Serial.print(accZC); //Serial.println(" ");
-    //Serial.println(dt);
+    
+    Serial.println(dt);
     
     // sending data
     RFduinoBLE.send(string, 12);
