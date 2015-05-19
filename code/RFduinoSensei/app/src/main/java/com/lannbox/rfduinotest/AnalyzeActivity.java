@@ -65,6 +65,8 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
 
     Vibrator v;
     boolean vibrateFlag;
+
+
     private final BroadcastReceiver bluetoothStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -104,6 +106,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
         }
     };
 
+    // BroadcastReceiver for Rfduino
     private final BroadcastReceiver rfduinoReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -113,32 +116,44 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
                 upgradeState(STATE_CONNECTED);
             } else if (RFduinoService.ACTION_DISCONNECTED.equals(action)) {
                 downgradeState(STATE_DISCONNECTED);
+
+            // when there is something to be read from RFduino:
             } else if (RFduinoService.ACTION_DATA_AVAILABLE.equals(action)) {
+
+                // This the data read from an RfduinoBLE.send
                 byte[] data = intent.getByteArrayExtra(RFduinoService.EXTRA_DATA);
+
                 if (data.length > 0) {
                     String dataStr = null;
+
+                    // convert data to hexAscii String format
                     String dataToHex = HexAsciiHelper.bytesToHex(data);
                     try {
+                        // convert data to String
                         dataStr = new String(data, "US-ASCII");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
 
+                    // Start button is pressed
                     if ( dataStr.equals("S00000000000") ) {
 
 
                         vibrateFlag = true;
                         Log.d("Feedback Char", "S");
                         generateNoteOnSD("temp.txt", "SSSSSSSSSSSS\n");
+
+                    // Start button is pressed while it is on
                     } else if ( dataStr.contains("R00000000000")) {
                         Log.d("Feedback Char", "R");
                         generateNoteOnSD("temp.txt", "RRRRRRRRRRRR\n");
 
-
+                    // Plus button is pressed while it is on
                     } else if ( dataStr.contains("P00000000000")) {
                         Log.d("Feedback Char", "P");
                         generateNoteOnSD("temp.txt", "PPPPPPPPPPPP\n");
 
+                    // Negative button is pressed while it is on
                     } else if (dataStr.equals("N00000000000")) {
                         Log.d("Feedback Char", "N");
                         generateNoteOnSD("temp.txt", "NNNNNNNNNNNN\n");
@@ -147,11 +162,14 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
 //                        Log.d("Feedback Char", "R");
 //                        generateNoteOnSD("temp.txt", "RRRRRRRRRRRR\n");
 //
+                    // This is if the data from RFduino is not a button press, therefore just a data sent by IMU
                     } else {
+                        // On the first data send, vibrate the phone for 1 second
                         if (vibrateFlag) {
                             vibrateFlag = false;
                             v.vibrate(1000);
                         }
+
                         generateNoteOnSD("temp.txt", dataToHex + "\n");
                     }
 

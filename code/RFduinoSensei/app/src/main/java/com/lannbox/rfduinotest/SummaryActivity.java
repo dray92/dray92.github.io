@@ -23,6 +23,7 @@ import java.util.Scanner;
 
 
 public class SummaryActivity extends AppCompatActivity {
+    public final int CONSISTENCY_THRESHOLD = 20000000;
     private String sportSelected;
     private String formSelected;
 
@@ -74,11 +75,11 @@ public class SummaryActivity extends AppCompatActivity {
             line = scanFile.nextLine();
             if (line.equals("SSSSSSSSSSSS")) {
                 sensorData.add(i, new LinkedList<SensorData>());
-                while (scanFile.hasNextLine() && !line.equals("NNNNNNNNNNNN")  && !line.equals("PPPPPPPPPPPP") && !line.equals("523030303030303030303030")) {
+                while (scanFile.hasNextLine() && !line.equals("NNNNNNNNNNNN")  && !line.equals("PPPPPPPPPPPP") && !line.equals("RRRRRRRRRRRR")) {
 
 
                     line = scanFile.nextLine();
-                    if (!line.equals("NNNNNNNNNNNN") && !line.equals("PPPPPPPPPPPP") && !line.equals("523030303030303030303030")) {
+                    if (!line.equals("NNNNNNNNNNNN") && !line.equals("PPPPPPPPPPPP") && !line.equals("RRRRRRRRRRRR")) {
                         sensorData.get(i).add(j, new SensorData(line));
                         j++;
                     }
@@ -204,7 +205,7 @@ public class SummaryActivity extends AppCompatActivity {
 
 
     public void calculateConsistencyScore(View view) throws FileNotFoundException {
-
+        int consistencyScore = 0;
         // get SD card directory
         File sdcard = new File(Environment.getExternalStorageDirectory(), "temp_sensei");
         // get the text file
@@ -227,9 +228,14 @@ public class SummaryActivity extends AppCompatActivity {
 
 
         Log.d("Number of strokes", Integer.toString(numberOfStrokes));
+
         for (int i = 0; i < numberOfStrokes - 1; i++) {
-            calculateConsistencyScoreForTwoData(i, i+1);
+            consistencyScore += calculateConsistencyScoreForTwoData2(i, i+1);
         }
+        Log.d("consitencyScore:", Integer.toString(consistencyScore)+" out of " + Integer.toString((numberOfStrokes-1)*3));
+
+
+
 //        double t[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
 //        double u[] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0};
 //        double doublet[] = {2.0, 4,0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0};
@@ -246,6 +252,73 @@ public class SummaryActivity extends AppCompatActivity {
 
 
     }
+    public int calculateConsistencyScoreForTwoData2(int index1, int index2){
+        double dtwAccelX = 0.0;
+        double dtwAccelY = 0.0;
+        double dtwAccelZ = 0.0;
+        int consistencyScore = 0;
+        if (index1 < sensorData.size() && index2 < sensorData.size() && index1 != index2) {
+            List<SensorData> data1 = sensorData.get(index1);
+            List<SensorData> data2 = sensorData.get(index2);
+            double raX[] = new double[data1.size()];
+            double saX[] = new double[data2.size()];
+            double raY[] = new double[data1.size()];
+            double saY[] = new double[data2.size()];
+            double raZ[] = new double[data1.size()];
+            double saZ[] = new double[data2.size()];
+
+
+            for (int i = 0; i < data1.size(); i++) {
+                raX[i] = data1.get(i).accelX;
+                raY[i] = data1.get(i).accelY;
+                raZ[i] = data1.get(i).accelZ;
+
+            }
+            for (int j = 0; j < data2.size(); j++) {
+                saX[j] = data2.get(j).accelX;
+                saY[j] = data2.get(j).accelY;
+                saZ[j] = data2.get(j).accelZ;
+            }
+
+
+
+
+
+
+            Log.d("array1 accelX:", Arrays.toString(raX));
+            Log.d("array2 accelX:", Arrays.toString(saX));
+
+            Log.d("array1 accelY:", Arrays.toString(raY));
+            Log.d("array2 accelY:", Arrays.toString(saY));
+
+            Log.d("array1 accelZ:", Arrays.toString(raZ));
+            Log.d("array2 accelZ:", Arrays.toString(saZ));
+
+            dtwAccelX = dtw(raX, saX);
+            dtwAccelY = dtw(raY, saY);
+            dtwAccelZ = dtw(raZ, saZ);
+
+
+            Log.d("DTW accelX: ", Double.toString(dtwAccelX));
+            Log.d("DTW accelY: ", Double.toString(dtwAccelY));
+            Log.d("DTW accelZ: ", Double.toString(dtwAccelZ));
+        } else {
+            Log.d("Error: index OOB", Integer.toString(index1) + " " + Integer.toString(index2));
+        }
+        if (dtwAccelX < CONSISTENCY_THRESHOLD) {
+            consistencyScore+= 1;
+        }
+        if (dtwAccelY < CONSISTENCY_THRESHOLD) {
+            consistencyScore+= 1;
+        }
+        if (dtwAccelZ < CONSISTENCY_THRESHOLD) {
+            consistencyScore+= 1;
+        }
+        Log.d("consitencyScore for 2 data: ", Integer.toString(consistencyScore));
+        return consistencyScore;
+    }
+
+
 
     public double calculateConsistencyScoreForTwoData(int index1, int index2){
         double dtwAccel = 0.0;
