@@ -143,10 +143,11 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Clear Data"
-            android:id="@+id/clearData"
+            android:text="Disconnect"
+            android:id="@+id/disconnect"
             android:layout_marginTop="2dip"
-            android:singleLine="false" />
+            android:singleLine="false"
+            android:onClick="disconnect"/>
 
         <Button
 

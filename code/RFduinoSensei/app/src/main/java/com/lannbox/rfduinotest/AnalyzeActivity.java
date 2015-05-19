@@ -56,11 +56,12 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
     private EditData valueEdit;
     private Button sendZeroButton;
     private Button sendValueButton;
-    private Button clearButton;
+    private Button disconnectButton;
     private LinearLayout dataLayout;
 
     private String sportSelected;
     private String formSelected;
+    private boolean disconnectFlag;
 
     Vibrator v;
     boolean vibrateFlag;
@@ -180,6 +181,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
 
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibrateFlag = false;
+        disconnectFlag = true;
 //        Can be buggy with back button
 //        Log.d("IN ANALYZE: sport id:", sportSelected);
 //        Log.d("IN ANALYZE: form id:", formSelected);
@@ -224,11 +226,14 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
             @Override
             public void onClick(View v) {
                 v.setEnabled(false);
+                disconnectFlag = false;
                 connectionStatusText.setText("Connecting...");
                 Intent rfduinoIntent = new Intent(AnalyzeActivity.this, RFduinoService.class);
                 bindService(rfduinoIntent, rfduinoServiceConnection, BIND_AUTO_CREATE);
             }
         });
+
+        disconnectButton = (Button) findViewById(R.id.disconnect);
 
         // Send
         valueEdit = (EditData) findViewById(R.id.value);
@@ -260,14 +265,7 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
             }
         });
 
-        // Receive
-        clearButton = (Button) findViewById(R.id.clearData);
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dataLayout.removeAllViews();
-            }
-        });
+
 
         dataLayout = (LinearLayout) findViewById(R.id.dataLayout);
 
@@ -285,17 +283,17 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
 
         updateState(bluetoothAdapter.isEnabled() ? STATE_DISCONNECTED : STATE_BLUETOOTH_OFF);
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-//        Log.d("AnalyzeActivity.onStop", "Stopping");
-        bluetoothAdapter.stopLeScan(this);
-
-        unregisterReceiver(scanModeReceiver);
-        unregisterReceiver(bluetoothStateReceiver);
-        unregisterReceiver(rfduinoReceiver);
-    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+////        Log.d("AnalyzeActivity.onStop", "Stopping");
+//        bluetoothAdapter.stopLeScan(this);
+//
+//        unregisterReceiver(scanModeReceiver);
+//        unregisterReceiver(bluetoothStateReceiver);
+//        unregisterReceiver(rfduinoReceiver);
+//    }
 
     private void upgradeState(int newState) {
         if (newState > state) {
@@ -461,18 +459,25 @@ public class AnalyzeActivity extends AppCompatActivity implements BluetoothAdapt
         }
     }
 
-    public void clearData(View view) throws FileNotFoundException {
+    public void disconnect(View view) {
 
-        File root = new File(Environment.getExternalStorageDirectory(), "temp_sensei");
-        if (!root.exists()) {
-            root.mkdirs();
+        if (!disconnectFlag) {
+            Log.d("AnalyzeActivity.onStop", "Stopping");
+            bluetoothAdapter.stopLeScan(this);
+
+            unregisterReceiver(scanModeReceiver);
+            unregisterReceiver(bluetoothStateReceiver);
+            unregisterReceiver(rfduinoReceiver);
+            disconnectButton.setEnabled(false);
+//            connectButton.setEnabled(true);
+//            downgradeState(STATE_DISCONNECTED);
+//            scanStatusText.setText("");
+//            scanButton.setText("Scan");
+//            scanButton.setEnabled(true);
         }
 
-        String tempFileName = "temp.txt";
-        File tempFile = new File(root, tempFileName);
-        PrintWriter writer = new PrintWriter(tempFile);
-        writer.print("");
-        writer.close();
+
+        disconnectFlag = true;
     }
 
 

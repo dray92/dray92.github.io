@@ -38,23 +38,6 @@
             android:layout_height="wrap_content"
             android:text="3"
             />
-        <RadioButton android:id="@+id/fourthFormSummary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="4"
-            android:checked="true"
-            />
-        <RadioButton android:id="@+id/fifthFormSummary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5"
-            />
-
-        <RadioButton android:id="@+id/sixthFormSummary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="6"
-            />
 
         </RadioGroup>
 
