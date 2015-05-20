@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffectiveNavigation1/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">Senseiii</string>
+    <string name="demo_collection">Demo Collection</string>
+    <string name="demo_external_activity">Demo External Activity</string>
+    <string name="dummy_section_text">Section %1d is just a dummy section.</string>
+    <string name="tab1">Start</string>
+    <string name="tab2">Data</string>
+    <string name="tab3">Consistency</string>
+    <string name="tab4">Scorekeeper</string>
+</resources>

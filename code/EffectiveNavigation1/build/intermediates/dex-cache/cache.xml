@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/Debosmit/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.1.1/support-annotations-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
+        <dex dex="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffectiveNavigation1/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-134e3a843d36115889bbf464c56c9cdb9c8067ee.jar" />
+    </item>
+    <item
+        jar="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffectiveNavigation1/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/libs/internal_impl-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
+        <dex dex="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffectiveNavigation1/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-6e10898e396cf7c22f193ef28ed4ea63c09d46e8.jar" />
+    </item>
+    <item
+        jar="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffectiveNavigation1/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
+        <dex dex="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffectiveNavigation1/app/build/intermediates/pre-dexed/debug/classes-d9109c9df9af665e213ae9dbbfba6b9b9ebd4b56.jar" />
+    </item>
+
+</items>
