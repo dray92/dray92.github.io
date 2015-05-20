@@ -19,6 +19,13 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Score: 0"
+            android:id="@+id/textView9"
+            android:textSize="40sp" />
+
+        <TextView
             style="?android:attr/listSeparatorTextViewStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -62,17 +69,11 @@
             android:text="Device Info"
             android:layout_marginTop="5dip" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/deviceInfo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Score: 0"
-            android:id="@+id/textView9" />
+            android:id="@+id/deviceInfo" />
 
         <TextView
             style="?android:attr/listSeparatorTextViewStyle"

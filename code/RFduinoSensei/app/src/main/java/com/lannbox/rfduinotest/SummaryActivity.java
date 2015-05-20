@@ -24,7 +24,7 @@ import java.util.Scanner;
 
 
 public class SummaryActivity extends AppCompatActivity {
-    public final int CONSISTENCY_THRESHOLD = 5000000;
+    public final int CONSISTENCY_THRESHOLD = 10000000;
     private String sportSelected;
     private String formSelected;
 
