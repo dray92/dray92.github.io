@@ -911,24 +911,37 @@ void loop()
     {
       RFduinoBLE.send("P00000000000", 12);
       Serial.println("P!!!!");
-      //awake = false; // awake not cleared on plus press
+      awake = false; // awake not cleared on plus press
     }
     if (minus.uniquePress())
     {
       RFduinoBLE.send("N00000000000", 12);
       Serial.println("N!!!!");
-      //awake = false; // awake not cleared on minus press
+      awake = false; // awake not cleared on minus press
     }
-<<<<<<< Updated upstream
-    delay(5);
-=======
+
     delay(10);
->>>>>>> Stashed changes
     
 
   }
+  if (!awake) {
+    if (plus.uniquePress())
+    {
+      RFduinoBLE.send("P11111111111", 12);
+      Serial.println("P");
+    
+    }
+    
+    if (minus.uniquePress())
+    {
+      RFduinoBLE.send("N11111111111", 12);
+      Serial.println("N");
+    }
+    delay(10);
   
-
+  }
+  
+  //
 
 }
 
