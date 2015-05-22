@@ -51,8 +51,7 @@ import java.util.TreeSet;
 import java.util.UUID;
 
 // ADDED @targetapi and implements BluetoothAdapter.LeScanCallback to test callback on btAdapter LeScanCallback
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, BluetoothAdapter.LeScanCallback {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -152,8 +151,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 //        pairedDevices = btAdapter.getBondedDevices();
 
         boolean btAdapterDisc = btAdapter.startDiscovery();
-        boolean btAdapterScan = btAdapter.startLeScan(
-                new UUID[]{RFduinoService.UUID_SERVICE}, MainActivity.this);
+//        boolean btAdapterScan = btAdapter.startLeScan(
+//                new UUID[]{RFduinoService.UUID_SERVICE}, MainActivity.this);
 
         // pointer to the button that 'starts looking for senseiii'
         Button connectBTButton = (Button) findViewById(R.id.demo_collection_button);
@@ -256,19 +255,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
-    public void onLeScan(BluetoothDevice device, final int rssi, final byte[] scanRecord) {
-        btAdapter.stopLeScan(this);
-        btDevice = device;
 
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                debug_deviceInfo = BluetoothHelper.getDeviceInfoText(btDevice, rssi, scanRecord);
-                updateUi();
-            }
-        });
-
-    }
 
 
     /**
