@@ -28,9 +28,9 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040000;
-        public static final int demo_collection=0x7f040001;
-        public static final int demo_external_activity=0x7f040002;
-        public static final int dummy_section_text=0x7f040003;
+        public static final int demo_external_activity=0x7f040001;
+        public static final int dummy_section_text=0x7f040002;
+        public static final int scan=0x7f040003;
         public static final int tab1=0x7f040004;
         public static final int tab2=0x7f040005;
         public static final int tab3=0x7f040006;

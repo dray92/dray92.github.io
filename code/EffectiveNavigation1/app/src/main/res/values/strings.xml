@@ -20,7 +20,7 @@
     <string name="dummy_section_text">Section %1d is just a dummy section.</string>
 
     <string name="demo_external_activity">Demo External Activity</string>
-    <string name="demo_collection">Demo Collection</string>
+    <string name="scan">Look for Senseiii</string>
     <string name="tab1">Start</string>
     <string name="tab2">Data</string>
     <string name="tab3">Consistency</string>

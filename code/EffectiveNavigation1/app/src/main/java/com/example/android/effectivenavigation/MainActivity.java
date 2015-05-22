@@ -16,21 +16,43 @@
 
 package com.example.android.effectivenavigation;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.UUID;
+
+// ADDED @targetapi and implements BluetoothAdapter.LeScanCallback to test callback on btAdapter LeScanCallback
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, BluetoothAdapter.LeScanCallback {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
@@ -45,7 +67,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * time.
      */
     ViewPager mViewPager;
+    static boolean scanStarted;
 
+    private static BluetoothAdapter btAdapter;
+    private static BluetoothDevice btDevice;
+
+    private RFduinoService rfduinoService;
+
+    /**
+        Bluetooth State
+        State machine
+     */
+    final private static int STATE_BLUETOOTH_OFF = 1;
+    final private static int STATE_DISCONNECTED = 2;
+    final private static int STATE_CONNECTING = 3;
+    final private static int STATE_CONNECTED = 4;
+
+    private int state;
+
+    // DEBUG VARIABLES
+    String debug_deviceInfo = "";
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -88,7 +131,116 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setText(mAppSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+
+        // when the app is loaded, scan started should be set to false
+        scanStarted = false;
+
+        // initializing the bluetooth adapter when the tab is loaded
+        btAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (btAdapter == null) {
+            Toast.makeText(getApplicationContext(), "Fucked. You are completely fucked. " +
+                    "Do not have access to Bluetooth Radio", Toast.LENGTH_LONG);
+            System.exit(0);
+        }
+
+        Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(turnOn, 0);
+
+        // for testing purposes ONLY
+//        Set<BluetoothDevice> pairedDevices;
+//        pairedDevices = btAdapter.getBondedDevices();
+
+        boolean btAdapterDisc = btAdapter.startDiscovery();
+        boolean btAdapterScan = btAdapter.startLeScan(
+                new UUID[]{RFduinoService.UUID_SERVICE}, MainActivity.this);
+
+        // pointer to the button that 'starts looking for senseiii'
+        Button connectBTButton = (Button) findViewById(R.id.demo_collection_button);
+        connectBTButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setEnabled(false);
+//                connectionStatusText.setText("Connecting...");
+                Intent rfduinoIntent = new Intent(MainActivity.this, RFduinoService.class);
+                bindService(rfduinoIntent, rfduinoServiceConnection, BIND_AUTO_CREATE);
+            }
+        });
+
+
+        /*
+            private final ServiceConnection rfduinoServiceConnection = new ServiceConnection() {
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    rfduinoService = ((RFduinoService.LocalBinder) service).getService();
+                    if (rfduinoService.initialize()) {
+                        if (rfduinoService.connect(bluetoothDevice.getAddress())) {
+                            upgradeState(STATE_CONNECTING);
+                        }
+                    }
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+                    rfduinoService = null;
+                    downgradeState(STATE_DISCONNECTED);
+                }
+            };
+         */
+
+//        BluetoothDevice[] devices = (BluetoothDevice[])pairedDevices.toArray();
+//        Log.e("Size", "" + devices.length);
+//        Log.e("Elem1", "" + devices[0]);
+        // check to ensure that device bluetooth is turned on
+        /*
+                enableBTButton = (Button) findViewById(R.id.enableBluetooth);
+                enableBTButton.setOnClickListener(new View.onClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        enableBTButton.setEnabled(false);
+                        enableBTButton.setText(btAdapter.enable() ? "Enabling BT..." : "Enable Failed...");
+                    }
+                });
+         */
+
+
     }
+
+    private final ServiceConnection rfduinoServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            rfduinoService = ((RFduinoService.LocalBinder) service).getService();
+            if (rfduinoService.initialize()) {
+                if (rfduinoService.connect(btDevice.getAddress())) {
+                    upgradeState(STATE_CONNECTING);
+                }
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            rfduinoService = null;
+            downgradeState(STATE_DISCONNECTED);
+        }
+    };
+
+    private void upgradeState(int newState) {
+        if (newState > state) {
+            updateState(newState);
+        }
+    }
+
+    private void downgradeState(int newState) {
+        if (newState < state) {
+            updateState(newState);
+        }
+    }
+
+    private void updateState(int newState) {
+        state = newState;
+        updateUi();
+    }
+
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -103,6 +255,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
+
+    public void onLeScan(BluetoothDevice device, final int rssi, final byte[] scanRecord) {
+        btAdapter.stopLeScan(this);
+        btDevice = device;
+
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                debug_deviceInfo = BluetoothHelper.getDeviceInfoText(btDevice, rssi, scanRecord);
+                updateUi();
+            }
+        });
+
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
@@ -168,8 +335,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     .setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(getActivity(), CollectionDemoActivity.class);
-                            startActivity(intent);
+                            scanStarted = true;
+//                            btAdapter.startLeScan(new UUID[]{RFduinoService.UUID_SERVICE});
+//                            btAdapter.startLeScan(new UUID[]{RFduinoService.UUID_SERVICE}, null);
                         }
                     });
 
@@ -210,5 +378,45 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
+    }
+
+
+    // need to update to reflect changes with changes in Bluetooth
+    private void updateUi() {
+        // Enable Bluetooth
+//        boolean on = state > STATE_BLUETOOTH_OFF;
+//        enableBluetoothButton.setEnabled(!on);
+//        enableBluetoothButton.setText(on ? "Bluetooth enabled" : "Enable Bluetooth");
+//        scanButton.setEnabled(on);
+//
+//        // Scan
+//        if (scanStarted && scanning) {
+//            scanStatusText.setText("Scanning...");
+//            scanButton.setText("Stop Scan");
+//            scanButton.setEnabled(true);
+//        } else if (scanStarted) {
+//            scanStatusText.setText("Scan started...");
+//            scanButton.setEnabled(false);
+//        } else {
+//            scanStatusText.setText("");
+//            scanButton.setText("Scan");
+//            scanButton.setEnabled(true);
+//        }
+//
+//        // Connect
+//        boolean connected = false;
+//        String connectionText = "Disconnected";
+//        if (state == STATE_CONNECTING) {
+//            connectionText = "Connecting...";
+//        } else if (state == STATE_CONNECTED) {
+//            connected = true;
+//            connectionText = "Connected";
+//        }
+//        connectionStatusText.setText(connectionText);
+//        connectButton.setEnabled(bluetoothDevice != null && state == STATE_DISCONNECTED);
+//
+//        // Send
+//        sendZeroButton.setEnabled(connected);
+//        sendValueButton.setEnabled(connected);
     }
 }
