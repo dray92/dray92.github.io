@@ -23,34 +23,48 @@ MERGED from com.android.support:support-v4:22.1.1:20:5
 		ADDED from AndroidManifest.xml:22:15
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
-application
+uses-permission#android.permission.BLUETOOTH
+ADDED from AndroidManifest.xml:23:5
+	android:name
+		ADDED from AndroidManifest.xml:23:22
+uses-permission#android.permission.BLUETOOTH_ADMIN
 ADDED from AndroidManifest.xml:24:5
+	android:name
+		ADDED from AndroidManifest.xml:24:22
+uses-feature#android.hardware.bluetooth_le
+ADDED from AndroidManifest.xml:26:5
+	android:required
+		ADDED from AndroidManifest.xml:26:64
+	android:name
+		ADDED from AndroidManifest.xml:26:19
+application
+ADDED from AndroidManifest.xml:28:5
 MERGED from com.android.support:support-v4:22.1.1:22:5
 	android:label
-		ADDED from AndroidManifest.xml:24:18
+		ADDED from AndroidManifest.xml:28:18
 	android:icon
-		ADDED from AndroidManifest.xml:25:9
+		ADDED from AndroidManifest.xml:29:9
 	android:theme
-		ADDED from AndroidManifest.xml:26:9
+		ADDED from AndroidManifest.xml:30:9
 activity#com.example.android.effectivenavigation.MainActivity
-ADDED from AndroidManifest.xml:28:9
+ADDED from AndroidManifest.xml:32:9
 	android:label
-		ADDED from AndroidManifest.xml:28:48
+		ADDED from AndroidManifest.xml:32:48
 	android:name
-		ADDED from AndroidManifest.xml:28:19
+		ADDED from AndroidManifest.xml:32:19
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:29:13
+ADDED from AndroidManifest.xml:33:13
 action#android.intent.action.MAIN
-ADDED from AndroidManifest.xml:30:17
+ADDED from AndroidManifest.xml:34:17
 	android:name
-		ADDED from AndroidManifest.xml:30:25
+		ADDED from AndroidManifest.xml:34:25
 category#android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:31:17
+ADDED from AndroidManifest.xml:35:17
 	android:name
-		ADDED from AndroidManifest.xml:31:27
+		ADDED from AndroidManifest.xml:35:27
 activity#com.example.android.effectivenavigation.CollectionDemoActivity
-ADDED from AndroidManifest.xml:35:9
+ADDED from AndroidManifest.xml:39:9
 	android:label
-		ADDED from AndroidManifest.xml:35:58
+		ADDED from AndroidManifest.xml:39:58
 	android:name
-		ADDED from AndroidManifest.xml:35:19
+		ADDED from AndroidManifest.xml:39:19
