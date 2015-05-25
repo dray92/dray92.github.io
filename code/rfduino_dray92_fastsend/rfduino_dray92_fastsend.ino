@@ -751,7 +751,7 @@ void loop()
 
   }
 
-  if (awake)
+  if (true)
   {
     /* Update all the values */
     while (i2cRead(0x3B, i2cData, 14));
@@ -904,6 +904,8 @@ void loop()
 
     // sending data
     RFduinoBLE.send(string, 12);
+    
+    Serial.print(string);
     
        
 

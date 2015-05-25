@@ -47,6 +47,10 @@ public class BluetoothHelper {
                 .toString();
     }
 
+    public static String getDeviceName(BluetoothDevice device, int rssi, byte[] scanRecord) {
+        return new StringBuilder().append(device.getName()).toString();
+    }
+
     // Bluetooth Spec V4.0 - Vol 3, Part C, section 8
     private static String parseScanRecord(byte[] scanRecord) {
         StringBuilder output = new StringBuilder();

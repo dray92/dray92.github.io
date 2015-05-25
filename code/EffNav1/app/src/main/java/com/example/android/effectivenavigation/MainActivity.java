@@ -44,6 +44,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.UUID;
@@ -73,6 +75,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                                 // from the scan thing
 
     private final static int REQUEST_ENABLE_BT = 1;
+
+    private final static boolean DEBUG_ON = true;
 
     private static int oldState;
 
@@ -131,6 +135,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
 
+        // registering receivers
         registerReceiver(scanModeReceiver, new IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED));
         registerReceiver(btStateReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
         registerReceiver(btStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
@@ -166,7 +171,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             MainActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    devInfo = BluetoothHelper.getDeviceInfoText(btDevice, rssi, scanRecord);
+                    if(DEBUG_ON) {
+                        final TextView t = (TextView) rootView.findViewById(R.id.test);
+                        //t.setText(BluetoothHelper.getDeviceInfoText(btDevice, rssi, scanRecord));
+                        t.setText("Connected to: \"" +
+                                BluetoothHelper.getDeviceName(btDevice, rssi, scanRecord) + "\"");
+                    }
                 }
             });
         }
@@ -212,10 +222,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private final BroadcastReceiver btStateReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
+
+            //upgradeState(STATE_DISCONNECTED); updateState(STATE_DISCONNECTED);
             if (state == BluetoothAdapter.STATE_ON)
-                oldState = (STATE_DISCONNECTED > oldState) ? STATE_DISCONNECTED : oldState; //upgradeState(STATE_DISCONNECTED); updateState(STATE_DISCONNECTED);
+                oldState = (STATE_DISCONNECTED > oldState) ? STATE_DISCONNECTED : oldState;
+
+                //downgradeState(STATE_BLUETOOTH_OFF); updateState(STATE_BLUETOOTH_OFF);
             else if (state == BluetoothAdapter.STATE_OFF)
-                oldState = (STATE_BLUETOOTH_OFF < oldState) ? STATE_BLUETOOTH_OFF : oldState; //downgradeState(STATE_BLUETOOTH_OFF); updateState(STATE_BLUETOOTH_OFF);
+                oldState = (STATE_BLUETOOTH_OFF < oldState) ? STATE_BLUETOOTH_OFF : oldState;
         }
     };
 
@@ -322,7 +336,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return mess[position];
         }
     }
-
+    View rootView;
     /**
      * A fragment that launches other parts of the demo application.
      */
@@ -332,28 +346,40 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_launchpad, container, false);
+            rootView = inflater.inflate(R.layout.fragment_section_launchpad, container, false);
+
+            // FOR DEBUGGING
+            final TextView t = (TextView) rootView.findViewById(R.id.test);
+
+            if(DEBUG_ON)
+                t.setText("Tester Section");
 
             // Demonstration of a collection-browsing activity.
             rootView.findViewById(R.id.demo_collection_button)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-                        @Override
-                        public void onClick(View view) {
-                            btAdapter.startLeScan(new UUID[]{RFduinoService.UUID_SERVICE}, leScanCallBack);
-                            // CHECK WITH DANYOJANG
-                            // DANYOJANG HAS PROBLEMS WITH THIS
-                            try {
-                                Thread.sleep(5000);
+                .setOnClickListener(new View.OnClickListener() {
+                    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+                    @Override
+                    public void onClick(View view) {
 
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            Intent rfduinoIntent = new Intent(MainActivity.this, RFduinoService.class);
-                            bindService(rfduinoIntent, rfduinoServiceConnection, BIND_AUTO_CREATE);
+                        // enable bluetooth adapter
+                        btAdapter.enable();
 
-                        }
-                    });
+                        if(DEBUG_ON)
+                            t.setText("Bluetooth Adapter Enabled");
+
+                        // start bluetooth low energy scan
+                        btAdapter.startLeScan(new UUID[]{RFduinoService.UUID_SERVICE}, leScanCallBack);
+
+                        if(DEBUG_ON)
+                            t.setText("Bluetooth Scan Started");
+
+                        Intent rfduinoIntent = new Intent(MainActivity.this, RFduinoService.class);
+                        bindService(rfduinoIntent, rfduinoServiceConnection, BIND_AUTO_CREATE);
+
+                        if(DEBUG_ON)
+                            t.setText("Attempting to connect to RFduino");
+                    }
+                });
 
             // Demonstration of navigating to external activities.
             rootView.findViewById(R.id.demo_external_activity)
@@ -378,8 +404,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public void onLeScan(BluetoothDevice device, int rssi, final byte[] scanRecord) {
-            btAdapter.stopLeScan(leScanCallBack);
+            btAdapter.stopLeScan(this);
             btDevice = device;
+
+            if(DEBUG_ON) {
+                final TextView t = (TextView) rootView.findViewById(R.id.test);
+                t.setText(BluetoothHelper.getDeviceInfoText(btDevice, rssi, scanRecord));
+            }
         }
 
 //        public void onStart() {
@@ -412,7 +443,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     /**
-     * A dummy fragment representing a section of the app, but that simply displays dummy text.
+     * Adapted from dummy fragment representing a section of the app, but that
+     * simply displays dummy text.
+     * Converted to: Data section -> collects data, stores it...
      */
     public static class DataSectionFragment extends Fragment {
 
@@ -430,7 +463,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     /**
-     * A dummy fragment representing a section of the app, but that simply displays dummy text.
+     * Adapted from dummy fragment representing a section of the app, but that
+     * simply displays dummy text.
+     * Converted to: Consistency section -> opens data file, scans segments, gives a score...
      */
     public static class ConsistencySectionFragment extends Fragment {
 
@@ -448,7 +483,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     /**
-     * A dummy fragment representing a section of the app, but that simply displays dummy text.
+     * Adapted from dummy fragment representing a section of the app, but that
+     * simply displays dummy text.
+     * Converted to: Scorekeeper section -> Keeps score...
      */
     public static class ScorekeeperSectionFragment extends Fragment {
 
