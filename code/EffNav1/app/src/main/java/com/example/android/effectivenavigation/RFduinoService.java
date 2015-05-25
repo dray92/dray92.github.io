@@ -79,6 +79,10 @@ public class RFduinoService extends Service {
     public final static UUID UUID_DISCONNECT = BluetoothHelper.sixteenBitUuid(0x2223);
     public final static UUID UUID_CLIENT_CONFIGURATION = BluetoothHelper.sixteenBitUuid(0x2902);
 
+    public RFduinoService() {
+        super();
+    }
+
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {

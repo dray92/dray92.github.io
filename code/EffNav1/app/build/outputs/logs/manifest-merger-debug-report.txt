@@ -31,6 +31,10 @@ uses-permission#android.permission.BLUETOOTH_ADMIN
 ADDED from AndroidManifest.xml:24:5
 	android:name
 		ADDED from AndroidManifest.xml:24:22
+uses-permission#android.permission.SET_DEBUG_APP
+ADDED from AndroidManifest.xml:25:5
+	android:name
+		ADDED from AndroidManifest.xml:25:22
 uses-feature#android.hardware.bluetooth_le
 ADDED from AndroidManifest.xml:26:5
 	android:required
@@ -38,37 +42,41 @@ ADDED from AndroidManifest.xml:26:5
 	android:name
 		ADDED from AndroidManifest.xml:26:19
 application
-ADDED from AndroidManifest.xml:28:5
+ADDED from AndroidManifest.xml:30:5
 MERGED from com.android.support:support-v4:22.1.1:22:5
 	android:label
-		ADDED from AndroidManifest.xml:28:18
+		ADDED from AndroidManifest.xml:31:9
 	android:allowBackup
-		ADDED from AndroidManifest.xml:29:9
-	android:icon
-		ADDED from AndroidManifest.xml:30:9
-	android:theme
 		ADDED from AndroidManifest.xml:32:9
+	android:icon
+		ADDED from AndroidManifest.xml:33:9
+	android:theme
+		ADDED from AndroidManifest.xml:34:9
+service#com.example.android.effectivenavigation.RFduinoService
+ADDED from AndroidManifest.xml:36:9
+	android:name
+		ADDED from AndroidManifest.xml:36:18
 activity#com.example.android.effectivenavigation.MainActivity
-ADDED from AndroidManifest.xml:34:9
+ADDED from AndroidManifest.xml:37:9
 	android:label
-		ADDED from AndroidManifest.xml:34:48
+		ADDED from AndroidManifest.xml:37:48
 	android:configChanges
-		ADDED from AndroidManifest.xml:35:13
+		ADDED from AndroidManifest.xml:38:13
 	android:name
-		ADDED from AndroidManifest.xml:34:19
+		ADDED from AndroidManifest.xml:37:19
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:37:13
+ADDED from AndroidManifest.xml:40:13
 action#android.intent.action.MAIN
-ADDED from AndroidManifest.xml:38:17
+ADDED from AndroidManifest.xml:41:17
 	android:name
-		ADDED from AndroidManifest.xml:38:25
+		ADDED from AndroidManifest.xml:41:25
 category#android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:39:17
+ADDED from AndroidManifest.xml:42:17
 	android:name
-		ADDED from AndroidManifest.xml:39:27
+		ADDED from AndroidManifest.xml:42:27
 activity#com.example.android.effectivenavigation.CollectionDemoActivity
-ADDED from AndroidManifest.xml:44:9
+ADDED from AndroidManifest.xml:46:9
 	android:label
-		ADDED from AndroidManifest.xml:44:58
+		ADDED from AndroidManifest.xml:46:58
 	android:name
-		ADDED from AndroidManifest.xml:44:19
+		ADDED from AndroidManifest.xml:46:19

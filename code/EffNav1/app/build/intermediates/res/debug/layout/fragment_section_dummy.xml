@@ -14,11 +14,25 @@
   limitations under the License.
   -->
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:textSize="24sp"
-    android:padding="32dp" />
-<!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/layout/fragment_section_dummy.xml -->
+    android:layout_height="match_parent">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@android:id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:padding="32dp" />
+
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:text=""
+    android:id="@+id/test"
+    android:layout_gravity="center_horizontal|bottom" />
+
+</FrameLayout><!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/layout/fragment_section_dummy.xml -->
