@@ -10,7 +10,11 @@
         <item name="android:background">@color/maroon</item>
     </style>
 
-    <style name="sans_serif" parent="@android:style/TextAppearance.Medium">
-        <item name="android:fontFamily">sans-serif</item>
+    <style name="ScoreKeeperTextPlus" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="ScoreKeeperTextMinus" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">@color/green</item>
     </style>
 </resources>

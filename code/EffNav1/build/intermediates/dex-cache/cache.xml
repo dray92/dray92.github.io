@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/libs/internal_impl-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
+        <dex dex="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-01e422fff37cd1b4d7bf1596d965066c3a394689.jar" />
+    </item>
+    <item
         jar="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -14,13 +21,6 @@
         revision="22.0.1"
         sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
         <dex dex="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-134e3a843d36115889bbf464c56c9cdb9c8067ee.jar" />
-    </item>
-    <item
-        jar="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/libs/internal_impl-22.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
-        <dex dex="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-01e422fff37cd1b4d7bf1596d965066c3a394689.jar" />
     </item>
 
 </items>

@@ -32,6 +32,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -40,11 +41,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
@@ -162,10 +168,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     private boolean scanning;
     private boolean scanStarted;
+    private boolean streamStarted;
+
+    TextView plus;
+    TextView minus;
 
     private final BroadcastReceiver rfduinoStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+        plus = (TextView) findViewById(R.id.plus);
+        minus = (TextView) findViewById(R.id.minus);
+        streamStarted = false;
         final String action = intent.getAction();
 
         //upgradeState(STATE_CONNECTED); updateState();
@@ -181,7 +194,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             // This the data read from an RfduinoBLE.send
             byte[] data = intent.getByteArrayExtra(RFduinoService.EXTRA_DATA);
-
             if (data.length > 0) {
                 String dataStr = null;
 
@@ -192,6 +204,25 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     dataStr = new String(data, "US-ASCII");
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
+                }
+                if(dataStr.startsWith("S")) {
+                    streamStarted = true;
+                    writeToFile("temp.txt", "SSSSSSSSSSSS\n");
+                }
+                if(dataStr.startsWith("R")) {
+                    streamStarted = false;
+                    writeToFile("temp.txt", "RRRRRRRRRRRR\n");
+                }
+                if(!(plus == null && minus == null)) {
+                    if (dataStr.startsWith("P") && !streamStarted) {
+                        plus.setText("" + (Integer.parseInt((String) plus.getText()) + 1));
+                    } else if (dataStr.startsWith("N")) {
+                        minus.setText("" + (Integer.parseInt((String) minus.getText()) + 1));
+
+                    }
+                }
+                if(streamStarted) {
+                    writeToFile("temp.txt", dataToHex + "\n");
                 }
                 Log.d("Receiving data as hex:", dataToHex);
                 Log.d("Receiving data as str:", dataStr);
@@ -205,6 +236,48 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             connectButton.setText("Disconnect from Senseiii");
         }
     };
+
+    private void writeToFile(String filename, String lineToAdd) {
+        try {
+
+            String directoryName = "temp_sensei";
+            File root = new File(Environment.getExternalStorageDirectory(), directoryName);
+
+            boolean directoryPresent = false;
+
+            // if the root doesn't exist, create a new directory called _directoryName_
+            if (!root.exists())
+                directoryPresent = root.mkdirs();
+
+            directoryPresent |= root.exists();
+
+            // a new directory was successfully created, or it already existed;
+            if(directoryPresent) {
+                File file = new File(root, filename);
+                FileWriter writer;
+
+                // if file exists, append to the file
+                if (file.exists())
+                    writer = new FileWriter(file, true);
+
+                    // if file doesn't exist, create a new file
+                else
+                    writer = new FileWriter(file);
+
+                writer.append(lineToAdd);
+                writer.flush();
+                writer.close();
+            } else {
+                // directory was not present and could not be created
+                Toast.makeText(this, "Directory " + directoryName + " not present",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
@@ -274,7 +347,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return mess[position];
         }
     }
-    View rootView;
+    static View rootView;
     /**
      * A fragment that launches other parts of the demo application.
      */
@@ -549,18 +622,83 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * simply displays dummy text.
      * Converted to: Scorekeeper section -> Keeps score...
      */
-    public static class ScorekeeperSectionFragment extends Fragment {
+    public static class ScorekeeperSectionFragment extends Fragment  {
 
         public static final String ARG_SECTION_NUMBER = "section_number";
+
+        boolean valueUpdated = false;
+
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_scorekeeper, container, false);
             Bundle args = getArguments();
-            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-                    getString(R.string.scorekeeper_section_text, args.getInt(ARG_SECTION_NUMBER)));
+
+            // prints "This is the Scorekeeper Section"
+//            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
+//                    getString(R.string.scorekeeper_section_text, args.getInt(ARG_SECTION_NUMBER)));
+
+            final TextView plus = (TextView)rootView.findViewById(R.id.plus);
+            final TextView minus = (TextView)rootView.findViewById(R.id.minus);
+
+            final int[] oldVal = {Integer.parseInt((String) plus.getText())};
+            plus.setOnClickListener(new View.OnClickListener() {
+
+                @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+                @Override
+                public void onClick(View v) {
+                    int plusVal = Integer.parseInt((String) plus.getText());
+                    plus.setText("" + (plusVal + 1));
+                }
+
+            });
+            minus.setOnClickListener(new View.OnClickListener() {
+
+                @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+                @Override
+                public void onClick(View v) {
+                    int minusVal = Integer.parseInt((String) minus.getText());
+                    minus.setText("" + (minusVal + 1));
+                }
+
+            });
+
+            plus.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+//                    if(!valueUpdated)
+                    plus.setText("" + (Integer.parseInt((String) plus.getText()) - 1));
+
+                    if (oldVal[0] != Integer.parseInt((String) plus.getText())) {
+                        oldVal[0] = Integer.parseInt((String) plus.getText());
+                        valueUpdated = !valueUpdated;
+                    }
+                    return true;
+                }
+
+            });
+            minus.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+//                    if(!valueUpdated)
+                    minus.setText("" + (Integer.parseInt((String) minus.getText()) - 1));
+
+                    if(oldVal[0] != Integer.parseInt((String) minus.getText())) {
+                        oldVal[0] = Integer.parseInt((String) minus.getText());
+                        valueUpdated = !valueUpdated;
+                    }
+                    return true;
+                }
+
+            });
+
+
             return rootView;
+
         }
+
+
+
     }
 }
