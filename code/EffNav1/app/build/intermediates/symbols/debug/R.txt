@@ -7,8 +7,11 @@ int id test 0x7f050002
 int layout activity_collection_demo 0x7f030000
 int layout activity_main 0x7f030001
 int layout fragment_collection_object 0x7f030002
-int layout fragment_section_dummy 0x7f030003
-int layout fragment_section_launchpad 0x7f030004
+int layout fragment_section_consistency 0x7f030003
+int layout fragment_section_data 0x7f030004
+int layout fragment_section_dummy 0x7f030005
+int layout fragment_section_launchpad 0x7f030006
+int layout fragment_section_scorekeeper 0x7f030007
 int string app_name 0x7f040000
 int string consistency_section_text 0x7f040001
 int string data_section_text 0x7f040002
