@@ -39,9 +39,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NotificationCompatSideChannelService;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -161,11 +163,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
-
-
     private RFduinoService rfduinoService;
-
-
 
     private int STATE_BLUETOOTH_OFF = 1;
     private int STATE_DISCONNECTED = 2;
@@ -180,35 +178,38 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private final BroadcastReceiver rfduinoStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
+        final String action = intent.getAction();
 
-            //upgradeState(STATE_CONNECTED); updateState();
-            if (RFduinoService.ACTION_CONNECTED.equals(action)) {
-                oldState = (STATE_CONNECTED > oldState) ? STATE_CONNECTED : oldState;
+        //upgradeState(STATE_CONNECTED); updateState();
+        if (RFduinoService.ACTION_CONNECTED.equals(action)) {
+            oldState = (STATE_CONNECTED > oldState) ? STATE_CONNECTED : oldState;
 
-                //downgradeState(STATE_DISCONNECTED); updateState();
-            } else if (RFduinoService.ACTION_DISCONNECTED.equals(action)) {
-                oldState = (STATE_DISCONNECTED < oldState) ? STATE_DISCONNECTED : oldState;
+            //downgradeState(STATE_DISCONNECTED); updateState();
+        } else if (RFduinoService.ACTION_DISCONNECTED.equals(action)) {
+            oldState = (STATE_DISCONNECTED < oldState) ? STATE_DISCONNECTED : oldState;
 
-                // when there is something to be read from RFduino:
-            } else if (RFduinoService.ACTION_DATA_AVAILABLE.equals(action)) {
+            // when there is something to be read from RFduino:
+        } else if (RFduinoService.ACTION_DATA_AVAILABLE.equals(action)) {
 
-                // This the data read from an RfduinoBLE.send
-                byte[] data = intent.getByteArrayExtra(RFduinoService.EXTRA_DATA);
+            // This the data read from an RfduinoBLE.send
+            byte[] data = intent.getByteArrayExtra(RFduinoService.EXTRA_DATA);
 
-                if (data.length > 0) {
-                    String dataStr = null;
+            if (data.length > 0) {
+                String dataStr = null;
 
-                    // convert data to hexAscii String format
-                    String dataToHex = HexAsciiHelper.bytesToHex(data);
-                    try {
-                        // convert data to String
-                        dataStr = new String(data, "US-ASCII");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                // convert data to hexAscii String format
+                String dataToHex = HexAsciiHelper.bytesToHex(data);
+                try {
+                    // convert data to String
+                    dataStr = new String(data, "US-ASCII");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
+                Log.d("Receiving data as hex:", dataToHex);
+                Log.d("Receiving data as str:", dataStr);
+                Log.d("State of bluetooth:", Integer.toString(oldState));
             }
+        }
         }
     };
 
@@ -294,22 +295,29 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             // FOR DEBUGGING
             final TextView t = (TextView) rootView.findViewById(R.id.test);
-
+            final Button b = (Button) rootView.findViewById(R.id.demo_collection_button);
             if(DEBUG_ON) {
                 t.setText("Tester Section");
                 int val = BluetoothProfile.STATE_CONNECTED;
-                if(BluetoothProfile.STATE_CONNECTED == STATE_CONNECTED) {
-                    t.setText("Bluetooth Connecetd");
+                if(BluetoothProfile.STATE_CONNECTED == STATE_CONNECTED || oldState == STATE_CONNECTED) {
+                    t.setText("Bluetooth Connected");
+                    b.setText("Disconnect from Senseiii");
+                } else {
+                    b.setText("Look for Senseiii");
                 }
             }
 
-            // Demonstration of a collection-browsing activity.
-            rootView.findViewById(R.id.demo_collection_button)
-                .setOnClickListener(new View.OnClickListener() {
-                    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-                    @Override
-                    public void onClick(View view) {
 
+            // Demonstration of a collection-browsing activity.
+            b.setOnClickListener(new View.OnClickListener() {
+                @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+                @Override
+                public void onClick(View view) {
+
+                    String demo_collection_button_string = (String) b.getText();
+                    boolean rfduinoBindServiceReturn;
+                    // looking for senseiii to connect to
+                    if(demo_collection_button_string.startsWith("Look")) {
                         // enable bluetooth adapter
                         btAdapter.enable();
 
@@ -330,12 +338,35 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             t.setText("Bluetooth Scan Started");
 
                         Intent rfduinoIntent = new Intent(MainActivity.this, RFduinoService.class);
-                        bindService(rfduinoIntent, rfduinoServiceConnection, BIND_AUTO_CREATE);
+                        rfduinoBindServiceReturn = bindService(rfduinoIntent,
+                                rfduinoServiceConnection, BIND_AUTO_CREATE);
 
                         if (DEBUG_ON)
                             t.setText("Attempting to connect to RFduino");
                     }
-                });
+                    //
+                    else if(demo_collection_button_string.startsWith("Disconnect")) {
+                        unbindService(rfduinoServiceConnection);
+
+                        if (DEBUG_ON)
+                            t.setText("Disconnected from RFduino");
+
+                        try {
+                            b.setText("Disconnecting...");
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        b.setText("Look for Senseiii");
+
+                        // disable bluetooth adapter
+                        btAdapter.disable();
+
+
+                    }
+
+                }
+            });
 
             // Demonstration of navigating to external activities.
             rootView.findViewById(R.id.demo_external_activity)
@@ -367,6 +398,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 btAdapter.stopLeScan(this);
                 btDevice = device;
 
+                final Button b = (Button) rootView.findViewById(R.id.demo_collection_button);
+
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -376,6 +409,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             int val = BluetoothProfile.STATE_CONNECTED;
                             t.setText("Connected to: \"" +
                                     BluetoothHelper.getDeviceName(btDevice, rssi, scanRecord) + "\"");
+                            b.setText("Disconnect from Senseiii");
                         }
                     }
                 });
