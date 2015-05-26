@@ -47,6 +47,8 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.UUID;
 
@@ -63,6 +65,8 @@ public class RFduinoService extends Service {
     private String mBluetoothDeviceAddress;
     private BluetoothGatt mBluetoothGatt;
     private BluetoothGattService mBluetoothGattService;
+
+    private int currentState;
 
     public final static String ACTION_CONNECTED =
             "com.rfduino.ACTION_CONNECTED";
@@ -88,6 +92,7 @@ public class RFduinoService extends Service {
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            currentState = newState;
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 Log.i(TAG, "Connected to RFduino.");
                 Log.i(TAG, "Attempting to start service discovery:" +
@@ -169,9 +174,7 @@ public class RFduinoService extends Service {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        return mBinder;
-    }
+    public IBinder onBind(Intent intent) { return mBinder; }
 
     @Override
     public boolean onUnbind(Intent intent) {

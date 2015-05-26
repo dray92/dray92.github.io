@@ -22,6 +22,7 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
@@ -74,14 +75,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     BluetoothAdapter btAdapter; // as the name suggests :)
     BluetoothDevice btDevice;   // as the name suggests :)
 
-    private String devInfo;     // stores device info that is received
-                                // from the scan thing
-
     private final static int REQUEST_ENABLE_BT = 1;
 
     private final static boolean DEBUG_ON = true;
 
-    private static int oldState;
+    private static int oldState;        // stores BluetoothProfile
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,8 +123,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setText(mAppSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-
-        devInfo = "";
 
         btManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
         btAdapter = btManager.getAdapter();
@@ -173,8 +169,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private boolean scanning;
     private boolean scanStarted;
 
-
-
     private final BroadcastReceiver rfduinoStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -210,6 +204,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 Log.d("State of bluetooth:", Integer.toString(oldState));
             }
         }
+        Button connectButton = (Button)rootView.findViewById(R.id.demo_collection_button);
+        if(oldState == BluetoothProfile.STATE_DISCONNECTED)
+            connectButton.setText("Look for Senseiii");
+        else
+            connectButton.setText("Disconnect from Senseiii");
         }
     };
 
@@ -300,7 +299,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 t.setText("Tester Section");
                 int val = BluetoothProfile.STATE_CONNECTED;
                 if(BluetoothProfile.STATE_CONNECTED == STATE_CONNECTED || oldState == STATE_CONNECTED) {
-                    t.setText("Bluetooth Connected");
+                    if(DEBUG_ON)
+                        t.setText("Bluetooth Connected");
                     b.setText("Disconnect from Senseiii");
                 } else {
                     b.setText("Look for Senseiii");
@@ -316,8 +316,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
                     String demo_collection_button_string = (String) b.getText();
                     boolean rfduinoBindServiceReturn;
+
                     // looking for senseiii to connect to
-                    if(demo_collection_button_string.startsWith("Look")) {
+                    if(demo_collection_button_string.startsWith("Look") ) {
                         // enable bluetooth adapter
                         btAdapter.enable();
 
@@ -343,6 +344,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
                         if (DEBUG_ON)
                             t.setText("Attempting to connect to RFduino");
+                        if(BluetoothProfile.STATE_CONNECTED == STATE_CONNECTED || oldState == STATE_CONNECTED) {
+                            b.setText("Disconnect from Senseiii");
+                        }
+
                     }
                     //
                     else if(demo_collection_button_string.startsWith("Disconnect")) {
