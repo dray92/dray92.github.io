@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Week 7 Updates</title>
+		<title>week 8 Updates</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -39,7 +39,7 @@
 							<p>Guide to a Perfect Swing</p>
 						</header>
 						<footer>
-							<a href="#main" class="button circled scrolly">Week 7</a>
+							<a href="#main" class="button circled scrolly">week 8</a>
 						</footer>
 					</div>
 				
@@ -76,65 +76,50 @@
 				<div class="container">
 					<article id="main" class="special">
 						<header>
-							<h2><a href="#">Week 7</a></h2>
+							<h2><a href="#">week 8</a></h2>
 							<p>
 								Updates from the week of May 11th
 							</p>
 						</header>
-						<h3>Objective for Week 7</h3>
+						<h3>Objective for week 8</h3>
 						
-							<li>Make proto-boards</li>
-							<li>Finish consistency check (working on android)</li>
-							<li>Changes in battery plan</li>
+							<li>Connect batteries and charge circuit to the device</li>
+							<li>3d Printing</li>
+							<li>Porting old app to a fresh app</li>
 						</br>
 						<h3>Summary of what we did this week</h3>
-						<h4>Make a proto-board</h4>
-						<p>This week, we started to make proto-boards. </br> 
-							Our first attempt was to make it on the smallest proto-board we could get from local store. </br>
-							Since we have another set of circuit boards, we have decided to use this first proto-board as a testing board. The picture in below is the first protoboard we made.</p>
+						<h4>Connect batteries and charge circuit to the device</h4>
+						<p> We have connected our battery and battery charger circuit as shown in below.</br> 
 						</br>
-						<a><img src="images\week7_proto1.jpg" alt="" height="50%" width="50%"/></a>
-						<a><img src="images\week7_proto2.jpg" alt="" height="50%" width="50%"/></a>
+						<a><img src="images\week8_device1.jpg" alt="" height="50%" width="50%"/></a>
 						</br>
-						<p>We then observed that our components can be built in much smaller proto-board by looking at how much pins we are wasting on the first proto-board. </br>
-							We also figured out that our soldering and wiring could be done much better. </br>
-							So we decided to make another proto-board with much smaller one provided by our Professor. </br>
-							We also used much thinner wires for this time. </p>
+						<p> Then we combined everything and secured it with electrical tape </p>
 						</br>
-						<a><img src="images\week7_proto3.jpg" alt="" height="50%" width="50%"/></a>
-						<a><img src="images\week7_proto4.jpg" alt="" height="50%" width="50%"/></a>
+						<a><img src="images\week8_device2.jpg" alt="" height="50%" width="50%"/></a>
+						</br>
+
+						<h4>3d Printing</h4>
+						<p> After making the circuit, we started to design the 3d model as shown below. </p>
+						
+						
+						</br>
+						<a><img src="images\week8_solid1.jpg" alt="" height="50%" width="100%"/></a>
+						<a><img src="images\week8_solid2.jpg" alt="" height="50%" width="100%"/></a>
+						<a><img src="images\week8_solid3.jpg" alt="" height="50%" width="100%"/></a>
+						<a><img src="images\week8_solid4.jpg" alt="" height="50%" width="100%"/></a>
 						</br>	
-						<p> As you see the pictures, the new proto-board is only about two quarters big. </p>
 						
-						<h4>Finish consistency check (working on android)</h4>
-						<p> The video below shows the testing sequences we took for our consistency check. </br>
-							Before we tested this, we have tested multiple cases and made sure our "Dynamic Time Warping" works properly too. </br>
-							We also implemented function on android to give user the consistency score in percentile.</p>
-						<video width="35%" height="35%" controls>
-						  <source src="videos\week7_testing.mp4" type="video/mp4">
-						</video>
-						
-						<h4>Changes in Battery</h4>
-						<p> After deeper researches in battery, we decided to use Li-on battery with its charger circuit and switch. </br>
-							Following components are the ones we bought in last week and expected to arrive on Tuesday of week 5/18. </br>
-							We considered the dimension of battery and charger carefully for our housing plan. </br>
-							Deeper analysis is expected to be done after we receive the batteries on Tuesday. </br>
-						
-						</br>
-						<a><img src="images\week7_battery1.jpg" alt="" height="30%" width="30%"/></a>
-						<a><img src="images\week7_battery2.jpg" alt="" height="30%" width="30%"/></a>
-						</br>	
-						</p>
-						
+						<h4>Porting old app to a fresh app</h4>
+						<p> This week we worked on porting our old app to a fresh new app. We decided to start a new app to make major changes to the UI. Our old UI was a three level deep activity that must be navigated one level to the next with button presses. We have improved our UI to include tabs for different sections of our app. We have improved the app to navigate to different fragments of activity with a simple swipe. This was a cleaner and much more user friendly way to navigate through different screens. 
+
+</p><p>The biggest problem we ran into while porting to the newer app was to maintain bluetooth connection through each fragment activities (tabs) and also maintain bluetooth connection when the phone is asleep, multitasking other apps, and minimized. We have successfully solved these bluetooth issues and now in the process of porting the backend code, cleaning the code, and improving the style.  
+
+</p><p>For the backend portion of our app, we focused mainly on the consistency algorithm. We made some changes to make it more robust. We did this by using setters and getters in our dynamic time warp object and also improved the accuracy on this algorithm with some minor changes. 
+
+</p>
 						
 						<h3>Objectives for next week</h3>
-						<p>We are going to work on housing plan for our product. </br>
-						Before we design our 3d printing model, we first drew the whole proto-board with exact dimension in the unit of millimeters. </br>
-						We then designed the sub parts of housing such as the cylinder columns for pushing buttons and spaces for strap on the sides. </br>
-						
-						We will also make our UI better and keep implmenting simple function in software. </br>
-						We have all the working data in matlab and we are trying to convert things to be able to run in android</p>
-						<a><img src="images\week7_housing1.jpg" alt="" height="50%" width="50%"/></a>
+						<p> We will finalize our 3d printing and finish our mobile app and get ready for demo </p>
 						<footer>
 							<a href="#header" class="button circled scrolly">Back to Top</a>
 						</footer>
