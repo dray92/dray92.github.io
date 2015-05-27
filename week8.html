@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<!--
+	Helios by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Week 7 Updates</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/jquery.scrolly.min.js"></script>
+		<script src="js/jquery.onvisible.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-desktop.css" />
+			<link rel="stylesheet" href="css/style-noscript.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	</head>
+	<body class="homepage">
+
+		<!-- Header -->
+			<div id="header">
+						
+				<!-- Inner -->
+					<div class="inner">
+						<header>
+							<h1><a href="index.html" id="logo">Sensei</a></h1>
+							<hr />
+							<p>Guide to a Perfect Swing</p>
+						</header>
+						<footer>
+							<a href="#main" class="button circled scrolly">Week 7</a>
+						</footer>
+					</div>
+				
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li>
+								<a href="">About Sensei</a>
+								<ul>
+									<li>									<li>
+									<a href="">Swing Analyzer &hellip;</a>
+										<ul>
+											<li><a href="#">Golf</a></li>
+											<li><a href="#">Tennis</a></li>
+											<li><a href="#">Badminton</a></li>
+											<li><a href="#">Basketball</a></li>
+										</ul>
+									</li>
+									<li><a href="#">Score Keeper</a></li>
+								</ul>
+							</li>
+							<li><a href="product-proposal.html">Product Proposal</a></li>
+							<li><a href="updates.html">Updates</a></li>
+							<li><a href="contact.html">Contact</a></li>
+						</ul>
+					</nav>
+
+			</div>
+			
+		<!-- Main -->
+			<div class="wrapper style1">
+
+				<div class="container">
+					<article id="main" class="special">
+						<header>
+							<h2><a href="#">Week 7</a></h2>
+							<p>
+								Updates from the week of May 11th
+							</p>
+						</header>
+						<h3>Objective for Week 7</h3>
+						
+							<li>Make proto-boards</li>
+							<li>Finish consistency check (working on android)</li>
+							<li>Changes in battery plan</li>
+						</br>
+						<h3>Summary of what we did this week</h3>
+						<h4>Make a proto-board</h4>
+						<p>This week, we started to make proto-boards. </br> 
+							Our first attempt was to make it on the smallest proto-board we could get from local store. </br>
+							Since we have another set of circuit boards, we have decided to use this first proto-board as a testing board. The picture in below is the first protoboard we made.</p>
+						</br>
+						<a><img src="images\week7_proto1.jpg" alt="" height="50%" width="50%"/></a>
+						<a><img src="images\week7_proto2.jpg" alt="" height="50%" width="50%"/></a>
+						</br>
+						<p>We then observed that our components can be built in much smaller proto-board by looking at how much pins we are wasting on the first proto-board. </br>
+							We also figured out that our soldering and wiring could be done much better. </br>
+							So we decided to make another proto-board with much smaller one provided by our Professor. </br>
+							We also used much thinner wires for this time. </p>
+						</br>
+						<a><img src="images\week7_proto3.jpg" alt="" height="50%" width="50%"/></a>
+						<a><img src="images\week7_proto4.jpg" alt="" height="50%" width="50%"/></a>
+						</br>	
+						<p> As you see the pictures, the new proto-board is only about two quarters big. </p>
+						
+						<h4>Finish consistency check (working on android)</h4>
+						<p> The video below shows the testing sequences we took for our consistency check. </br>
+							Before we tested this, we have tested multiple cases and made sure our "Dynamic Time Warping" works properly too. </br>
+							We also implemented function on android to give user the consistency score in percentile.</p>
+						<video width="35%" height="35%" controls>
+						  <source src="videos\week7_testing.mp4" type="video/mp4">
+						</video>
+						
+						<h4>Changes in Battery</h4>
+						<p> After deeper researches in battery, we decided to use Li-on battery with its charger circuit and switch. </br>
+							Following components are the ones we bought in last week and expected to arrive on Tuesday of week 5/18. </br>
+							We considered the dimension of battery and charger carefully for our housing plan. </br>
+							Deeper analysis is expected to be done after we receive the batteries on Tuesday. </br>
+						
+						</br>
+						<a><img src="images\week7_battery1.jpg" alt="" height="30%" width="30%"/></a>
+						<a><img src="images\week7_battery2.jpg" alt="" height="30%" width="30%"/></a>
+						</br>	
+						</p>
+						
+						
+						<h3>Objectives for next week</h3>
+						<p>We are going to work on housing plan for our product. </br>
+						Before we design our 3d printing model, we first drew the whole proto-board with exact dimension in the unit of millimeters. </br>
+						We then designed the sub parts of housing such as the cylinder columns for pushing buttons and spaces for strap on the sides. </br>
+						
+						We will also make our UI better and keep implmenting simple function in software. </br>
+						We have all the working data in matlab and we are trying to convert things to be able to run in android</p>
+						<a><img src="images\week7_housing1.jpg" alt="" height="50%" width="50%"/></a>
+						<footer>
+							<a href="#header" class="button circled scrolly">Back to Top</a>
+						</footer>
+					
+					</article>
+					<hr />
+		
+				</div>
+
+			</div>
+
+		<!-- Footer -->
+			<div id="footer">
+				
+			</div>
+
+	</body>
+</html>
