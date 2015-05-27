@@ -647,8 +647,8 @@ typedef union accel_t_gyro_union
 
 // TODO: Make calibration routine
 
-Button button = Button(3, PULLDOWN);
-Button plus = Button(4, PULLDOWN);
+Button button = Button(4, PULLDOWN);
+Button plus = Button(3, PULLDOWN);
 Button minus = Button(2, PULLDOWN);
 boolean awake = false;
 accel_t_gyro_union accel_t_gyro;
@@ -751,7 +751,7 @@ void loop()
 
   }
 
-  if (true)
+  if (awake)
   {
     /* Update all the values */
     while (i2cRead(0x3B, i2cData, 14));
