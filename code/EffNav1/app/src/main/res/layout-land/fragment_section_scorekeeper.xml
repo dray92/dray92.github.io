@@ -14,7 +14,7 @@
 
     <TextView
         style="@style/CodeFont"
-        android:text="Tester Section"
+        android:text=""
         android:id="@+id/test" />
 
     <!--plus button-->
@@ -25,8 +25,8 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="60dp">
         <TextView
-            android:background="@drawable/textview_design_plus"
-            style="@style/ScoreKeeperTextPlus"
+            android:background="@drawable/redcircle"
+            style="@style/ScoreKeeperTextReset"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -35,7 +35,11 @@
             android:gravity="center"
             android:textSize="40dp"
             android:onClick="onClick"
-            android:clickable="true" />
+            android:clickable="true"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="20"
+            android:shadowColor="@color/black" />
     </LinearLayout>
 
     <!--minus button-->
@@ -46,8 +50,8 @@
         android:layout_gravity="center|right"
         android:layout_marginRight="60dp">
         <TextView
-            android:background="@drawable/textview_design_minus"
-            style="@style/ScoreKeeperTextMinus"
+            android:background="@drawable/greencircle"
+            style="@style/ScoreKeeperTextReset"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -57,7 +61,11 @@
             android:gravity="center"
             android:textSize="40dp"
             android:clickable="true"
-            android:onClick="onClick"/>
+            android:onClick="onClick"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="20"
+            android:shadowColor="@color/black" />
 
     </LinearLayout>
 
@@ -69,8 +77,8 @@
         android:layout_gravity="right"
         android:layout_marginTop="0dp">
         <TextView
-            android:background="@drawable/textview_design_reset"
-            style="@style/ScoreKeeperTextPlus"
+            android:background="@drawable/bluecircle"
+            style="@style/ScoreKeeperTextReset"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -79,7 +87,13 @@
             android:gravity="center"
             android:textSize="10dp"
             android:clickable="true"
-            android:onClick="onClick" />
+            android:onClick="onClick"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="20"
+            android:shadowColor="@color/black"
+            android:layout_marginTop="5dip"
+            android:layout_marginRight="5dip" />
     </LinearLayout>
 
 

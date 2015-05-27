@@ -32,19 +32,26 @@ public final class R {
         public static final int white=0x7f040012;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int textview_design_minus=0x7f020001;
-        public static final int textview_design_plus=0x7f020002;
-        public static final int textview_design_reset=0x7f020003;
+        public static final int bluecircle=0x7f020000;
+        public static final int greencircle=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int orangecircle=0x7f020003;
+        public static final int purplecircle=0x7f020004;
+        public static final int redcircle=0x7f020005;
+        public static final int textview_design_minus=0x7f020006;
+        public static final int textview_design_plus=0x7f020007;
+        public static final int textview_design_reset=0x7f020008;
+        public static final int yellowcircle=0x7f020009;
     }
     public static final class id {
-        public static final int demo_collection_button=0x7f070003;
-        public static final int demo_external_activity=0x7f070004;
-        public static final int minus=0x7f070005;
+        public static final int demo_collection_button=0x7f070004;
+        public static final int demo_external_activity=0x7f070005;
+        public static final int launchpadFrame=0x7f070003;
+        public static final int minus=0x7f070006;
         public static final int pager=0x7f070000;
         public static final int pager_title_strip=0x7f070001;
-        public static final int plus=0x7f070006;
-        public static final int reset=0x7f070007;
+        public static final int plus=0x7f070007;
+        public static final int reset=0x7f070008;
         public static final int test=0x7f070002;
     }
     public static final class layout {

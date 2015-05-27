@@ -30,10 +30,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -45,6 +48,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +86,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private final static boolean DEBUG_ON = true;
 
     private static int oldState;        // stores BluetoothProfile
+
+    Vibrator v;
+
+    ToneGenerator toneG;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,14 +144,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
 
-        // registering receivers
-//        registerReceiver(scanModeReceiver, new IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED));
-//        registerReceiver(btStateReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
-//        registerReceiver(btStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
-//        registerReceiver(rfduinoStateReceiver, RFduinoService.getIntentFilter());
 
         //updateState(btAdapter.isEnabled() ? STATE_DISCONNECTED : STATE_BLUETOOTH_OFF);
         oldState = btAdapter.isEnabled() ? STATE_DISCONNECTED : STATE_BLUETOOTH_OFF;
+
+        toneG = new ToneGenerator(AudioManager.STREAM_ALARM, ToneGenerator.MAX_VOLUME);   // max volume
+
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
     }
 
@@ -170,7 +177,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     private boolean scanning;
     private boolean scanStarted;
-    private boolean streamStarted;
+    private boolean streamStarted = false;
+    private boolean firstLineToBeIgnored = false;
 
     TextView plus;
     TextView minus;
@@ -180,7 +188,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public void onReceive(Context context, Intent intent) {
         plus = (TextView) findViewById(R.id.plus);
         minus = (TextView) findViewById(R.id.minus);
-        streamStarted = false;
+
         final String action = intent.getAction();
 
         //upgradeState(STATE_CONNECTED); updateState();
@@ -207,25 +215,38 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                if(dataStr.startsWith("S")) {
+
+                if(dataStr.equals("S00000000000")) {
+                    v.vibrate(1000);    // vibrate for one second
+                    toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 1000); // 3 beeps
+//                    toneG.startTone(ToneGenerator.TONE_CDMA_HIGH_PBX_S_X4, 1000);   // 2 trings
+//                    toneG.startTone(ToneGenerator.TONE_PROP_ACK, 1000);              // 2 ACK beeps
                     streamStarted = true;
-                    writeToFile("temp.txt", "SSSSSSSSSSSS\n");
+                    writeToFile("temp.txt", "S\n");
+                    firstLineToBeIgnored = true;
                 }
-                if(dataStr.startsWith("R")) {
+                if(dataStr.equals("R00000000000")) {
                     streamStarted = false;
-                    writeToFile("temp.txt", "RRRRRRRRRRRR\n");
+                    writeToFile("temp.txt", "R\n");
                 }
                 if(!(plus == null && minus == null)) {
                     if (dataStr.startsWith("P") && !streamStarted) {
                         plus.setText("" + (Integer.parseInt((String) plus.getText()) + 1));
                     } else if (dataStr.startsWith("N")) {
                         minus.setText("" + (Integer.parseInt((String) minus.getText()) + 1));
-
                     }
                 }
+
                 if(streamStarted) {
-                    writeToFile("temp.txt", dataToHex + "\n");
+                    if(!firstLineToBeIgnored)
+                        writeToFile("temp.txt", dataToHex + "\n");
+                    firstLineToBeIgnored = false;
+                    if (dataStr.equals("P00000000000") || dataStr.equals("N00000000000")) {
+                        writeToFile("temp.txt", dataStr.charAt(0) + "\n");
+                    }
+
                 }
+
                 Log.d("Receiving data as hex:", dataToHex);
                 Log.d("Receiving data as str:", dataStr);
                 Log.d("State of bluetooth:", Integer.toString(oldState));
@@ -242,7 +263,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private void writeToFile(String filename, String lineToAdd) {
         try {
 
-            String directoryName = "temp_sensei";
+            String directoryName = "sensei";
             File root = new File(Environment.getExternalStorageDirectory(), directoryName);
 
             boolean directoryPresent = false;
@@ -364,6 +385,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             // FOR DEBUGGING
             final TextView t = (TextView) rootView.findViewById(R.id.test);
             final Button b = (Button) rootView.findViewById(R.id.demo_collection_button);
+            if(!DEBUG_ON) {
+                t.setText("");
+            }
+
             if(DEBUG_ON) {
                 t.setText("Tester Section");
                 int val = BluetoothProfile.STATE_CONNECTED;
@@ -382,7 +407,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void onClick(View view) {
-
                     String demo_collection_button_string = (String) b.getText();
                     boolean rfduinoBindServiceReturn;
 
@@ -460,6 +484,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             registerReceiver(scanModeReceiver, new IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED));
             registerReceiver(btStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
             registerReceiver(rfduinoStateReceiver, RFduinoService.getIntentFilter());
+
+
+
 
             return rootView;
         }
@@ -663,8 +690,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void onClick(View v) {
-                    int plusVal = Integer.parseInt((String) plus.getText());
-                    plus.setText("" + (plusVal + incrementDecrementAmount));
+                int plusVal = Integer.parseInt((String) plus.getText());
+                plus.setText("" + (plusVal + incrementDecrementAmount));
                 }
 
             });
@@ -673,8 +700,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void onClick(View v) {
-                    int minusVal = Integer.parseInt((String) minus.getText());
-                    minus.setText("" + (minusVal + incrementDecrementAmount));
+                int minusVal = Integer.parseInt((String) minus.getText());
+                minus.setText("" + (minusVal + incrementDecrementAmount));
                 }
 
             });
@@ -684,30 +711,30 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             plus.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-//                    if(!valueUpdated)
-                    plus.setText("" + (Integer.parseInt((String) plus.getText())
-                            - incrementDecrementAmount));
+//              if(!valueUpdated)
+                plus.setText("" + (Integer.parseInt((String) plus.getText())
+                        - incrementDecrementAmount));
 
-                    if (oldVal[0] != Integer.parseInt((String) plus.getText())) {
-                        oldVal[0] = Integer.parseInt((String) plus.getText());
-                        valueUpdated = !valueUpdated;
-                    }
-                    return true;
+                if (oldVal[0] != Integer.parseInt((String) plus.getText())) {
+                    oldVal[0] = Integer.parseInt((String) plus.getText());
+                    valueUpdated = !valueUpdated;
+                }
+                return true;
                 }
 
             });
             minus.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-//                    if(!valueUpdated)
-                    minus.setText("" + (Integer.parseInt((String) minus.getText())
-                            - incrementDecrementAmount));
+//              if(!valueUpdated)
+                minus.setText("" + (Integer.parseInt((String) minus.getText())
+                        - incrementDecrementAmount));
 
-                    if(oldVal[0] != Integer.parseInt((String) minus.getText())) {
-                        oldVal[0] = Integer.parseInt((String) minus.getText());
-                        valueUpdated = !valueUpdated;
-                    }
-                    return true;
+                if(oldVal[0] != Integer.parseInt((String) minus.getText())) {
+                    oldVal[0] = Integer.parseInt((String) minus.getText());
+                    valueUpdated = !valueUpdated;
+                }
+                return true;
                 }
 
             });
