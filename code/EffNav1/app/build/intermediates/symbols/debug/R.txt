@@ -16,15 +16,18 @@ int color orange 0x7f04000e
 int color purple 0x7f04000f
 int color red 0x7f040010
 int color translucent_red 0x7f040011
+int color white 0x7f040012
 int drawable ic_launcher 0x7f020000
 int drawable textview_design_minus 0x7f020001
 int drawable textview_design_plus 0x7f020002
+int drawable textview_design_reset 0x7f020003
 int id demo_collection_button 0x7f070003
 int id demo_external_activity 0x7f070004
 int id minus 0x7f070005
 int id pager 0x7f070000
 int id pager_title_strip 0x7f070001
 int id plus 0x7f070006
+int id reset 0x7f070007
 int id test 0x7f070002
 int layout activity_collection_demo 0x7f030000
 int layout activity_main 0x7f030001
@@ -48,3 +51,4 @@ int string tab4 0x7f05000a
 int style CodeFont 0x7f060000
 int style ScoreKeeperTextMinus 0x7f060001
 int style ScoreKeeperTextPlus 0x7f060002
+int style ScoreKeeperTextReset 0x7f060003

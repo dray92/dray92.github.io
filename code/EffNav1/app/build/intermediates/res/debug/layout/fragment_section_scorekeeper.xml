@@ -13,38 +13,18 @@
 
 
     <TextView
+
         style="@style/CodeFont"
         android:text="Tester Section"
         android:id="@+id/test" />
-
-    <!--plus button-->
-    <LinearLayout
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:baselineAligned="false"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="60dp">
-        <TextView
-            android:background="@drawable/textview_design_plus"
-            style="@style/ScoreKeeperTextPlus"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="0"
-            android:id="@+id/plus"
-            android:gravity="center"
-            android:textSize="40dp"
-            android:onClick="onClick"
-            android:clickable="true" />
-    </LinearLayout>
 
     <!--minus button-->
     <LinearLayout
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:baselineAligned="false"
-        android:layout_gravity="center|right"
-        android:layout_marginRight="60dp">
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="30dp">
         <TextView
             android:background="@drawable/textview_design_minus"
             style="@style/ScoreKeeperTextMinus"
@@ -57,8 +37,28 @@
             android:gravity="center"
             android:textSize="40dp"
             android:clickable="true"
-            android:onClick="onClick"/>
+            android:onClick="onClick" />
+    </LinearLayout>
 
+    <!--plus button-->
+    <LinearLayout
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:baselineAligned="false"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp">
+        <TextView
+            android:background="@drawable/textview_design_plus"
+            style="@style/ScoreKeeperTextPlus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0"
+            android:id="@+id/plus"
+            android:gravity="center"
+            android:textSize="50dp"
+            android:clickable="true"
+            android:onClick="onClick" />
     </LinearLayout>
 
     <!--reset button-->
@@ -83,4 +83,4 @@
     </LinearLayout>
 
 
-</FrameLayout><!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/layout-land/fragment_section_scorekeeper.xml -->
+</FrameLayout><!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/layout/fragment_section_scorekeeper.xml -->

@@ -17,7 +17,7 @@
         android:text="Tester Section"
         android:id="@+id/test" />
 
-
+    <!--plus button-->
     <LinearLayout
         android:layout_width="170dp"
         android:layout_height="170dp"
@@ -38,6 +38,7 @@
             android:clickable="true" />
     </LinearLayout>
 
+    <!--minus button-->
     <LinearLayout
         android:layout_width="170dp"
         android:layout_height="170dp"
@@ -58,6 +59,27 @@
             android:clickable="true"
             android:onClick="onClick"/>
 
+    </LinearLayout>
+
+    <!--reset button-->
+    <LinearLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:baselineAligned="false"
+        android:layout_gravity="right"
+        android:layout_marginTop="0dp">
+        <TextView
+            android:background="@drawable/textview_design_reset"
+            style="@style/ScoreKeeperTextPlus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Reset"
+            android:id="@+id/reset"
+            android:gravity="center"
+            android:textSize="10dp"
+            android:clickable="true"
+            android:onClick="onClick" />
     </LinearLayout>
 
 

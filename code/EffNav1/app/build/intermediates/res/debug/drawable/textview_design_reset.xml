@@ -1,0 +1,15 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <solid android:color="#0000FF" />
+
+    <stroke
+        android:width="1dp"
+        android:color="#FFFFBB33" />
+
+    <corners
+        android:bottomLeftRadius="170dp"
+        android:bottomRightRadius="170dp"
+        android:topLeftRadius="170dp"
+        android:topRightRadius="170dp" />
+
+</shape><!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/drawable/textview_design_reset.xml -->

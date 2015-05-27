@@ -48,6 +48,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -641,34 +643,50 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             final TextView plus = (TextView)rootView.findViewById(R.id.plus);
             final TextView minus = (TextView)rootView.findViewById(R.id.minus);
+            final TextView reset = (TextView)rootView.findViewById(R.id.reset);
 
             final int[] oldVal = {Integer.parseInt((String) plus.getText())};
+
+            final int incrementDecrementAmount = 1;
+
+            reset.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    minus.setText("0");
+                    plus.setText("0");
+                }
+            });
+
+            /* onclick on plus and minus buttons increments value */
             plus.setOnClickListener(new View.OnClickListener() {
 
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void onClick(View v) {
                     int plusVal = Integer.parseInt((String) plus.getText());
-                    plus.setText("" + (plusVal + 1));
+                    plus.setText("" + (plusVal + incrementDecrementAmount));
                 }
 
             });
-            minus.setOnClickListener(new View.OnClickListener() {
 
+            minus.setOnClickListener(new View.OnClickListener() {
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void onClick(View v) {
                     int minusVal = Integer.parseInt((String) minus.getText());
-                    minus.setText("" + (minusVal + 1));
+                    minus.setText("" + (minusVal + incrementDecrementAmount));
                 }
 
             });
 
+
+            /* longclick on plus and minus buttons decrement value */
             plus.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
 //                    if(!valueUpdated)
-                    plus.setText("" + (Integer.parseInt((String) plus.getText()) - 1));
+                    plus.setText("" + (Integer.parseInt((String) plus.getText())
+                            - incrementDecrementAmount));
 
                     if (oldVal[0] != Integer.parseInt((String) plus.getText())) {
                         oldVal[0] = Integer.parseInt((String) plus.getText());
@@ -682,7 +700,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 @Override
                 public boolean onLongClick(View v) {
 //                    if(!valueUpdated)
-                    minus.setText("" + (Integer.parseInt((String) minus.getText()) - 1));
+                    minus.setText("" + (Integer.parseInt((String) minus.getText())
+                            - incrementDecrementAmount));
 
                     if(oldVal[0] != Integer.parseInt((String) minus.getText())) {
                         oldVal[0] = Integer.parseInt((String) minus.getText());

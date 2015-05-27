@@ -17,4 +17,8 @@
     <style name="ScoreKeeperTextMinus" parent="@android:style/TextAppearance.Large">
         <item name="android:textColor">@color/green</item>
     </style>
+
+    <style name="ScoreKeeperTextReset" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>
