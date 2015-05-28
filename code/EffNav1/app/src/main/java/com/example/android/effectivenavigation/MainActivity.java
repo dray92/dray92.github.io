@@ -87,9 +87,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     private static int oldState;        // stores BluetoothProfile
 
-    Vibrator v;
+    private Vibrator v;
 
-    ToneGenerator toneG;
+    private ToneGenerator toneG;
+
+    public static final String tempFilepath = "sensei";
+    public static final String tempFilename = "temp.txt";
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +155,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         toneG = new ToneGenerator(AudioManager.STREAM_ALARM, ToneGenerator.MAX_VOLUME);   // max volume
 
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        // if filepath exists, delete children
+        File dir = new File(Environment.getExternalStorageDirectory(),tempFilepath);
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                new File(dir, children[i]).delete();
+            }
+        }
+
 
     }
 
@@ -217,17 +231,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 }
 
                 if(dataStr.equals("S00000000000")) {
-                    v.vibrate(1000);    // vibrate for one second
-                    toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 1000); // 3 beeps
-//                    toneG.startTone(ToneGenerator.TONE_CDMA_HIGH_PBX_S_X4, 1000);   // 2 trings
-//                    toneG.startTone(ToneGenerator.TONE_PROP_ACK, 1000);              // 2 ACK beeps
                     streamStarted = true;
-                    writeToFile("temp.txt", "S\n");
+                    writeToFile(tempFilename, "S\n");
                     firstLineToBeIgnored = true;
                 }
                 if(dataStr.equals("R00000000000")) {
                     streamStarted = false;
-                    writeToFile("temp.txt", "R\n");
+                    writeToFile(tempFilename, "R\n");
+                    toneG.startTone(ToneGenerator.TONE_PROP_ACK, 500);
                 }
                 if(!(plus == null && minus == null)) {
                     if (dataStr.startsWith("P") && !streamStarted) {
@@ -239,12 +250,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
                 if(streamStarted) {
                     if(!firstLineToBeIgnored)
-                        writeToFile("temp.txt", dataToHex + "\n");
+                        writeToFile(tempFilename, dataToHex + "\n");
+                    else {
+                        v.vibrate(1000);    // vibrate for one second
+                        toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 1000); // 3 beeps
+//                    toneG.startTone(ToneGenerator.TONE_CDMA_HIGH_PBX_S_X4, 1000);   // 2 trings
+//                    toneG.startTone(ToneGenerator.TONE_PROP_ACK, 1000);              // 2 ACK beeps
+
+                    }
                     firstLineToBeIgnored = false;
                     if (dataStr.equals("P00000000000") || dataStr.equals("N00000000000")) {
-                        writeToFile("temp.txt", dataStr.charAt(0) + "\n");
+                        writeToFile(tempFilename, dataStr.charAt(0) + "\n");
                     }
-
                 }
 
                 Log.d("Receiving data as hex:", dataToHex);
@@ -263,8 +280,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private void writeToFile(String filename, String lineToAdd) {
         try {
 
-            String directoryName = "sensei";
-            File root = new File(Environment.getExternalStorageDirectory(), directoryName);
+            File root = new File(Environment.getExternalStorageDirectory(), tempFilepath);
 
             boolean directoryPresent = false;
 
@@ -292,7 +308,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 writer.close();
             } else {
                 // directory was not present and could not be created
-                Toast.makeText(this, "Directory " + directoryName + " not present",
+                Toast.makeText(this, "Directory " + tempFilepath + " not present",
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -634,15 +650,75 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public static class ConsistencySectionFragment extends Fragment {
 
         public static final String ARG_SECTION_NUMBER = "section_number";
+        private View myRootView;
+        private TextView t;
+        private final int CONSISTENCY_THRESHOLD = 10000000;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_consistency, container, false);
             Bundle args = getArguments();
-            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-                    getString(R.string.consistency_section_text, args.getInt(ARG_SECTION_NUMBER)));
+            myRootView = rootView;
+            t = (TextView) rootView.findViewById(R.id.test);
             return rootView;
+        }
+
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            try {
+                int consistency = getScore();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public int getScore() throws IOException {
+            // open file
+            TempFileHandler fileHandler = new TempFileHandler(tempFilepath, tempFilename);
+
+            runDTW(fileHandler);
+
+
+          return 0;
+        }
+
+        private void runDTW(TempFileHandler fileHandler) {
+            Motion[] mySwings = fileHandler.getMotions();
+
+            t.setText("Number of motions: " + mySwings.length);
+
+            int consistencyScore = 0;
+
+            for (int i = 0; i < mySwings.length - 1; i++)
+                consistencyScore += calculateConsistencyHelper(mySwings, i, i + 1);
+
+            int consistencyMax = (mySwings.length - 1) * 3;
+
+            double calculatedScore = 100.0 * (consistencyScore / consistencyMax);
+
+            t.setText(t.getText() + "||" + "Score: " + calculatedScore);
+        }
+
+        private int calculateConsistencyHelper(Motion[] mySwings, int i, int i1) {
+            Motion swing1 = mySwings[i];
+            Motion swing2 = mySwings[i1];
+
+            int consistency = 0;
+
+            DTWHelper[] dtw = new DTWHelper[3];
+            dtw[0] = new DTWHelper(swing1.getAccelX(), swing2.getAccelX());
+            dtw[1] = new DTWHelper(swing1.getAccelY(), swing2.getAccelY());
+            dtw[2] = new DTWHelper(swing1.getAccelZ(), swing2.getAccelZ());
+
+            for(DTWHelper singleDTW: dtw) {
+                if (dtw[i].getPathCost() < CONSISTENCY_THRESHOLD) {
+                    consistency++;
+                }
+            }
+            return consistency;
         }
     }
 

@@ -6,16 +6,16 @@ package com.example.android.effectivenavigation;
 import java.util.Arrays;
 
 public class DynamicTimeWarping {
-    private double[] t;
-    private double[] r;
+    private int[] t;
+    private int[] r;
     private double pathCost; // unnormalized distance between t and r
     private double[][] accumulatedDistanceMatrix;
     private double[][] d; // to verify and compare values with MATLAB only
     private int k; // normalization factor (should use this to normalize our data!)
     private double[][] w; // optimal path
 
-    // constructs DynamicTimeWarping Object given double array t and r
-    public DynamicTimeWarping(double[] t, double[] r) {
+    // constructs DynamicTimeWarping Object given int array t and r
+    public DynamicTimeWarping(int[] t, int[] r) {
         this.t = t;
         this.r = r;
         pathCost = 0.0;
@@ -59,49 +59,50 @@ public class DynamicTimeWarping {
 
         pathCost =  accumulatedDistanceMatrix[t.length-1][r.length-1]; // unnormalized distance between t and r
 
+       /* // THIS IS CRASHING!!!*/
 //         supplementary dtw (not used in recent stable build of Senseiii)
-        int n = t.length-1;
-        int m = r.length-1;
-        double minValue;
-        int minIndex;
-        double[][] oldW; // used for updating & appending arrays to 2d array w
-
-        while ((n+m)!=0) {
-            if (n == 0)
-                m = m-1;
-            else if (m == 0) {
-                n = n-1;
-            } else {
-
-                minValue = min(accumulatedDistanceMatrix[n-1][m],
-                        accumulatedDistanceMatrix[n][m-1],
-                        accumulatedDistanceMatrix[n-1][m-1]);
-
-                minIndex = minIndex(accumulatedDistanceMatrix[n-1][m],
-                        accumulatedDistanceMatrix[n][m-1],
-                        accumulatedDistanceMatrix[n-1][m-1]);
-
-                switch (minIndex) {
-                    case 1:
-                        n = n-1;
-                    case 2:
-                        m = m-1;
-                    case 3:
-                        n = n-1;
-                        m = m-1;
-                    default:
-                }
-            }
-
-            k = k+1; // we need to use this value to normalize data
-
-            //MATLAB to Java: w = cat(1,w,[n,m]); START
-            oldW = w;
-            w = Arrays.copyOf(oldW, oldW.length + 1);
-            w[oldW.length] = new double[] {n,m};
-            //MATLAB to Java: w = cat(1,w,[n,m]); END
-
-        }
+//        int n = t.length-1;
+//        int m = r.length-1;
+//        double minValue;
+//        int minIndex;
+//        double[][] oldW; // used for updating & appending arrays to 2d array w
+//
+//        while ((n+m)!=0) {
+//            if (n == 0)
+//                m = m-1;
+//            else if (m == 0) {
+//                n = n-1;
+//            } else {
+//
+//                minValue = min(accumulatedDistanceMatrix[n-1][m],
+//                        accumulatedDistanceMatrix[n][m-1],
+//                        accumulatedDistanceMatrix[n-1][m-1]);
+//
+//                minIndex = minIndex(accumulatedDistanceMatrix[n-1][m],
+//                        accumulatedDistanceMatrix[n][m-1],
+//                        accumulatedDistanceMatrix[n-1][m-1]);
+//
+//                switch (minIndex) {
+//                    case 1:
+//                        n = n-1;
+//                    case 2:
+//                        m = m-1;
+//                    case 3:
+//                        n = n-1;
+//                        m = m-1;
+//                    default:
+//                }
+//            }
+//
+//            k = k+1; // we need to use this value to normalize data
+//
+//            //MATLAB to Java: w = cat(1,w,[n,m]); START
+//            oldW = w;
+//            w = Arrays.copyOf(oldW, oldW.length + 1);
+//            w[oldW.length] = new double[] {n,m};
+//            //MATLAB to Java: w = cat(1,w,[n,m]); END
+//
+//        }
     }
 
     // returns minimum of three double values

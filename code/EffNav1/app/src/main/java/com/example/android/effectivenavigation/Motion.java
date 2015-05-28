@@ -12,27 +12,31 @@ public class Motion {
     private boolean isNegative;
 
     public Motion(int[][] accelerometer, int[][] gyroscope) {
+        this(accelerometer, gyroscope, false, false);
+    }
+
+    public Motion(int[][] accelerometer, int[][] gyroscope, boolean isPositive, boolean isNegative) {
         this.accelerometer = accelerometer;
         this.gyroscope = gyroscope;
+        this.isPositive = isPositive;
+        this.isNegative = isNegative;
     }
 
     public void setPositive(boolean setPositive) {
         this.isPositive = setPositive;
     }
 
-    public void setNegative(boolean setNegative) {
-        this.isNegative = setNegative;
-    }
+    public void setNegative(boolean setNegative) { this.isNegative = setNegative; }
 
-    public int[] getX() {
+    public int[] getAccelX() {
         return getColumn(accelerometer, 0);
     }
 
-    public int[] getY() {
+    public int[] getAccelY() {
         return getColumn(accelerometer, 1);
     }
 
-    public int[] getZ() {
+    public int[] getAccelZ() {
         return getColumn(accelerometer, 2);
     }
 

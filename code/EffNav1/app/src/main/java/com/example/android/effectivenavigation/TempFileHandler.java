@@ -1,5 +1,8 @@
 package com.example.android.effectivenavigation;
 
+import android.os.Environment;
+import android.widget.TextView;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +19,7 @@ public class TempFileHandler {
 
     private String myFile;  // 'return' delimited string containing contents of temp file
     private int numMotions;
+
     // initializes fileHandler for temp file, global file contents string
     public TempFileHandler(String filepath, String filename) throws IOException {
         //first thing -> getting pieces of motion (sss ... rrr)
@@ -24,13 +28,16 @@ public class TempFileHandler {
         // each Motion object will have it's own bunch of stuff
         // it's already pretty complex, simplicity is key
 
-
-        myFile = readFile(filepath + "/" + filename);         // converts stream to string
-
-
+        File parentDir = new File(Environment.getExternalStorageDirectory(), filepath);
+        myFile = readFile(new File(parentDir, filename));         // converts stream to string
     }
 
-    private String readFile(String fileName) throws IOException {
+    // returns a string containing the entire temp file
+    public String getMyFile() {
+        return myFile;
+    }
+
+    private String readFile(File fileName) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         try {
             StringBuilder sb = new StringBuilder();
@@ -60,6 +67,7 @@ public class TempFileHandler {
         // so I came up with something cooler :)
         // number of stop presses = number of motions
         numMotions = myFile.length() - myFile.replace("R", "").length();
+//        t.setText();
         // for those who didn't get what I did there
         // if I replace the R's with nothing, the string reduces in size
         // that means the reduction is the number of R's
@@ -102,10 +110,10 @@ public class TempFileHandler {
     // horrible style for getter
     // SHOULD NOT DO PROCESSING HERE
     // doing it for quick turnover
-    private Motion[] getMotions() {
+    public Motion[] getMotions() {
         String[] myMotionStrings = getMotionStrings();
         Motion[] myMotions = new Motion[getNumMotions()];
-
+        boolean positive = false, negative = false;
         int accelerometer[][];
         int gyroscope[][];
         // parsing over each string[] index of individual motion
@@ -116,17 +124,27 @@ public class TempFileHandler {
             // this is where the data is stored
             accelerometer = new int[quaternions.length][3];
             gyroscope = new int[quaternions.length][3];
+            positive = false;
+            negative = false;
 
             // going over every single line in an individual motion
             for(int j = 0 ; j < quaternions.length ; j++) {
-                accelerometer[j][0] = Integer.parseInt(quaternions[j].substring(0,4));
-                accelerometer[j][1] = Integer.parseInt(quaternions[j].substring(4,8));
-                accelerometer[j][2] = Integer.parseInt(quaternions[j].substring(8,12));
-                gyroscope[j][0] = Integer.parseInt(quaternions[j].substring(12,16));
-                gyroscope[j][1] = Integer.parseInt(quaternions[j].substring(16,20));
-                gyroscope[j][2] = Integer.parseInt(quaternions[j].substring(20,24));
+                if(quaternions[j].contains("P")) {
+                    positive = true;
+                    continue;
+                }
+                if(quaternions[j].contains("N")) {
+                    negative = true;
+                    continue;
+                }
+                accelerometer[j][0] = Integer.parseInt(quaternions[j].substring(0,4), 16);
+                accelerometer[j][1] = Integer.parseInt(quaternions[j].substring(4,8), 16);
+                accelerometer[j][2] = Integer.parseInt(quaternions[j].substring(8,12), 16);
+                gyroscope[j][0] = Integer.parseInt(quaternions[j].substring(12,16), 16);
+                gyroscope[j][1] = Integer.parseInt(quaternions[j].substring(16,20), 16);
+                gyroscope[j][2] = Integer.parseInt(quaternions[j].substring(20,24), 16);
             }
-            myMotions[i] = new Motion(accelerometer, gyroscope);
+            myMotions[i] = new Motion(accelerometer, gyroscope, positive, negative);
         }
         return myMotions;
 
