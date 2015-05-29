@@ -76,9 +76,28 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.077067666">
-              <caret line="727" column="0" selection-start-line="727" selection-start-column="0" selection-end-line="727" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.5488722">
+              <caret line="798" column="55" selection-start-line="798" selection-start-column="55" selection-end-line="798" selection-end-column="55" />
+              <folding>
+                <element signature="e#15191#15230#0" expanded="true" />
+                <element signature="e#15252#15291#0" expanded="true" />
+                <element signature="e#15313#15352#0" expanded="true" />
+                <element signature="e#15374#15413#0" expanded="true" />
+                <element signature="e#25963#26034#0" expanded="true" />
+                <element signature="e#26826#26896#0" expanded="true" />
+                <element signature="e#32050#33101#0" expanded="true" />
+                <element signature="e#33100#33101#0" expanded="true" />
+                <element signature="e#33142#33345#0" expanded="true" />
+                <element signature="e#33344#33345#0" expanded="true" />
+                <element signature="e#33454#33797#0" expanded="true" />
+                <element signature="e#33796#33797#0" expanded="true" />
+                <element signature="e#33838#34192#0" expanded="true" />
+                <element signature="e#34191#34192#0" expanded="true" />
+                <element signature="e#34306#34866#0" expanded="true" />
+                <element signature="e#34865#34866#0" expanded="true" />
+                <element signature="e#34910#35473#0" expanded="true" />
+                <element signature="e#35472#35473#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1478,9 +1497,9 @@
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/popup_scorekeeper.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/buttonshape.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_launchpad.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -2135,7 +2154,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="5" y="23" width="1674" height="959" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2198,7 +2217,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="693" column="12" selection-start-line="693" selection-start-column="12" selection-end-line="693" selection-end-column="12" />
-          <folding />
+          <folding>
+            <element signature="e#15191#15230#0" expanded="true" />
+            <element signature="e#15252#15291#0" expanded="true" />
+            <element signature="e#15313#15352#0" expanded="true" />
+            <element signature="e#15374#15413#0" expanded="true" />
+            <element signature="e#25963#26034#0" expanded="true" />
+            <element signature="e#26826#26896#0" expanded="true" />
+            <element signature="e#32050#33101#0" expanded="true" />
+            <element signature="e#33100#33101#0" expanded="true" />
+            <element signature="e#33142#33345#0" expanded="true" />
+            <element signature="e#33344#33345#0" expanded="true" />
+            <element signature="e#33454#33797#0" expanded="true" />
+            <element signature="e#33796#33797#0" expanded="true" />
+            <element signature="e#33838#34192#0" expanded="true" />
+            <element signature="e#34191#34192#0" expanded="true" />
+            <element signature="e#34306#34866#0" expanded="true" />
+            <element signature="e#34865#34866#0" expanded="true" />
+            <element signature="e#34910#35473#0" expanded="true" />
+            <element signature="e#35472#35473#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2222,7 +2260,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#15191#15230#0" expanded="true" />
+            <element signature="e#15252#15291#0" expanded="true" />
+            <element signature="e#15313#15352#0" expanded="true" />
+            <element signature="e#15374#15413#0" expanded="true" />
+            <element signature="e#25963#26034#0" expanded="true" />
+            <element signature="e#26826#26896#0" expanded="true" />
+            <element signature="e#32050#33101#0" expanded="true" />
+            <element signature="e#33100#33101#0" expanded="true" />
+            <element signature="e#33142#33345#0" expanded="true" />
+            <element signature="e#33344#33345#0" expanded="true" />
+            <element signature="e#33454#33797#0" expanded="true" />
+            <element signature="e#33796#33797#0" expanded="true" />
+            <element signature="e#33838#34192#0" expanded="true" />
+            <element signature="e#34191#34192#0" expanded="true" />
+            <element signature="e#34306#34866#0" expanded="true" />
+            <element signature="e#34865#34866#0" expanded="true" />
+            <element signature="e#34910#35473#0" expanded="true" />
+            <element signature="e#35472#35473#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2274,7 +2331,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="226" column="61" selection-start-line="226" selection-start-column="61" selection-end-line="226" selection-end-column="61" />
-          <folding />
+          <folding>
+            <element signature="e#15191#15230#0" expanded="true" />
+            <element signature="e#15252#15291#0" expanded="true" />
+            <element signature="e#15313#15352#0" expanded="true" />
+            <element signature="e#15374#15413#0" expanded="true" />
+            <element signature="e#25963#26034#0" expanded="true" />
+            <element signature="e#26826#26896#0" expanded="true" />
+            <element signature="e#32050#33101#0" expanded="true" />
+            <element signature="e#33100#33101#0" expanded="true" />
+            <element signature="e#33142#33345#0" expanded="true" />
+            <element signature="e#33344#33345#0" expanded="true" />
+            <element signature="e#33454#33797#0" expanded="true" />
+            <element signature="e#33796#33797#0" expanded="true" />
+            <element signature="e#33838#34192#0" expanded="true" />
+            <element signature="e#34191#34192#0" expanded="true" />
+            <element signature="e#34306#34866#0" expanded="true" />
+            <element signature="e#34865#34866#0" expanded="true" />
+            <element signature="e#34910#35473#0" expanded="true" />
+            <element signature="e#35472#35473#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2605,9 +2681,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.077067666">
-          <caret line="727" column="0" selection-start-line="727" selection-start-column="0" selection-end-line="727" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.5488722">
+          <caret line="798" column="55" selection-start-line="798" selection-start-column="55" selection-end-line="798" selection-end-column="55" />
+          <folding>
+            <element signature="e#15191#15230#0" expanded="true" />
+            <element signature="e#15252#15291#0" expanded="true" />
+            <element signature="e#15313#15352#0" expanded="true" />
+            <element signature="e#15374#15413#0" expanded="true" />
+            <element signature="e#25963#26034#0" expanded="true" />
+            <element signature="e#26826#26896#0" expanded="true" />
+            <element signature="e#32050#33101#0" expanded="true" />
+            <element signature="e#33100#33101#0" expanded="true" />
+            <element signature="e#33142#33345#0" expanded="true" />
+            <element signature="e#33344#33345#0" expanded="true" />
+            <element signature="e#33454#33797#0" expanded="true" />
+            <element signature="e#33796#33797#0" expanded="true" />
+            <element signature="e#33838#34192#0" expanded="true" />
+            <element signature="e#34191#34192#0" expanded="true" />
+            <element signature="e#34306#34866#0" expanded="true" />
+            <element signature="e#34865#34866#0" expanded="true" />
+            <element signature="e#34910#35473#0" expanded="true" />
+            <element signature="e#35472#35473#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -28,6 +29,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -743,7 +745,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             dtw[2] = new DTWHelper(swing1.getAccelZ(), swing2.getAccelZ());
 
             for(DTWHelper singleDTW: dtw) {
-                if (dtw[i].getPathCost() < CONSISTENCY_THRESHOLD) {
+                if (singleDTW.getPathCost() < CONSISTENCY_THRESHOLD) {
                     consistency++;
                 }
             }
@@ -756,7 +758,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * simply displays dummy text.
      * Converted to: Scorekeeper section -> Keeps score...
      */
-    public static class ScorekeeperSectionFragment extends Fragment /* implements PopupMenu.OnMenuItemClickListener */{
+    public static class ScorekeeperSectionFragment extends Fragment /*implements DialogInterface.OnClickListener*//* implements PopupMenu.OnMenuItemClickListener */{
 
         public static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -785,29 +787,30 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             final int incrementDecrementAmount = 1;
 
             popupMenu.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
 
-                    // 1. Instantiate an AlertDialog.Builder with its constructor
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                    // 2. Chain together various setter methods to set the dialog characteristics
-                    builder.setMessage("popup")
-                            .setTitle("popup_title");
-
-                    // 3. Get the AlertDialog from create()
-                    AlertDialog dialog = builder.create();
-
-//                PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(), v);
+//                    // 1. Instantiate an AlertDialog.Builder with its constructor
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 //
-//                MenuInflater inflater = popup.getMenuInflater();
-//                inflater.inflate(R.menu.popup_scorekeeper, popup.getMenu());
-//                    setHasOptionsMenu(true);
-//                // debug
-//                if(DEBUG_ON)
-//                    t.setText("Pop up");
+//                    // 2. Chain together various setter methods to set the dialog characteristics
+//                    builder.setMessage("popup")
+//                            .setTitle("popup_title");
 //
-//                popup.show();
+//                    // 3. Get the AlertDialog from create()
+//                    AlertDialog dialog = builder.create();
+
+                PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(), v);
+
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.popup_scorekeeper, popup.getMenu());
+                    setHasOptionsMenu(true);
+                // debug
+                if(DEBUG_ON)
+                    t.setText("Pop up");
+
+                popup.show();
                 }
             });
 
@@ -910,5 +913,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     return super.onOptionsItemSelected(item);
             }
         }
+
+
     }
 }

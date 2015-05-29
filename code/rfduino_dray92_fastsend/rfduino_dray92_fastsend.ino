@@ -779,7 +779,7 @@ void loop()
       awake = false; // awake not cleared on minus press
     }
 
-//    delay(1);
+    delay(1);
     
 
   }
