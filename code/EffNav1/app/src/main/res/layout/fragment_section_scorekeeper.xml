@@ -97,5 +97,31 @@
     </LinearLayout>
 
 
+    <!--popup menu button-->
+    <LinearLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:baselineAligned="false"
+        android:layout_gravity="left"
+        android:layout_marginTop="0dp">
+        <TextView
+            android:background="@drawable/bluecircle"
+            style="@style/ScoreKeeperTextReset"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Sport Menu"
+            android:id="@+id/popup_scorekeeper"
+            android:gravity="center"
+            android:textSize="10dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="20"
+            android:shadowColor="@color/black"
+            android:layout_marginTop="5dip"
+            android:layout_marginRight="5dip" />
+    </LinearLayout>
 
 </FrameLayout>

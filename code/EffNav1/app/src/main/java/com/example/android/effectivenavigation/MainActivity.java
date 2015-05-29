@@ -44,15 +44,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -727,7 +725,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * simply displays dummy text.
      * Converted to: Scorekeeper section -> Keeps score...
      */
-    public static class ScorekeeperSectionFragment extends Fragment  {
+    public static class ScorekeeperSectionFragment extends Fragment /* implements PopupMenu.OnMenuItemClickListener */{
 
         public static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -747,10 +745,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             final TextView plus = (TextView)rootView.findViewById(R.id.plus);
             final TextView minus = (TextView)rootView.findViewById(R.id.minus);
             final TextView reset = (TextView)rootView.findViewById(R.id.reset);
-
+            final TextView popupMenu = (TextView)rootView.findViewById(R.id.popup_scorekeeper);
             final int[] oldVal = {Integer.parseInt((String) plus.getText())};
 
             final int incrementDecrementAmount = 1;
+
+            popupMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(), v);
+
+                    MenuInflater inflater = popup.getMenuInflater();
+                    inflater.inflate(R.menu.popup_scorekeeper, popup.getMenu());
+                    popup.show();
+                }
+            });
+
 
             reset.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -821,6 +831,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
 
 
+//        @Override
+//        public boolean onMenuItemClick(MenuItem menuItem) {
+//            switch (menuItem.getItemId()) {
+//                case R.id.action_id:
+//            }
+//            return false;
+//        }
+    }
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
 
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.popup_scorekeeper, popup.getMenu());
+        popup.show();
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/values/color.xml -->
+    <!-- From: file:/Users/Daniel/Documents/Github/dray92.github.io/code/EffNav1/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="black">#000000</color>
     <color name="blue">#FF33B5E5</color>
@@ -21,20 +21,24 @@
     <color name="red">#FFFF4444</color>
     <color name="translucent_red">#ff0000</color>
     <color name="white">#FFFFFF</color>
-    <!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Users/Daniel/Documents/Github/dray92.github.io/code/EffNav1/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="app_name">Senseiii</string>
     <string name="consistency_section_text">This is the Consistency Section.</string>
     <string name="data_section_text">This is the Data Section.</string>
     <string name="demo_external_activity">Demo External Activity</string>
     <string name="dummy_section_text">Section %1d is just a dummy section.</string>
+    <string name="popup_scorekeeper_basketball">Basketball</string>
+    <string name="popup_scorekeeper_default">Default</string>
+    <string name="popup_scorekeeper_golf">Golf</string>
+    <string name="popup_scorekeeper_tennis">Tennis</string>
     <string name="scan">Look for Senseiii</string>
     <string name="scorekeeper_section_text">This is the Scorekeeper Section.</string>
     <string name="tab1">Start</string>
     <string name="tab2">Data</string>
     <string name="tab3">Consistency</string>
     <string name="tab4">Scorekeeper</string>
-    <!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/Users/Daniel/Documents/Github/dray92.github.io/code/EffNav1/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>

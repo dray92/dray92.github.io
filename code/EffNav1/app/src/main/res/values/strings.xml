@@ -28,4 +28,8 @@
     <string name="tab2">Data</string>
     <string name="tab3">Consistency</string>
     <string name="tab4">Scorekeeper</string>
+    <string name="popup_scorekeeper_default">Default</string>
+    <string name="popup_scorekeeper_tennis">Tennis</string>
+    <string name="popup_scorekeeper_basketball">Basketball</string>
+    <string name="popup_scorekeeper_golf">Golf</string>
 </resources>
