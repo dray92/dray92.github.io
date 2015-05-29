@@ -738,52 +738,13 @@ void loop()
     } else {
       RFduinoBLE.send("S00000000000", 12);
       awake = true;
-      delay(1000);
-      Serial.println("2");
-      delay(1000);
-      Serial.println("1");
-      delay(1000);
-      Serial.println("0");
     }
-      
-  
-
-
   }
 
   if (awake)
   {
-    /* Update all the values */
+
     while (i2cRead(0x3B, i2cData, 14));
-//    accX = ((i2cData[0] << 8) | i2cData[1]);
-//    accY = ((i2cData[2] << 8) | i2cData[3]);
-//    accZ = ((i2cData[4] << 8) | i2cData[5]);
-//    tempRaw = (i2cData[6] << 8) | i2cData[7];
-//    gyroX = (i2cData[8] << 8) | i2cData[9];
-//    gyroY = (i2cData[10] << 8) | i2cData[11];
-//    gyroZ = (i2cData[12] << 8) | i2cData[13];
-//    
-//    double dt = (double)(micros() - timer) / 1000000; // Calculate delta time
-//    timer = micros();
-//    
-//    // Source: http://www.freescale.com/files/sensors/doc/app_note/AN3461.pdf eq. 25 and eq. 26
-//    // atan2 outputs the value of -π to π (radians) - see http://en.wikipedia.org/wiki/Atan2
-//    // It is then converted from radians to degrees
-//    #ifdef RESTRICT_PITCH // Eq. 25 and 26
-//      double roll  = atan2(accY, accZ) * RAD_TO_DEG;
-//      double pitch = atan(-accX / sqrt(accY * accY + accZ * accZ)) * RAD_TO_DEG;
-//      double yaw = atan(-accZ / sqrt(accY * accY + accX * accX)) * RAD_TO_DEG;
-//      if(accY == 0 && accX == 0) yaw = 90;
-//    #else // Eq. 28 and 29
-//      double roll  = atan(accY / sqrt(accX * accX + accZ * accZ)) * RAD_TO_DEG;
-//      double pitch = atan2(-accX, accZ) * RAD_TO_DEG;
-//      double yaw = atan(-accZ / sqrt(accY * accY + accX * accX)) * RAD_TO_DEG;
-//      if(accY == 0 && accX == 0) yaw = 90;
-//    #endif
-//    
-//    double gyroXrate = gyroX / 131.0; // Convert to deg/s
-//    double gyroYrate = gyroY / 131.0; // Convert to deg/s
-//    double gyroZrate = gyroZ / 131.0; // Convert to deg/s
     
     uint8_t accelx_h = i2cData[0];
     uint8_t accelx_l = i2cData[1];
@@ -797,118 +758,14 @@ void loop()
     uint8_t gyroy_l = i2cData[11];
     uint8_t gyroz_h = i2cData[12];
     uint8_t gyroz_l = i2cData[13];
-    
-//    #ifdef RESTRICT_PITCH
-//      // This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
-//      if ((roll < -90 && kalAngleX > 90) || (roll > 90 && kalAngleX < -90)) {
-//        kalmanX.setAngle(roll);
-//        compAngleX = roll;
-//        kalAngleX = roll;
-//        gyroXangle = roll;
-//      } else {
-//        kalAngleX = kalmanX.getAngle(roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
-//      }
-//      
-//      if (abs(kalAngleX) > 90) {
-//        gyroYrate = -gyroYrate; // Invert rate, so it fits the restricted accelerometer reading
-//      }
-//      kalAngleY = kalmanY.getAngle(pitch, gyroYrate, dt);
-//      kalAngleZ = kalmanZ.getAngle(yaw, gyroZrate, dt);
-//    
-//    #else
-//      // This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
-//      if ((pitch < -90 && kalAngleY > 90) || (pitch > 90 && kalAngleY < -90)) {
-//        kalmanY.setAngle(pitch);
-//        compAngleY = pitch;
-//        kalAngleY = pitch;
-//        gyroYangle = pitch;
-//      } else {
-//        kalAngleY = kalmanY.getAngle(pitch, gyroYrate, dt); // Calculate the angle using a Kalman filter
-//      }
-//      
-//      if (abs(kalAngleY) > 90) {
-//        gyroXrate = -gyroXrate; // Invert rate, so it fits the restriced accelerometer reading
-//      }
-//      
-//      kalAngleX = kalmanX.getAngle(roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
-//      kalAngleZ = kalmanZ.getAngle(yaw, gyroZrate, dt);
-//    #endif
-//    
-//
-//  gyroXangle += gyroXrate * dt; // Calculate gyro angle without any filter
-//  gyroYangle += gyroYrate * dt;
-//  gyroZangle += gyroZrate * dt;
-//  
-//  //gyroXangle += kalmanX.getRate() * dt; // Calculate gyro angle using the unbiased rate
-//  //gyroYangle += kalmanY.getRate() * dt;
-//
-//  compAngleX = 0.93 * (compAngleX + gyroXrate * dt) + 0.07 * roll; // Calculate the angle using a Complimentary filter
-//  compAngleY = 0.93 * (compAngleY + gyroYrate * dt) + 0.07 * pitch;
-//  compAngleZ = 0.93 * (compAngleZ + gyroZrate * dt) + 0.07 * yaw;
-//
-//  // Reset the gyro angle when it has drifted too much
-//  if (gyroXangle < -180 || gyroXangle > 180)
-//    gyroXangle = kalAngleX;
-//  if (gyroYangle < -180 || gyroYangle > 180)
-//    gyroYangle = kalAngleY;
-//  if (gyroZangle < -180 || gyroZangle > 180)
-//    gyroZangle = kalAngleZ;
 
     char string[12] = {(char) accelx_h, (char) accelx_l, (char) accely_h, (char) accely_l, (char) accelz_h, (char) accelz_l, (char) gyrox_h, (char) gyrox_l, (char) gyroy_h, (char) gyroy_l, (char) gyroz_h, (char) gyroz_l };
-
-//    /*-------------
-//    @author: Debo
-//    @date: 05/04/2015
-//    --------------*/
-//
-//    accXC = accX + gravity * sin(kalAngleY * 1000 / 57296); // -x not working
-//    accYC = accY - gravity * sin(kalAngleX * 1000 / 57296);      // not tested
-//    accZC = accZ + gravity * sin(yaw * 1000 / 57296);            // not tested
-//    // printing to the serial monitor
-//    //Serial.print("Accelerometer "); 
-//    Serial.print(accX); Serial.print(" ");
-//    Serial.print(accY); Serial.print(" ");
-//    Serial.println(accZ);
-//    
-//    //Serial.print("Gyroscope "); 
-//    Serial.print(gyroX); Serial.print(" ");
-//    Serial.print(gyroY); Serial.print(" ");
-//    Serial.println(gyroZ);
-//    
-//    Serial.print(roll); Serial.print(" ");
-//    Serial.print(gyroXangle); Serial.print(" ");
-//    Serial.print(compAngleX); Serial.print(" ");
-//    Serial.print((int)kalAngleX); Serial.print(" ");
-//  
-//    Serial.print(" ");
-//  
-//    Serial.print(pitch); Serial.print(" ");
-//    Serial.print(gyroYangle); Serial.print(" ");
-//    Serial.print(compAngleY); Serial.print(" ");
-//    Serial.print((int)kalAngleY); Serial.print(" ");
-//    
-//    Serial.print(" ");
-//  
-//    Serial.print(yaw); Serial.print(" ");
-//    Serial.print(gyroZangle); Serial.print(" ");
-//    Serial.print(compAngleZ); Serial.print(" ");
-//    Serial.print((int)kalAngleZ); Serial.println(" ");
-//    
-//    //Serial.print("Accelerometer_Corrected "); 
-//    Serial.print(accXC); Serial.print(" ");
-//    Serial.print(accYC); Serial.print(" ");
-//    Serial.print(accZC); //Serial.println(" ");
-//    //Serial.println(dt);
-//    
     
-
     // sending data
     RFduinoBLE.send(string, 12);
     
     Serial.print(string);
     
-       
-
     if (plus.uniquePress())
     {
       RFduinoBLE.send("P00000000000", 12);
@@ -922,7 +779,7 @@ void loop()
       awake = false; // awake not cleared on minus press
     }
 
-    delay(10);
+//    delay(1);
     
 
   }
@@ -939,7 +796,7 @@ void loop()
       RFduinoBLE.send("N11111111111", 12);
       Serial.println("N");
     }
-    delay(10);
+    delay(1);
   
   }
   

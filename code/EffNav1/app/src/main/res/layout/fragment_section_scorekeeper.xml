@@ -121,7 +121,7 @@
             android:shadowRadius="20"
             android:shadowColor="@color/black"
             android:layout_marginTop="5dip"
-            android:layout_marginRight="5dip" />
+            android:layout_marginLeft="5dip" />
     </LinearLayout>
 
 </FrameLayout>

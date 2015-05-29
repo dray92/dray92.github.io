@@ -23,13 +23,21 @@
     <string name="scorekeeper_section_text">This is the Scorekeeper Section.</string>
 
     <string name="demo_external_activity">Demo External Activity</string>
+
     <string name="scan">Look for Senseiii</string>
+
     <string name="tab1">Start</string>
     <string name="tab2">Data</string>
     <string name="tab3">Consistency</string>
     <string name="tab4">Scorekeeper</string>
+
     <string name="popup_scorekeeper_default">Default</string>
     <string name="popup_scorekeeper_tennis">Tennis</string>
     <string name="popup_scorekeeper_basketball">Basketball</string>
     <string name="popup_scorekeeper_golf">Golf</string>
+    <string name="popup_scorekeeper_racquetball">Racquetball</string>
+    <string name="popup_scorekeeper_badminton">Badminton</string>
+    <string name="popup_scorekeeper_squash">Squash</string>
+    <string name="popup_scorekeeper_tabletennis">Table Tennis</string>
+
 </resources>

@@ -16,6 +16,8 @@ ADDED from AndroidManifest.xml:17:1
 uses-sdk
 ADDED from AndroidManifest.xml:22:5
 MERGED from com.android.support:support-v4:22.1.1:20:5
+MERGED from com.jjoe64:graphview:4.0.1:7:5
+MERGED from com.android.support:support-v4:22.1.1:20:5
 	android:targetSdkVersion
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
@@ -51,6 +53,8 @@ ADDED from AndroidManifest.xml:28:5
 		ADDED from AndroidManifest.xml:28:19
 application
 ADDED from AndroidManifest.xml:30:5
+MERGED from com.android.support:support-v4:22.1.1:22:5
+MERGED from com.jjoe64:graphview:4.0.1:11:5
 MERGED from com.android.support:support-v4:22.1.1:22:5
 	android:label
 		ADDED from AndroidManifest.xml:31:9

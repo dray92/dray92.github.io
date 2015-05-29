@@ -19,6 +19,7 @@ package com.example.android.effectivenavigation;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -45,12 +46,19 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -479,7 +487,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             });
 
             // Demonstration of navigating to external activities.
-            rootView.findViewById(R.id.demo_external_activity)
+            // BUTTON CURRENTLY COMMENTED OUT
+            /*rootView.findViewById(R.id.demo_external_activity)
                     .setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -488,12 +497,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             // the application from the device home screen does not return
                             // to the external activity.
                             Intent externalActivityIntent = new Intent(Intent.ACTION_PICK);
-                            externalActivityIntent.setType("image/*");
+                            externalActivityIntent.setType("image*//*");
                             externalActivityIntent.addFlags(
                                     Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                             startActivity(externalActivityIntent);
                         }
-                    });
+                    });*/
 
             registerReceiver(scanModeReceiver, new IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED));
             registerReceiver(btStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
@@ -627,6 +636,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public static class DataSectionFragment extends Fragment {
 
         public static final String ARG_SECTION_NUMBER = "section_number";
+        private View myRootview;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -635,8 +645,30 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Bundle args = getArguments();
             ((TextView) rootView.findViewById(android.R.id.text1)).setText(
                     getString(R.string.data_section_text, args.getInt(ARG_SECTION_NUMBER)));
-
+            myRootview = rootView;
             return rootView;
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            try {
+                drawGraph();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void drawGraph() {
+            GraphView graph = (GraphView) myRootview.findViewById(R.id.graph);
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+            });
+            graph.addSeries(series);super.onStart();
         }
     }
 
@@ -678,7 +710,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             TempFileHandler fileHandler = new TempFileHandler(tempFilepath, tempFilename);
 
             runDTW(fileHandler);
-
 
           return 0;
         }
@@ -730,13 +761,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public static final String ARG_SECTION_NUMBER = "section_number";
 
         boolean valueUpdated = false;
-
-
+        TextView t;
+        View myRootView;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_scorekeeper, container, false);
             Bundle args = getArguments();
+
+            myRootView = rootView;
 
             // prints "This is the Scorekeeper Section"
 //            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
@@ -745,6 +778,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             final TextView plus = (TextView)rootView.findViewById(R.id.plus);
             final TextView minus = (TextView)rootView.findViewById(R.id.minus);
             final TextView reset = (TextView)rootView.findViewById(R.id.reset);
+            t = (TextView)rootView.findViewById(R.id.test);
             final TextView popupMenu = (TextView)rootView.findViewById(R.id.popup_scorekeeper);
             final int[] oldVal = {Integer.parseInt((String) plus.getText())};
 
@@ -753,20 +787,35 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             popupMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(), v);
 
-                    MenuInflater inflater = popup.getMenuInflater();
-                    inflater.inflate(R.menu.popup_scorekeeper, popup.getMenu());
-                    popup.show();
+                    // 1. Instantiate an AlertDialog.Builder with its constructor
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                    // 2. Chain together various setter methods to set the dialog characteristics
+                    builder.setMessage("popup")
+                            .setTitle("popup_title");
+
+                    // 3. Get the AlertDialog from create()
+                    AlertDialog dialog = builder.create();
+
+//                PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(), v);
+//
+//                MenuInflater inflater = popup.getMenuInflater();
+//                inflater.inflate(R.menu.popup_scorekeeper, popup.getMenu());
+//                    setHasOptionsMenu(true);
+//                // debug
+//                if(DEBUG_ON)
+//                    t.setText("Pop up");
+//
+//                popup.show();
                 }
             });
-
 
             reset.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    minus.setText("0");
-                    plus.setText("0");
+                minus.setText("0");
+                plus.setText("0");
                 }
             });
 
@@ -786,12 +835,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void onClick(View v) {
-                int minusVal = Integer.parseInt((String) minus.getText());
-                minus.setText("" + (minusVal + incrementDecrementAmount));
+                    int minusVal = Integer.parseInt((String) minus.getText());
+                    minus.setText("" + (minusVal + incrementDecrementAmount));
                 }
 
             });
-
 
             /* longclick on plus and minus buttons decrement value */
             plus.setOnLongClickListener(new View.OnLongClickListener() {
@@ -824,26 +872,43 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 }
 
             });
-
-
             return rootView;
 
         }
 
 
-//        @Override
-//        public boolean onMenuItemClick(MenuItem menuItem) {
-//            switch (menuItem.getItemId()) {
-//                case R.id.action_id:
-//            }
-//            return false;
-//        }
-    }
-    public void showPopup(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            // Handle item selection
 
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.popup_scorekeeper, popup.getMenu());
-        popup.show();
+            if(DEBUG_ON)
+                t.setText("Pop up option chosen");
+
+            switch (item.getItemId()) {
+                case R.id.popup_scorekeeper_tennis:
+//                    popup_scorekeeper_tennis();
+                    return true;
+                case R.id.popup_scorekeeper_basketball:
+//                    popup_scorekeeper_basketball();
+                    return true;
+                case R.id.popup_scorekeeper_golf:
+//                    popup_scorekeeper_golf();
+                    return true;
+                case R.id.popup_scorekeeper_squash:
+//                    popup_scorekeeper_squash();
+                    return true;
+                case R.id.popup_scorekeeper_badminton:
+//                    popup_scorekeeper_badminton();
+                    return true;
+                case R.id.popup_scorekeeper_racquetball:
+//                    popup_scorekeeper_racquetball();
+                    return true;
+                case R.id.popup_scorekeeper_tabletennis:
+//                    popup_scorekeeper_tabletennis();
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+        }
     }
 }
