@@ -37,7 +37,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.Vibrator;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -246,9 +245,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     toneG.startTone(ToneGenerator.TONE_PROP_ACK, 500);
                 }
                 if(!(plus == null && minus == null)) {
-                    if (dataStr.startsWith("P") && !streamStarted) {
+                    if (dataStr.equals("P00000000000") && !streamStarted) {
                         plus.setText("" + (Integer.parseInt((String) plus.getText()) + 1));
-                    } else if (dataStr.startsWith("N")) {
+                    } else if (dataStr.equals("N00000000000")) {
                         minus.setText("" + (Integer.parseInt((String) minus.getText()) + 1));
                     }
                 }
