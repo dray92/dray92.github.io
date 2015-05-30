@@ -10,6 +10,7 @@ public class Motion {
     private int[] gyroMagVector;
     private boolean isPositive;
     private boolean isNegative;
+    private int accelxMax, accelyMax, accelzMax;
 
     public Motion(int[][] accelerometer, int[][] gyroscope) {
         this(accelerometer, gyroscope, false, false);
@@ -21,19 +22,27 @@ public class Motion {
         this.isPositive = isPositive;
         this.isNegative = isNegative;
         accelMagVector = new int[accelerometer.length];
+        accelxMax = 0;
+        accelyMax = 0;
+        accelzMax = 0;
         setMagAcceleration();
     }
 
     private void setMagAcceleration() {
-        int xMax = 0, yMax = 0, zMax = 0;
         for(int row = 0 ; row < accelerometer.length ; row++) {
             accelMagVector[row] = getMagnitude(accelerometer[row][0],
                     accelerometer[row][1], accelerometer[row][2]);
-            xMax = Math.abs(accelerometer[row][0]) > xMax ? Math.abs(accelerometer[row][0]) : xMax;
-            yMax = Math.abs(accelerometer[row][1]) > yMax ? Math.abs(accelerometer[row][1]) : yMax;
-            zMax = Math.abs(accelerometer[row][2]) > zMax ? Math.abs(accelerometer[row][2]) : zMax;
+            accelxMax = Math.abs(accelerometer[row][0]) > accelxMax ? Math.abs(accelerometer[row][0]) : accelxMax;
+            accelyMax = Math.abs(accelerometer[row][1]) > accelyMax ? Math.abs(accelerometer[row][1]) : accelyMax;
+            accelzMax = Math.abs(accelerometer[row][2]) > accelzMax ? Math.abs(accelerometer[row][2]) : accelzMax;
         }
     }
+
+    public int getxMax() { return accelxMax; }
+
+    public int getyMax() { return accelyMax; }
+
+    public int getzMax() { return accelzMax; }
 
     private int getMagnitude(int a, int b, int c) {
         return (int)Math.sqrt(Math.pow(a,2) + Math.pow(b,2) + Math.pow(c,2));

@@ -32,77 +32,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="71b83207-1792-445d-93c3-6f45aa43f3c2" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/classes-2ce3987ecfd224d3f7757228fff371f9bfcd3a52.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/classes-90919f9763189c31ca8204e33612e2d277552edb.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-2e705adecf527bb0a2ed8a046857321492126ad3.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-74d9cde853a1a566cb00004e04b774acf821794f.jar" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/DTWHelper.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/DTWHelper.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$AppSectionsPagerAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$AppSectionsPagerAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ConsistencySectionFragment.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ConsistencySectionFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$DataSectionFragment.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$DataSectionFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$DummySectionFragment.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$DummySectionFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$2$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$2$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$3.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$4.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$5.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$LaunchpadSectionFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$3.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$4.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$5.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$6.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity$ScorekeeperSectionFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/MainActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/Motion.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/com/example/android/effectivenavigation/Motion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/apk/app-debug-unaligned.apk" afterPath="$PROJECT_DIR$/app/build/outputs/apk/app-debug-unaligned.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/apk/app-debug.apk" afterPath="$PROJECT_DIR$/app/build/outputs/apk/app-debug.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/dex/debug/classes.dex" afterPath="$PROJECT_DIR$/app/build/intermediates/dex/debug/classes.dex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/gradle_project_sync_data.bin" afterPath="$PROJECT_DIR$/build/intermediates/gradle_project_sync_data.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug-androidTest.ap_" afterPath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug-androidTest.ap_" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug.ap_" afterPath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug.ap_" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/DTWHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/DTWHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/EffNav1.iml" afterPath="$PROJECT_DIR$/EffNav1.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/Motion.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/Motion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/activity_collection_demo.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/activity_collection_demo.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout-land/activity_collection_demo.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout-land/activity_collection_demo.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/activity_main.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout-land/activity_main.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout-land/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/buttonshape.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/buttonshape.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_collection_object.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_collection_object.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_section_consistency.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_section_consistency.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout-land/fragment_section_consistency.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout-land/fragment_section_consistency.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_section_data.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_section_data.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_section_dummy.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_section_dummy.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_section_launchpad.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_section_launchpad.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_section_scorekeeper.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/fragment_section_scorekeeper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout-land/fragment_section_scorekeeper.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout-land/fragment_section_scorekeeper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeAssets/androidTest/debug/merger.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeAssets/androidTest/debug/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeAssets/debug/merger.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeAssets/debug/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeResources/androidTest/debug/merger.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeResources/androidTest/debug/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeResources/debug/merger.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeResources/debug/merger.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/menu/popup_scorekeeper.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/menu/popup_scorekeeper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rfduino_dray92_fastsend/rfduino_dray92_fastsend.ino" afterPath="$PROJECT_DIR$/../rfduino_dray92_fastsend/rfduino_dray92_fastsend.ino" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_22_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_22_1_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/textview_design_minus.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/textview_design_minus.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/textview_design_plus.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/textview_design_plus.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/textview_design_reset.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/textview_design_reset.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/values/values.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="EffNav.iws" />
@@ -150,18 +81,19 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9259259">
-              <caret line="679" column="5" selection-start-line="679" selection-start-column="5" selection-end-line="679" selection-end-column="5" />
-              <folding>
-                <element signature="e#15125#15164#0" expanded="true" />
-                <element signature="e#15186#15225#0" expanded="true" />
-                <element signature="e#15247#15286#0" expanded="true" />
-                <element signature="e#15308#15347#0" expanded="true" />
-                <element signature="e#25897#25968#0" expanded="true" />
-                <element signature="e#26760#26830#0" expanded="true" />
-                <element signature="e#27315#27326#0" expanded="true" />
-                <element signature="e#27315#27326#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.75460124">
+              <caret line="741" column="58" selection-start-line="741" selection-start-column="58" selection-end-line="741" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Motion.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/Motion.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -170,7 +102,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/DynamicTimeWarping.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="27" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="27" />
+              <caret line="64" column="29" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -1541,8 +1473,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/DTWHelper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/Motion.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/Motion.java" />
       </list>
     </option>
   </component>
@@ -1722,6 +1654,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1732,9 +1667,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1966,7 +1898,7 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32303372" sideWeight="0.49375" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39027283" sideWeight="0.5457876" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39027283" sideWeight="0.5457876" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1990,15 +1922,15 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36807817" sideWeight="0.45078126" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25608012" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32407406" sideWeight="0.446875" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2012,8 +1944,8 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32407406" sideWeight="0.49375" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32022473" sideWeight="0.5492188" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297619" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39930555" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -2039,16 +1971,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="693" column="12" selection-start-line="693" selection-start-column="12" selection-end-line="693" selection-end-column="12" />
-          <folding>
-            <element signature="e#15125#15164#0" expanded="true" />
-            <element signature="e#15186#15225#0" expanded="true" />
-            <element signature="e#15247#15286#0" expanded="true" />
-            <element signature="e#15308#15347#0" expanded="true" />
-            <element signature="e#25897#25968#0" expanded="true" />
-            <element signature="e#26760#26830#0" expanded="true" />
-            <element signature="e#27315#27326#0" expanded="true" />
-            <element signature="e#27315#27326#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2074,16 +1997,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#15125#15164#0" expanded="true" />
-            <element signature="e#15186#15225#0" expanded="true" />
-            <element signature="e#15247#15286#0" expanded="true" />
-            <element signature="e#15308#15347#0" expanded="true" />
-            <element signature="e#25897#25968#0" expanded="true" />
-            <element signature="e#26760#26830#0" expanded="true" />
-            <element signature="e#27315#27326#0" expanded="true" />
-            <element signature="e#27315#27326#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2135,16 +2049,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="226" column="61" selection-start-line="226" selection-start-column="61" selection-end-line="226" selection-end-column="61" />
-          <folding>
-            <element signature="e#15125#15164#0" expanded="true" />
-            <element signature="e#15186#15225#0" expanded="true" />
-            <element signature="e#15247#15286#0" expanded="true" />
-            <element signature="e#15308#15347#0" expanded="true" />
-            <element signature="e#25897#25968#0" expanded="true" />
-            <element signature="e#26760#26830#0" expanded="true" />
-            <element signature="e#27315#27326#0" expanded="true" />
-            <element signature="e#27315#27326#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2450,22 +2355,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/DynamicTimeWarping.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="27" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/Motion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5625">
-          <caret line="35" column="5" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/DTWHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5">
@@ -2477,20 +2366,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/DynamicTimeWarping.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="64" column="29" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/Motion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/effectivenavigation/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9259259">
-          <caret line="679" column="5" selection-start-line="679" selection-start-column="5" selection-end-line="679" selection-end-column="5" />
-          <folding>
-            <element signature="e#15125#15164#0" expanded="true" />
-            <element signature="e#15186#15225#0" expanded="true" />
-            <element signature="e#15247#15286#0" expanded="true" />
-            <element signature="e#15308#15347#0" expanded="true" />
-            <element signature="e#25897#25968#0" expanded="true" />
-            <element signature="e#26760#26830#0" expanded="true" />
-            <element signature="e#27315#27326#0" expanded="true" />
-            <element signature="e#27315#27326#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.75460124">
+          <caret line="741" column="58" selection-start-line="741" selection-start-column="58" selection-end-line="741" selection-end-column="58" />
+          <folding />
         </state>
       </provider>
     </entry>
