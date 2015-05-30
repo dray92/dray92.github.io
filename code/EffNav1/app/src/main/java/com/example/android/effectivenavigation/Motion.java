@@ -20,25 +20,34 @@ public class Motion {
         this.gyroscope = gyroscope;
         this.isPositive = isPositive;
         this.isNegative = isNegative;
+        setMagAcceleration();
     }
 
-    public void setPositive(boolean setPositive) {
-        this.isPositive = setPositive;
+    private void setMagAcceleration() {
+        for(int row = 0 ; row < accelerometer.length ; row++)
+            accelMagVector[row] = getMagnitude(accelerometer[row][0],
+                    accelerometer[row][1], accelerometer[row][2] );
     }
+
+    private int getMagnitude(int a, int b, int c) {
+        return (int)Math.sqrt(Math.pow(a,2) + Math.pow(b,2) + Math.pow(c,2));
+    }
+
+    public int[] getAccelMagVector() { return getAccelMagVector(); }
+
+    public void setPositive(boolean setPositive) { this.isPositive = setPositive; }
 
     public void setNegative(boolean setNegative) { this.isNegative = setNegative; }
 
-    public int[] getAccelX() {
-        return getColumn(accelerometer, 0);
-    }
+    public int[] getAccelX() { return getColumn(accelerometer, 0); }
 
-    public int[] getAccelY() {
-        return getColumn(accelerometer, 1);
-    }
+    public int[] getAccelY() { return getColumn(accelerometer, 1); }
 
-    public int[] getAccelZ() {
-        return getColumn(accelerometer, 2);
-    }
+    public int[] getAccelZ() { return getColumn(accelerometer, 2); }
+
+    public int[][] getAccelerometer() { return accelerometer; }
+
+    public int[][] getGyroscope() { return gyroscope; }
 
     public int[] getGyroX() {
         return getColumn(gyroscope, 0);
@@ -51,6 +60,12 @@ public class Motion {
     public int[] getGyroZ() {
         return getColumn(gyroscope, 2);
     }
+
+    public boolean getIsPositive() {
+        return isPositive;
+    }
+
+    public boolean getIsNegative() { return isNegative; }
 
     private int[] getColumn(int[][] arrayOfInterest2d, int columnOfInterest) {
         int numRows = accelerometer.length;
