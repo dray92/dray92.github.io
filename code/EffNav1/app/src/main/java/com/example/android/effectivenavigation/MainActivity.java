@@ -688,7 +688,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public static final String ARG_SECTION_NUMBER = "section_number";
         private View myRootView;
         private TextView t;
-        private final int CONSISTENCY_THRESHOLD = 10000000;
+        private int CONSISTENCY_THRESHOLD = 1000000;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -756,9 +756,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             dtw[1] = new DTWHelper(swing1.getAccelY(), swing2.getAccelY());
             dtw[2] = new DTWHelper(swing1.getAccelZ(), swing2.getAccelZ());
 
+            Log.d("average of absolute value of x for swing 1: ", Integer.toString(swing1.getAbsAvgX()));
+            Log.d("max of absolute value of x for swing 1: ", Integer.toString(swing1.getxMax()));
+            Log.d("average of absolute value of x for swing 2: ", Integer.toString(swing2.getAbsAvgX()));
+            Log.d("max of absolute value of x for swing 2: ", Integer.toString(swing2.getxMax()));
+            Log.d("square of difference between xmax and xavg swing 1: ", Integer.toString((int) Math.pow(Math.abs(swing1.getAbsAvgX() - swing1.getxMax()), 2)));
+            Log.d("square of difference between xmax and xavg swing 2: ", Integer.toString((int) Math.pow(Math.abs(swing2.getAbsAvgX() - swing2.getxMax()), 2)));
+            Log.d("Int average: ", Double.toString(((Math.pow(Math.abs(swing1.getAbsAvgX() - swing1.getxMax()), 2)) + (Math.pow(Math.abs(swing2.getAbsAvgX() - swing2.getxMax()), 2))) / 2));
+
+            CONSISTENCY_THRESHOLD += (int) Math.pow(Math.abs(swing1.getAbsAvgX() - swing1.getxMax()), 2) + (int) Math.pow(Math.abs(swing2.getAbsAvgX() - swing2.getxMax()), 2);
+            Log.d("Proposed Threshold: ", Integer.toString(CONSISTENCY_THRESHOLD));
             for(DTWHelper singleDTW: dtw) {
                 DynamicTimeWarping myDtw = singleDTW.getDTW();
                 Log.d("print cost path", Double.toString(myDtw.getPathCost()));
+
                 if (myDtw.getPathCost() < CONSISTENCY_THRESHOLD) {
                     consistency++;
                 }
@@ -772,7 +783,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * simply displays dummy text.
      * Converted to: Scorekeeper section -> Keeps score...
      */
-    public static class ScorekeeperSectionFragment extends Fragment /*implements DialogInterface.OnClickListener*//* implements PopupMenu.OnMenuItemClickListener */{
+    public static class ScorekeeperSectionFragment extends Fragment   {
 
         public static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -805,26 +816,34 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 @Override
                 public void onClick(View v) {
 
-//                    // 1. Instantiate an AlertDialog.Builder with its constructor
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//
-//                    // 2. Chain together various setter methods to set the dialog characteristics
-//                    builder.setMessage("popup")
-//                            .setTitle("popup_title");
-//
-//                    // 3. Get the AlertDialog from create()
-//                    AlertDialog dialog = builder.create();
+                    PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(), v);
+                    MenuInflater inflater = popup.getMenuInflater();
+                    inflater.inflate(R.menu.popup_scorekeeper, popup.getMenu());
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-                PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(), v);
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            if(DEBUG_ON)
+                                t.setText("Pop up option set: " + item.getTitle());
+                            switch (item.getItemId()) {
+                                case R.id.popup_scorekeeper_tennis:
+//                            archive(item);
+                                    return true;
+                                case R.id.popup_scorekeeper_squash:
+//                            delete(item);
+                                    return true;
+                                default:
+                                    return false;
+                            }
+                        }
+                    });
+//                    setHasOptionsMenu(true);
 
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.popup_scorekeeper, popup.getMenu());
-                    setHasOptionsMenu(true);
-                // debug
-                if(DEBUG_ON)
-                    t.setText("Pop up");
+                    // debug
+                    if(DEBUG_ON)
+                        t.setText("Pop up");
 
-                popup.show();
+                    popup.show();
                 }
             });
 
@@ -890,9 +909,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             });
             return rootView;
-
         }
-
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {

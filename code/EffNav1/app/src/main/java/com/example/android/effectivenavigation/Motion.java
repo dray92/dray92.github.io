@@ -11,6 +11,9 @@ public class Motion {
     private boolean isPositive;
     private boolean isNegative;
     private int accelxMax, accelyMax, accelzMax;
+    private int[] absX, absY, absZ;
+
+    private final int SMOOTH_WINDOW_SIZE = 4;
 
     public Motion(int[][] accelerometer, int[][] gyroscope) {
         this(accelerometer, gyroscope, false, false);
@@ -25,7 +28,22 @@ public class Motion {
         accelxMax = 0;
         accelyMax = 0;
         accelzMax = 0;
+        absX = new int[accelerometer.length];
+        absY = new int[accelerometer.length];
+        absZ = new int[accelerometer.length];
         setMagAcceleration();
+        setAbsAccel();
+    }
+
+    private void setAbsAccel() {
+        int[] accelX = getAccelX();
+        int[] accelY = getAccelY();
+        int[] accelZ = getAccelZ();
+        for(int i = 0 ; i < accelerometer.length ; i++) {
+            absX[i] = Math.abs(accelX[i]);
+            absY[i] = Math.abs(accelY[i]);
+            absZ[i] = Math.abs(accelZ[i]);
+        }
     }
 
     private void setMagAcceleration() {
@@ -36,6 +54,27 @@ public class Motion {
             accelyMax = Math.abs(accelerometer[row][1]) > accelyMax ? Math.abs(accelerometer[row][1]) : accelyMax;
             accelzMax = Math.abs(accelerometer[row][2]) > accelzMax ? Math.abs(accelerometer[row][2]) : accelzMax;
         }
+    }
+
+    public int[] getabsX() { return absX; }
+
+    public int[] getabsY() { return absY; }
+
+    public int[] getabsZ() { return absZ; }
+
+    public int getAbsAvgX() { return getAvg(absX); }
+
+    public int getAbsAvgY() { return getAvg(absY); }
+
+    public int getAbsAvgZ() { return getAvg(absZ); }
+
+    private int getAvg(int[] arr) {
+        int sum = 0;
+
+        for(int i = 0 ; i < arr.length ; i++)
+            sum += arr[i];
+
+        return (int)sum/arr.length;
     }
 
     public int getxMax() { return accelxMax; }
@@ -89,4 +128,58 @@ public class Motion {
             colArray[row] = arrayOfInterest2d[row][columnOfInterest];
         return colArray;
     }
+
+
+    // smoothed the passed in int array by using a sliding window to set
+    // the center index to the mean of the window
+    // returns an integer containing a smoothed array,
+    // values < SMOOTH_WINDOW_SIZE && values > SMOOTH_WINDOW_SIZE aren't set
+    private int[] smoothSliding(int[] arr) {
+        int[] smoothArr = new int[arr.length];
+
+        int windowTotal;    // stores the total of the window elements
+
+        for(int i = 0 ; i < arr.length ; i++)
+            smoothArr[i] = arr[i];
+
+        // start the sliding window
+        for(int i = SMOOTH_WINDOW_SIZE ; i < arr.length - SMOOTH_WINDOW_SIZE ; i++) {
+            windowTotal = 0;        // initialized to 0
+
+            // computes the window average
+            for(int j = i - SMOOTH_WINDOW_SIZE ; j < i + SMOOTH_WINDOW_SIZE ; j++)
+                windowTotal += arr[j];
+
+            smoothArr[i] = (int) windowTotal/SMOOTH_WINDOW_SIZE;        // setting center index
+        }
+        return smoothArr;
+    }
+
+    /*
+        TO BE IMPLEMENTED LATER
+    // smooths the data in the column vector in int array using a moving average filter
+    // returns an integer containing a smoothed array,
+    // values < SMOOTH_WINDOW_SIZE && values > SMOOTH_WINDOW_SIZE aren't set
+    private int[] smoothMovingAverage(int[] arr) {
+        int[] smoothArr = new int[arr.length];
+
+        int windowTotal;    // stores the total of the window elements
+
+        fr()
+
+
+        // start the sliding window
+        for(int i = 0 ; i < arr.length ; i++) {
+            windowTotal = 0;        // initialized to 0
+
+            // computes the window average
+            for(int j = i - SMOOTH_WINDOW_SIZE ; j < i + SMOOTH_WINDOW_SIZE ; j++)
+                windowTotal += arr[j];
+
+            smoothArr[i] = (int) windowTotal/SMOOTH_WINDOW_SIZE;        // setting center index
+        }
+        return smoothArr;
+    }
+*/
+
 }
