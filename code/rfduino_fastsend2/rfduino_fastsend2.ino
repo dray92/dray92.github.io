@@ -702,6 +702,7 @@ void loop()
     // sending data
     RFduinoBLE.send(string, 12);  
 //    Serial.print(string);   
+    delay(10);
   }
   if (plus.uniquePress())
   {
@@ -714,7 +715,7 @@ void loop()
     RFduinoBLE.send("N00000000000", 12);
     //Serial.println("N");
   }
-  delay(10);
+  
   //
 
 }
