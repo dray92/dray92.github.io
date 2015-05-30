@@ -783,13 +783,31 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * simply displays dummy text.
      * Converted to: Scorekeeper section -> Keeps score...
      */
-    public static class ScorekeeperSectionFragment extends Fragment   {
+
+    public static class ScorekeeperSectionFragment extends Fragment /*implements DialogInterface.OnClickListener*//* implements PopupMenu.OnMenuItemClickListener */{
+        private final int GAME_DEFAULT = 0;
+        private final int GAME_TENNIS = 1;
+        private final int GAME_BASKETBALL = 2;
+        private final int GAME_GOLF = 3;
+        private final int PLAYER_ONE = 0;
+        private final int PLAYER_TWO = 1;
+        private final int BEST_OF_FIVE = 3;
+        private final int GAMES_TO_SET = 6;
+
+        int game = GAME_TENNIS;
+        int incrementDecrementAmount = 1;
+        int[] player1Score = new int[3];
+        int[] player2Score = new int[3];
+        String[] tennisScore = new String[] {"0", "15", "30", "40", "Ad"};
+
 
         public static final String ARG_SECTION_NUMBER = "section_number";
 
         boolean valueUpdated = false;
         TextView t;
         View myRootView;
+
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -802,14 +820,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 //            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
 //                    getString(R.string.scorekeeper_section_text, args.getInt(ARG_SECTION_NUMBER)));
 
-            final TextView plus = (TextView)rootView.findViewById(R.id.plus);
-            final TextView minus = (TextView)rootView.findViewById(R.id.minus);
+
             final TextView reset = (TextView)rootView.findViewById(R.id.reset);
             t = (TextView)rootView.findViewById(R.id.test);
             final TextView popupMenu = (TextView)rootView.findViewById(R.id.popup_scorekeeper);
-            final int[] oldVal = {Integer.parseInt((String) plus.getText())};
+            final TextView player1 = (TextView)rootView.findViewById(R.id.plus);
+            final TextView player2 = (TextView)rootView.findViewById(R.id.minus);
+            final int[] oldVal = {Integer.parseInt((String) player1.getText())};
 
-            final int incrementDecrementAmount = 1;
+
+
+
+
 
             popupMenu.setOnClickListener(new View.OnClickListener() {
 
@@ -850,61 +872,132 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             reset.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                minus.setText("0");
-                plus.setText("0");
+                player2.setText("0");
+                player1.setText("0");
+                player1Score = new int[3];
+                player2Score = new int[3];
                 }
             });
 
             /* onclick on plus and minus buttons increments value */
-            plus.setOnClickListener(new View.OnClickListener() {
+            player1.setOnClickListener(new View.OnClickListener() {
 
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void onClick(View v) {
-                int plusVal = Integer.parseInt((String) plus.getText());
-                plus.setText("" + (plusVal + incrementDecrementAmount));
+                    incrementScore(PLAYER_ONE, player1, player2);
+//                    int scoreValueP1;
+//                    int gameValueP1;
+//                    int setValueP1;
+//                    int scoreValueP2;
+//                    int gameValueP2;
+//                    int setValueP2;
+//
+//
+//                    player1Score[0]++;
+
+//
+//                    // tennis
+//                    if (game == GAME_TENNIS) {
+//                        Log.d("scorekeeper:", "Im in the tennis case");
+//                        // after incrementing, if player1 is ad and player 2 is ad
+//                        if (player1Score[0] == 4 && player2Score[0] == 4) {
+//                            // set both scores to 40
+//                            player1Score[0] = 3;
+//                            player2Score[0] = 3;
+//                        }
+//
+//                        // this is the case where player 1 wins the game
+//                        if ((player1Score[0] >= tennisScore.length-1) && (player1Score[0]-player2Score[0] >= 2)) {
+//                            player1Score[0] = 0;
+//                            player1Score[1]++;
+//
+//                            // this is the case where player 1 wins the set
+//                            if ((player1Score[1] >= GAMES_TO_SET) && (player1Score[1]-player2Score[1] >= 2)) {
+//                                player1Score[1] = 0;
+//                                player1Score[2]++;
+//                                if (player1Score[2] == BEST_OF_FIVE) {
+//                                    // PLAYER 1 WINS!!
+//                                    // DISPLAY SOMETHING HERE
+//
+//                                    player1Score = new int[3];
+//                                    player2Score = new int[3];
+//                                }
+//                            }
+//                        }
+//                        scoreValueP1 = Integer.parseInt(tennisScore[player1Score[0]]);
+//                        gameValueP1 = player1Score[1];
+//                        setValueP1 = player1Score[2];
+//                        scoreValueP2 = Integer.parseInt(tennisScore[player2Score[0]]);
+//                        gameValueP2 = player2Score[1];
+//                        setValueP2 = player2Score[2];
+//                        player1.setText("Set:" + Integer.toString(setValueP1) + "Game:" +  Integer.toString(gameValueP1) +
+//                                "Score:" + Integer.toString(scoreValueP1));
+//                        player2.setText("Set:" + Integer.toString(setValueP2) + "Game:" +  Integer.toString(gameValueP2) +
+//                                "Score:" + Integer.toString(scoreValueP2));
+//                    }
+//
+//                    // basketball, golf
+//                    else {
+//                        Log.d("scorekeeper:", "Im in the basketball/golf else case");
+//                        scoreValueP1 = player1Score[0];
+//                        player1.setText("" + scoreValueP1);
+//                    }
+
+
+
+
+
+
+
+
                 }
 
             });
 
-            minus.setOnClickListener(new View.OnClickListener() {
+            player2.setOnClickListener(new View.OnClickListener() {
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void onClick(View v) {
-                    int minusVal = Integer.parseInt((String) minus.getText());
-                    minus.setText("" + (minusVal + incrementDecrementAmount));
+                    incrementScore(PLAYER_TWO, player1, player2);
+//                player2Score[0]++;
+//                int minusVal = Integer.parseInt((String) player2.getText());
+//                player2.setText("" + (minusVal + incrementDecrementAmount));
+
                 }
 
             });
 
             /* longclick on plus and minus buttons decrement value */
-            plus.setOnLongClickListener(new View.OnLongClickListener() {
+            player1.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
 //              if(!valueUpdated)
-                plus.setText("" + (Integer.parseInt((String) plus.getText())
-                        - incrementDecrementAmount));
+                player2Score[0]--;
+                    player1.setText("" + (Integer.parseInt((String) player1.getText())
+                    - incrementDecrementAmount));
 
-                if (oldVal[0] != Integer.parseInt((String) plus.getText())) {
-                    oldVal[0] = Integer.parseInt((String) plus.getText());
+                if (oldVal[0] != Integer.parseInt((String) player1.getText())) {
+                    oldVal[0] = Integer.parseInt((String) player1.getText());
                     valueUpdated = !valueUpdated;
                 }
                 return true;
                 }
 
             });
-            minus.setOnLongClickListener(new View.OnLongClickListener() {
+            player2.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-//              if(!valueUpdated)
-                minus.setText("" + (Integer.parseInt((String) minus.getText())
+//                 if(!valueUpdated)
+                    player2Score[0]--;
+                    player2.setText("" + (Integer.parseInt((String) player2.getText())
                         - incrementDecrementAmount));
 
-                if(oldVal[0] != Integer.parseInt((String) minus.getText())) {
-                    oldVal[0] = Integer.parseInt((String) minus.getText());
-                    valueUpdated = !valueUpdated;
-                }
-                return true;
+                    if(oldVal[0] != Integer.parseInt((String) player2.getText())) {
+                        oldVal[0] = Integer.parseInt((String) player2.getText());
+                        valueUpdated = !valueUpdated;
+                    }
+                    return true;
                 }
 
             });
@@ -944,6 +1037,111 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     return super.onOptionsItemSelected(item);
             }
         }
+
+        public void incrementScore(int player, TextView player1, TextView player2) {
+            String scoreValueP1;
+            int gameValueP1;
+            int setValueP1;
+            String scoreValueP2;
+            int gameValueP2;
+            int setValueP2;
+            int[] playerScore = new int[3];
+            int[] opposingPlayerScore = new int[3];
+            if (player == PLAYER_ONE) {
+                playerScore = player1Score;
+                opposingPlayerScore = player2Score;
+
+
+            } else if (player == PLAYER_TWO) {
+                playerScore = player2Score;
+                opposingPlayerScore = player1Score;
+
+
+
+            }
+            playerScore[0]++;
+
+
+
+            // tennis
+            if (game == GAME_TENNIS) {
+                Log.d("scorekeeper:", "Im in the tennis case");
+                // after incrementing, if player1 is ad and player 2 is ad
+                if (playerScore[0] == 4 && opposingPlayerScore[0] == 4) {
+                    // set both scores to 40
+                    playerScore[0] = 3;
+                    opposingPlayerScore[0] = 3;
+                }
+
+                // this is the case where player 1 wins the game
+                if ((playerScore[0] >= tennisScore.length-1) && (playerScore[0]-opposingPlayerScore[0] >= 2)) {
+                    playerScore[0] = 0;
+                    opposingPlayerScore[0] = 0;
+                    playerScore[1]++;
+
+
+                    // this is the case where player 1 wins the set
+                    if ((playerScore[1] >= GAMES_TO_SET) && (playerScore[1]-opposingPlayerScore[1] >= 2)) {
+                        playerScore[1] = 0;
+                        opposingPlayerScore[1] = 0;
+                        playerScore[2]++;
+                        if (playerScore[2] == BEST_OF_FIVE) {
+                            // PLAYER 1 WINS!!
+                            // DISPLAY SOMETHING HERE
+
+                            playerScore = new int[3];
+                            opposingPlayerScore = new int[3];
+                        }
+                    }
+                }
+                scoreValueP1 = tennisScore[playerScore[0]];
+                gameValueP1 = playerScore[1];
+                setValueP1 = playerScore[2];
+                scoreValueP2 = tennisScore[opposingPlayerScore[0]];
+                gameValueP2 = opposingPlayerScore[1];
+                setValueP2 = opposingPlayerScore[2];
+
+
+                if (player == PLAYER_ONE) {
+                    player1.setText("Set:" + Integer.toString(setValueP1) + "\nGame:" +  Integer.toString(gameValueP1) +
+                            "\nScore:" + scoreValueP1);
+                    player2.setText("Set:" + Integer.toString(setValueP2) + "\nGame:" +  Integer.toString(gameValueP2) +
+                            "\nScore:" + scoreValueP2);
+                    player1Score = playerScore;
+                    player2Score = opposingPlayerScore;
+                } else if (player == PLAYER_TWO) {
+                    player2.setText("Set:" + Integer.toString(setValueP1) + "\nGame:" +  Integer.toString(gameValueP1) +
+                            "\nScore:" + scoreValueP1);
+                    player1.setText("Set:" + Integer.toString(setValueP2) + "\nGame:" +  Integer.toString(gameValueP2) +
+                            "\nScore:" + scoreValueP2);
+                    player2Score = playerScore;
+                    player1Score = opposingPlayerScore;
+                }
+            }
+
+            // basketball, golf
+            else {
+                Log.d("scorekeeper:", "Im in the basketball/golf else case");
+
+                if (player == PLAYER_ONE) {
+                    scoreValueP1 = Integer.toString(playerScore[0]);
+                    player1.setText(scoreValueP1);
+                    player1Score = playerScore;
+                } else if (player == PLAYER_TWO) {
+                    scoreValueP2 = Integer.toString(playerScore[0]);
+                    player1.setText(scoreValueP2);
+                    player2Score = playerScore;
+                }
+            }
+
+
+
+
+
+        }
+
+
+
 
 
     }
