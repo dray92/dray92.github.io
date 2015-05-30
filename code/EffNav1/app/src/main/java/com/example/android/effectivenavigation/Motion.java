@@ -20,6 +20,7 @@ public class Motion {
         this.gyroscope = gyroscope;
         this.isPositive = isPositive;
         this.isNegative = isNegative;
+        accelMagVector = new int[accelerometer.length];
         setMagAcceleration();
     }
 

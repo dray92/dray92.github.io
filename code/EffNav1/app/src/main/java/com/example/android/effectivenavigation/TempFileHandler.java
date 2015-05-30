@@ -1,16 +1,11 @@
 package com.example.android.effectivenavigation;
 
 import android.os.Environment;
-import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Scanner;
 
 /**
  * Created by Debosmit on 5/27/15.
@@ -137,12 +132,12 @@ public class TempFileHandler {
                     negative = true;
                     continue;
                 }
-                accelerometer[j][0] = Integer.parseInt(quaternions[j].substring(0,4), 16);
-                accelerometer[j][1] = Integer.parseInt(quaternions[j].substring(4,8), 16);
-                accelerometer[j][2] = Integer.parseInt(quaternions[j].substring(8,12), 16);
-                gyroscope[j][0] = Integer.parseInt(quaternions[j].substring(12,16), 16);
-                gyroscope[j][1] = Integer.parseInt(quaternions[j].substring(16,20), 16);
-                gyroscope[j][2] = Integer.parseInt(quaternions[j].substring(20,24), 16);
+                accelerometer[j][0] = Integer.valueOf(quaternions[j].substring(0,4), 16).shortValue();
+                accelerometer[j][1] = Integer.valueOf(quaternions[j].substring(4,8), 16).shortValue();
+                accelerometer[j][2] = Integer.valueOf(quaternions[j].substring(8,12), 16).shortValue();
+                gyroscope[j][0] = Integer.valueOf(quaternions[j].substring(12,16), 16).shortValue();
+                gyroscope[j][1] = Integer.valueOf(quaternions[j].substring(16,20), 16).shortValue();
+                gyroscope[j][2] = Integer.valueOf(quaternions[j].substring(20,24), 16).shortValue();
             }
             myMotions[i] = new Motion(accelerometer, gyroscope, positive, negative);
         }

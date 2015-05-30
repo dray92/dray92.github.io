@@ -19,8 +19,6 @@ package com.example.android.effectivenavigation;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -29,7 +27,6 @@ import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -60,12 +57,11 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.UUID;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -684,7 +680,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public static final String ARG_SECTION_NUMBER = "section_number";
         private View myRootView;
         private TextView t;
-        private final int CONSISTENCY_THRESHOLD = 10000000;
+        private final int CONSISTENCY_THRESHOLD = 1000;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -723,14 +719,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             int consistencyScore = 0;
 
-            for (int i = 0; i < mySwings.length - 1; i++)
+            for (int i = 0; i < mySwings.length - 1; i++) {
+                printMotionComparerToDebugger(mySwings[i], mySwings[i + 1]);
                 consistencyScore += calculateConsistencyHelper(mySwings, i, i + 1);
-
+            }
             int consistencyMax = (mySwings.length - 1) * 3;
 
             double calculatedScore = 100.0 * (consistencyScore / consistencyMax);
 
             t.setText(t.getText() + "||" + "Score: " + calculatedScore);
+        }
+
+        private void printMotionComparerToDebugger(Motion m1, Motion m2) {
+            Log.d("Motion 1, Accel X:", Arrays.toString(m1.getAccelX()));
+            Log.d("Motion 2, Accel X:", Arrays.toString(m2.getAccelX()));
+            Log.d("Motion 1, Accel Y:", Arrays.toString(m1.getAccelY()));
+            Log.d("Motion 2, Accel Y:", Arrays.toString(m2.getAccelY()));
+            Log.d("Motion 1, Accel Z:", Arrays.toString(m1.getAccelZ()));
+            Log.d("Motion 2, Accel Z:", Arrays.toString(m2.getAccelZ()));
         }
 
         private int calculateConsistencyHelper(Motion[] mySwings, int i, int i1) {
@@ -745,6 +751,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             dtw[2] = new DTWHelper(swing1.getAccelZ(), swing2.getAccelZ());
 
             for(DTWHelper singleDTW: dtw) {
+                Log.d("print cost path", Double.toString(singleDTW.getPathCost()));
                 if (singleDTW.getPathCost() < CONSISTENCY_THRESHOLD) {
                     consistency++;
                 }
