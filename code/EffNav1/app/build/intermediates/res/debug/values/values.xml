@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/Daniel/Documents/Github/dray92.github.io/code/EffNav1/app/src/main/res/values/color.xml -->
+    <!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="black">#000000</color>
     <color name="blue">#FF33B5E5</color>
@@ -22,7 +22,7 @@
     <color name="translucent_red">#ff0000</color>
     <color name="white">#FFFFFF</color>
     <declare-styleable name="GraphViewXML"><attr format="string" name="seriesData"/><attr format="string" name="seriesType"/><attr format="string" name="seriesTitle"/><attr name="android:title"/><attr format="color" name="seriesColor"/></declare-styleable>
-    <!-- From: file:/Users/Daniel/Documents/Github/dray92.github.io/code/EffNav1/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="app_name">Senseiii</string>
     <string name="consistency_section_text">This is the Consistency Section.</string>
@@ -43,7 +43,7 @@
     <string name="tab2">Data</string>
     <string name="tab3">Consistency</string>
     <string name="tab4">Scorekeeper</string>
-    <!-- From: file:/Users/Daniel/Documents/Github/dray92.github.io/code/EffNav1/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>

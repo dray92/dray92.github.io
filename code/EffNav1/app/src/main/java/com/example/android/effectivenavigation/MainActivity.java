@@ -37,6 +37,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -666,7 +667,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 new DataPoint(3, 2),
                 new DataPoint(4, 6)
             });
-            graph.addSeries(series);super.onStart();
+            graph.addSeries(series);
+
+            /*DataPoint[] myArr = new DataPoint[15];
+            for(int i = 0 ; i < 15 ; i++)
+                myArr[i] = new DataPoint(i, (int)(10*Math.random()));
+
+            LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(myArr);
+            graph.addSeries(series2);*/
+            super.onStart();
         }
     }
 
@@ -680,7 +689,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public static final String ARG_SECTION_NUMBER = "section_number";
         private View myRootView;
         private TextView t;
-        private final int CONSISTENCY_THRESHOLD = 1000;
+        private final int CONSISTENCY_THRESHOLD = 10000000;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -697,19 +706,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public void onStart() {
             super.onStart();
             try {
-                int consistency = getScore();
+                getScore();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        public int getScore() throws IOException {
+        public void getScore() throws IOException {
             // open file
             TempFileHandler fileHandler = new TempFileHandler(tempFilepath, tempFilename);
 
             runDTW(fileHandler);
-
-          return 0;
         }
 
         private void runDTW(TempFileHandler fileHandler) {
@@ -725,7 +732,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
             int consistencyMax = (mySwings.length - 1) * 3;
 
-            double calculatedScore = 100.0 * (consistencyScore / consistencyMax);
+            double calculatedScore = (100.0 * consistencyScore) / consistencyMax;
 
             t.setText(t.getText() + "||" + "Score: " + calculatedScore);
         }
@@ -751,8 +758,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             dtw[2] = new DTWHelper(swing1.getAccelZ(), swing2.getAccelZ());
 
             for(DTWHelper singleDTW: dtw) {
-                Log.d("print cost path", Double.toString(singleDTW.getPathCost()));
-                if (singleDTW.getPathCost() < CONSISTENCY_THRESHOLD) {
+                DynamicTimeWarping myDtw = singleDTW.getDTW();
+                Log.d("print cost path", Double.toString(myDtw.getPathCost()));
+                if (myDtw.getPathCost() < CONSISTENCY_THRESHOLD) {
                     consistency++;
                 }
             }

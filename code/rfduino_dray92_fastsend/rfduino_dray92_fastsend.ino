@@ -779,7 +779,7 @@ void loop()
       awake = false; // awake not cleared on minus press
     }
 
-    delay(1);
+    delay(10);
     
 
   }
@@ -796,7 +796,7 @@ void loop()
       RFduinoBLE.send("N11111111111", 12);
       Serial.println("N");
     }
-    delay(1);
+    delay(10);
   
   }
   

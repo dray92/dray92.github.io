@@ -12,4 +12,8 @@ public class DTWHelper extends DynamicTimeWarping {
         dynamicTimeWarping = new DynamicTimeWarping(t,r);
         dynamicTimeWarping.dtw();
     }
+
+    public DynamicTimeWarping getDTW() {
+        return dynamicTimeWarping;
+    }
 }

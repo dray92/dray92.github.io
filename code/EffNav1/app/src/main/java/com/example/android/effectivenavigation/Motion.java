@@ -25,9 +25,14 @@ public class Motion {
     }
 
     private void setMagAcceleration() {
-        for(int row = 0 ; row < accelerometer.length ; row++)
+        int xMax = 0, yMax = 0, zMax = 0;
+        for(int row = 0 ; row < accelerometer.length ; row++) {
             accelMagVector[row] = getMagnitude(accelerometer[row][0],
-                    accelerometer[row][1], accelerometer[row][2] );
+                    accelerometer[row][1], accelerometer[row][2]);
+            xMax = Math.abs(accelerometer[row][0]) > xMax ? Math.abs(accelerometer[row][0]) : xMax;
+            yMax = Math.abs(accelerometer[row][1]) > yMax ? Math.abs(accelerometer[row][1]) : yMax;
+            zMax = Math.abs(accelerometer[row][2]) > zMax ? Math.abs(accelerometer[row][2]) : zMax;
+        }
     }
 
     private int getMagnitude(int a, int b, int c) {
