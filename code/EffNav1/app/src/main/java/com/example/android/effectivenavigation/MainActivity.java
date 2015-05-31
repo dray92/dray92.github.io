@@ -837,7 +837,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            resetScores(player1, player2);
+
                             if(DEBUG_ON)
                                 t.setText("Pop up option set: " + item.getTitle());
                             switch (item.getItemId()) {
@@ -845,21 +845,32 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                                     sport = SPORT_TENNIS;
                                     // change sets to win based on what user inputs
                                     // setsToWin = {user_input}
-
+                                    player1.setBackground(getResources().getDrawable((R.drawable.tennis)));
+                                    player2.setBackground(getResources().getDrawable((R.drawable.tennis)));
+                                    resetScores(player1, player2);
                                     return true;
                                 case R.id.popup_scorekeeper_basketball:
                                     sport = SPORT_BASKETBALL;
                                     scoreToWin = DEFAULT_SCORE_TO_WIN_BASKETBALL;
+                                    player1.setBackground(getResources().getDrawable((R.drawable.basketball)));
+                                    player2.setBackground(getResources().getDrawable((R.drawable.basketball)));
+                                    resetScores(player1, player2);
                                     return true;
                                 case R.id.popup_scorekeeper_golf:
                                     sport = SPORT_GOLF;
                                     scoreToWin = -1; // never allow user to win
+                                    player1.setBackground(getResources().getDrawable((R.drawable.golf)));
+                                    player2.setBackground(getResources().getDrawable((R.drawable.golf)));
+                                    resetScores(player1, player2);
                                     return true;
 
 
                                 default:
                                     sport = SPORT_DEFAULT;
                                     scoreToWin = DEFAULT_SCORE_TO_WIN;
+                                    player1.setBackground(getResources().getDrawable((R.drawable.greencircle)));
+                                    player2.setBackground(getResources().getDrawable((R.drawable.redcircle)));
+                                    resetScores(player1, player2);
                                     return true;
                             }
                         }
