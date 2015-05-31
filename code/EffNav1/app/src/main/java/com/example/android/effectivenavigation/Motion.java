@@ -13,7 +13,7 @@ public class Motion {
     private int accelxMax, accelyMax, accelzMax;
     private int[] absX, absY, absZ;
 
-    private final int SMOOTH_WINDOW_SIZE = 4;
+    private final int SMOOTH_WINDOW_SIZE = 4;       // change depending on length????
 
     public Motion(int[][] accelerometer, int[][] gyroscope) {
         this(accelerometer, gyroscope, false, false);
@@ -22,6 +22,8 @@ public class Motion {
     public Motion(int[][] accelerometer, int[][] gyroscope, boolean isPositive, boolean isNegative) {
         this.accelerometer = accelerometer;
         this.gyroscope = gyroscope;
+//        this.accelerometer = smoothSliding(accelerometer);
+//        this.gyroscope = smoothSliding(gyroscope);
         this.isPositive = isPositive;
         this.isNegative = isNegative;
         accelMagVector = new int[accelerometer.length];
@@ -87,7 +89,7 @@ public class Motion {
         return (int)Math.sqrt(Math.pow(a,2) + Math.pow(b,2) + Math.pow(c,2));
     }
 
-    public int[] getAccelMagVector() { return getAccelMagVector(); }
+    public int[] getAccelMagVector() { return accelMagVector; }
 
     public void setPositive(boolean setPositive) { this.isPositive = setPositive; }
 
@@ -129,6 +131,31 @@ public class Motion {
         return colArray;
     }
 
+
+    // smoothed the passed in 2D int array by using a sliding window to set
+    // the center index to the mean of the window
+    // returns an integer containing a smoothed array,
+    // values < SMOOTH_WINDOW_SIZE && values > SMOOTH_WINDOW_SIZE aren't set
+    // smooths columns
+    private int[][] smoothSliding(int[][] arr) {
+        int[][] smoothArr = new int[arr.length][arr[0].length];
+
+        int[] tempArr;     // to temporarily store columns
+
+        // going over columns
+        for(int i = 0 ; i < arr[0].length ; i++) {
+
+            tempArr = getColumn(arr, i);        // storing column
+
+            int[] smoothedTemp = smoothSliding(tempArr);        // getting smoothed columns (vector)
+
+            // storing column in required index to be returned
+            for(int  j = 0 ; j < arr.length ; j++)
+                smoothArr[j][i] = smoothedTemp[j];
+        }
+
+        return smoothArr;
+    }
 
     // smoothed the passed in int array by using a sliding window to set
     // the center index to the mean of the window

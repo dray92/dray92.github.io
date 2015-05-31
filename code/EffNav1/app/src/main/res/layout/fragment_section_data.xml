@@ -11,15 +11,26 @@
         android:textSize="24sp"
         android:padding="32dp" />
 
-
     <TextView
         style="@style/CodeFont"
-        android:text="Tester Section"
+        android:text=""
         android:id="@+id/test" />
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
-        android:layout_height="200dip"
-        android:id="@+id/graph" />
+        android:layout_height="150dip"
+        android:id="@+id/graph1" />
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="150dip"
+        android:id="@+id/graph3"
+        android:layout_gravity="center_horizontal|bottom" />
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="150dip"
+        android:id="@+id/graph2"
+        android:layout_gravity="center" />
 
 </FrameLayout>

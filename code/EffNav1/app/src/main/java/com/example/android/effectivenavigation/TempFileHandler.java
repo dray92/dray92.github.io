@@ -14,17 +14,20 @@ public class TempFileHandler {
 
     private String myFile;  // 'return' delimited string containing contents of temp file
     private int numMotions;
+    private String[] motionStrings;
+    private Motion[] motions;
 
     // initializes fileHandler for temp file, global file contents string
     public TempFileHandler(String filepath, String filename) throws IOException {
-        //first thing -> getting pieces of motion (sss ... rrr)
-        // create motion object
-        // have a getMotion[] or something
-        // each Motion object will have it's own bunch of stuff
-        // it's already pretty complex, simplicity is key
-
         File parentDir = new File(Environment.getExternalStorageDirectory(), filepath);
-        myFile = readFile(new File(parentDir, filename));         // converts stream to string
+        myFile = cleanFile(readFile(new File(parentDir, filename)));         // converts stream to string
+        setMotions();
+    }
+
+    private String cleanFile(String s) {
+        if(!s.startsWith("S"))
+            return s.substring(s.indexOf("S"), s.length());
+        return s;
     }
 
     // returns a string containing the entire temp file
@@ -51,7 +54,7 @@ public class TempFileHandler {
 
     // returns string array, each index of which contains 'one' motion data string,
     // 'return' delimited
-    private String[] getMotionStrings() {
+    private void setMotionStrings() {
         String[] allLines = myFile.split("\n");
         String oneMotion = "";
         boolean dataIncoming = false;
@@ -94,18 +97,19 @@ public class TempFileHandler {
                 oneMotion += allLines[i] + "\n";
 
         }
-
-        return motions;
+        motionStrings = motions;
     }
+
+    public String[] getMotionStrings() { return motionStrings; }
+
+    public Motion[] getMotions() { return motions; }
 
     public int getNumMotions() {
         return numMotions;
     }
 
-    // horrible style for getter
-    // SHOULD NOT DO PROCESSING HERE
-    // doing it for quick turnover
-    public Motion[] getMotions() {
+    private void setMotions() {
+        setMotionStrings();
         String[] myMotionStrings = getMotionStrings();
         Motion[] myMotions = new Motion[getNumMotions()];
         boolean positive = false, negative = false;
@@ -141,7 +145,6 @@ public class TempFileHandler {
             }
             myMotions[i] = new Motion(accelerometer, gyroscope, positive, negative);
         }
-        return myMotions;
-
+        motions = myMotions;
     }
 }

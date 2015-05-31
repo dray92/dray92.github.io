@@ -37,6 +37,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -98,6 +99,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public static final String tempFilepath = "sensei";
     public static final String tempFilename = "temp.txt";
 
+    public static TempFileHandler fileHandler;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,7 +158,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //updateState(btAdapter.isEnabled() ? STATE_DISCONNECTED : STATE_BLUETOOTH_OFF);
         oldState = btAdapter.isEnabled() ? STATE_DISCONNECTED : STATE_BLUETOOTH_OFF;
 
-        toneG = new ToneGenerator(AudioManager.STREAM_ALARM, ToneGenerator.MAX_VOLUME);   // max volume
+        toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 50/*ToneGenerator.MAX_VOLUME*/);   // max volume
 
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -168,8 +170,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 new File(dir, children[i]).delete();
             }
         }
-
-
     }
 
     @Override
@@ -586,26 +586,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         private final BroadcastReceiver btStateReceiver = new BroadcastReceiver() {
             public void onReceive(Context context, Intent intent) {
-                int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
+            int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
 
-                //upgradeState(STATE_DISCONNECTED); updateState(STATE_DISCONNECTED);
-                if (state == BluetoothAdapter.STATE_ON)
-                    oldState = (STATE_DISCONNECTED > oldState) ? STATE_DISCONNECTED : oldState;
+            //upgradeState(STATE_DISCONNECTED); updateState(STATE_DISCONNECTED);
+            if (state == BluetoothAdapter.STATE_ON)
+                oldState = (STATE_DISCONNECTED > oldState) ? STATE_DISCONNECTED : oldState;
 
-                    //downgradeState(STATE_BLUETOOTH_OFF); updateState(STATE_BLUETOOTH_OFF);
-                else if (state == BluetoothAdapter.STATE_OFF)
-                    oldState = (STATE_BLUETOOTH_OFF < oldState) ? STATE_BLUETOOTH_OFF : oldState;
+                //downgradeState(STATE_BLUETOOTH_OFF); updateState(STATE_BLUETOOTH_OFF);
+            else if (state == BluetoothAdapter.STATE_OFF)
+                oldState = (STATE_BLUETOOTH_OFF < oldState) ? STATE_BLUETOOTH_OFF : oldState;
             }
         };
-//        public void onStart() {
-//            registerReceiver(scanModeReceiver, new IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED));
-//            registerReceiver(btStateReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
-//            registerReceiver(btStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
-//            registerReceiver(rfduinoStateReceiver, RFduinoService.getIntentFilter());
-//
-//            //updateState(btAdapter.isEnabled() ? STATE_DISCONNECTED : STATE_BLUETOOTH_OFF);
-//            oldState = btAdapter.isEnabled() ? STATE_DISCONNECTED : STATE_BLUETOOTH_OFF;
-//        }
     }
 
     /**
@@ -635,45 +626,69 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         public static final String ARG_SECTION_NUMBER = "section_number";
         private View myRootview;
+        private GraphView[] graphs;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_data, container, false);
             Bundle args = getArguments();
-            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-                    getString(R.string.data_section_text, args.getInt(ARG_SECTION_NUMBER)));
+
             myRootview = rootView;
+
+            graphs = new GraphView[]{(GraphView) myRootview.findViewById(R.id.graph1),
+                    (GraphView) myRootview.findViewById(R.id.graph2),
+                    (GraphView) myRootview.findViewById(R.id.graph3)};
+
             return rootView;
         }
 
         @Override
-        public void onResume() {
-            super.onResume();
+        public void onStart() {
+            super.onStart();
             try {
-                drawGraph();
+                mainDrawGraph();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        private void drawGraph() {
-            GraphView graph = (GraphView) myRootview.findViewById(R.id.graph);
-            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-            });
+        public void updateGlobalFileHandler() throws IOException {
+            if(fileHandler == null)
+                fileHandler = new TempFileHandler(tempFilepath, tempFilename);
+
+            TempFileHandler checkUpdate = new TempFileHandler(tempFilepath, tempFilename);
+
+            if(checkUpdate.getNumMotions() > fileHandler.getNumMotions())
+                fileHandler = checkUpdate;
+
+        }
+
+        private void mainDrawGraph() throws IOException {
+
+            updateGlobalFileHandler();
+
+            if(fileHandler.getNumMotions() > 0) {
+                Motion[] mySwings = fileHandler.getMotions();
+
+                int magAccel[];
+                DataPoint[] dataset;
+                for(int i = 0 ; i < mySwings.length ; i++) {
+                    magAccel = mySwings[i].getAccelMagVector();
+                    dataset = new DataPoint[magAccel.length];
+
+                    for(int j = 0 ; j < magAccel.length ; j++)
+                        dataset[j] = new DataPoint(j, magAccel[j]);
+
+                    drawGraph(graphs[0], dataset);
+                }
+            }
+        }
+
+        private void drawGraph(GraphView graph, DataPoint[] dataset) {
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataset);
             graph.addSeries(series);
 
-            /*DataPoint[] myArr = new DataPoint[15];
-            for(int i = 0 ; i < 15 ; i++)
-                myArr[i] = new DataPoint(i, (int)(10*Math.random()));
-
-            LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(myArr);
-            graph.addSeries(series2);*/
             super.onStart();
         }
     }
@@ -711,29 +726,48 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
         }
 
-        public void getScore() throws IOException {
-            // open file
-            TempFileHandler fileHandler = new TempFileHandler(tempFilepath, tempFilename);
+        public void updateGlobalFileHandler() throws IOException {
+            if(fileHandler == null)
+                fileHandler = new TempFileHandler(tempFilepath, tempFilename);
 
+            TempFileHandler checkUpdate = new TempFileHandler(tempFilepath, tempFilename);
+
+            if(checkUpdate.getNumMotions() > fileHandler.getNumMotions())
+                fileHandler = checkUpdate;
+
+        }
+
+        public void getScore() throws IOException {
+            updateGlobalFileHandler();
             runDTW(fileHandler);
         }
 
         private void runDTW(TempFileHandler fileHandler) {
             Motion[] mySwings = fileHandler.getMotions();
 
-            t.setText("Number of motions: " + mySwings.length);
+            if(DEBUG_ON)
+                t.setText("Number of motions: " + mySwings.length);
 
-            int consistencyScore = 0;
+            double consistencyScore = 0;
 
             for (int i = 0; i < mySwings.length - 1; i++) {
-                printMotionComparerToDebugger(mySwings[i], mySwings[i + 1]);
                 consistencyScore += calculateConsistencyHelper(mySwings, i, i + 1);
             }
-            int consistencyMax = (mySwings.length - 1) * 3;
+            int consistencyMax = (mySwings.length - 1);
 
-            double calculatedScore = (100.0 * consistencyScore) / consistencyMax;
+            double score = round(consistencyScore/consistencyMax, 3);
 
-            t.setText(t.getText() + "||" + "Score: " + calculatedScore);
+            if(DEBUG_ON)
+                t.setText(t.getText() + "||" + "Score: " + score + "%");
+        }
+
+        private static double round(double value, int places) {
+            if (places < 0) throw new IllegalArgumentException();
+
+            long factor = (long) Math.pow(10, places);
+            value = value * factor;
+            long tmp = Math.round(value);
+            return (double) tmp / factor;
         }
 
         private void printMotionComparerToDebugger(Motion m1, Motion m2) {
@@ -745,11 +779,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Log.d("Motion 2, Accel Z:", Arrays.toString(m2.getAccelZ()));
         }
 
-        private int calculateConsistencyHelper(Motion[] mySwings, int i, int i1) {
+        private double calculateConsistencyHelper(Motion[] mySwings, int i, int i1) {
             Motion swing1 = mySwings[i];
             Motion swing2 = mySwings[i1];
-
-            int consistency = 0;
 
             DTWHelper[] dtw = new DTWHelper[3];
             dtw[0] = new DTWHelper(swing1.getAccelX(), swing2.getAccelX());
@@ -763,18 +795,57 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Log.d("square of difference between xmax and xavg swing 1: ", Integer.toString((int) Math.pow(Math.abs(swing1.getAbsAvgX() - swing1.getxMax()), 2)));
             Log.d("square of difference between xmax and xavg swing 2: ", Integer.toString((int) Math.pow(Math.abs(swing2.getAbsAvgX() - swing2.getxMax()), 2)));
             Log.d("Int average: ", Double.toString(((Math.pow(Math.abs(swing1.getAbsAvgX() - swing1.getxMax()), 2)) + (Math.pow(Math.abs(swing2.getAbsAvgX() - swing2.getxMax()), 2))) / 2));
+            int threshold = CONSISTENCY_THRESHOLD + (int) Math.pow(Math.abs(swing1.getAbsAvgX() - swing1.getxMax()), 2) + (int) Math.pow(Math.abs(swing2.getAbsAvgX() - swing2.getxMax()), 2);
+            Log.d("X - Proposed Threshold: ", Integer.toString(threshold));
 
-            CONSISTENCY_THRESHOLD += (int) Math.pow(Math.abs(swing1.getAbsAvgX() - swing1.getxMax()), 2) + (int) Math.pow(Math.abs(swing2.getAbsAvgX() - swing2.getxMax()), 2);
-            Log.d("Proposed Threshold: ", Integer.toString(CONSISTENCY_THRESHOLD));
-            for(DTWHelper singleDTW: dtw) {
-                DynamicTimeWarping myDtw = singleDTW.getDTW();
-                Log.d("print cost path", Double.toString(myDtw.getPathCost()));
 
-                if (myDtw.getPathCost() < CONSISTENCY_THRESHOLD) {
-                    consistency++;
-                }
-            }
-            return consistency;
+            Log.d("average of absolute value of y for swing 1: ", Integer.toString(swing1.getAbsAvgY()));
+            Log.d("max of absolute value of y for swing 1: ", Integer.toString(swing1.getyMax()));
+            Log.d("average of absolute value of y for swing 2: ", Integer.toString(swing2.getAbsAvgY()));
+            Log.d("max of absolute value of y for swing 2: ", Integer.toString(swing2.getyMax()));
+            Log.d("square of difference between ymax and yavg swing 1: ", Integer.toString((int) Math.pow(Math.abs(swing1.getAbsAvgY() - swing1.getyMax()), 2)));
+            Log.d("square of difference between ymax and yavg swing 2: ", Integer.toString((int) Math.pow(Math.abs(swing2.getAbsAvgY() - swing2.getyMax()), 2)));
+            Log.d("Int average: ", Double.toString(((Math.pow(Math.abs(swing1.getAbsAvgY() - swing1.getyMax()), 2)) + (Math.pow(Math.abs(swing2.getAbsAvgY() - swing2.getyMax()), 2))) / 2));
+            threshold = CONSISTENCY_THRESHOLD + (int) Math.pow(Math.abs(swing1.getAbsAvgY() - swing1.getyMax()), 2) + (int) Math.pow(Math.abs(swing2.getAbsAvgY() - swing2.getyMax()), 2);
+            Log.d("Y - Proposed Threshold: ", Integer.toString(threshold));
+
+
+            Log.d("average of absolute value of z for swing 1: ", Integer.toString(swing1.getAbsAvgZ()));
+            Log.d("max of absolute value of z for swing 1: ", Integer.toString(swing1.getzMax()));
+            Log.d("average of absolute value of z for swing 2: ", Integer.toString(swing2.getAbsAvgZ()));
+            Log.d("max of absolute value of z for swing 2: ", Integer.toString(swing2.getzMax()));
+            Log.d("square of difference between zmax and zavg swing 1: ", Integer.toString((int) Math.pow(Math.abs(swing1.getAbsAvgZ() - swing1.getzMax()), 2)));
+            Log.d("square of difference between zmax and zavg swing 2: ", Integer.toString((int) Math.pow(Math.abs(swing2.getAbsAvgZ() - swing2.getzMax()), 2)));
+            Log.d("Int average: ", Double.toString(((Math.pow(Math.abs(swing1.getAbsAvgZ() - swing1.getzMax()), 2)) + (Math.pow(Math.abs(swing2.getAbsAvgZ() - swing2.getzMax()), 2))) / 2));
+            threshold = CONSISTENCY_THRESHOLD + (int) Math.pow(Math.abs(swing1.getAbsAvgZ() - swing1.getzMax()), 2) + (int) Math.pow(Math.abs(swing2.getAbsAvgZ() - swing2.getzMax()), 2);
+            Log.d("Z - Proposed Threshold: ", Integer.toString(threshold));
+
+
+            int consistencyThresholdX = CONSISTENCY_THRESHOLD + (int) Math.pow(Math.abs(
+                    swing1.getAbsAvgX() - swing1.getxMax()), 2) + (int) Math.pow(
+                    Math.abs(swing2.getAbsAvgX() - swing2.getxMax()), 2);
+
+            int consistencyThresholdY = CONSISTENCY_THRESHOLD + (int) Math.pow(
+                    Math.abs(swing1.getAbsAvgY() - swing1.getyMax()), 2) + (int) Math.pow(
+                    Math.abs(swing2.getAbsAvgY() - swing2.getyMax()), 2);
+
+            int consistencyThresholdZ = CONSISTENCY_THRESHOLD + (int) Math.pow(Math.abs(
+                    swing1.getAbsAvgZ() - swing1.getzMax()), 2) + (int) Math.pow(
+                    Math.abs(swing2.getAbsAvgZ() - swing2.getzMax()), 2);
+
+            Log.d("X pathcost: ", "" + dtw[0].getDTW().getPathCost());
+            Log.d("Y pathcost: ", "" + dtw[1].getDTW().getPathCost());
+            Log.d("Z pathcost: ", "" + dtw[2].getDTW().getPathCost());
+
+            Log.d("X -> Is pathCost less than threshold? ", "" + 100/(dtw[0].getDTW().getPathCost() / consistencyThresholdX));
+            Log.d("Y -> Is pathCost less than threshold? ", "" + 100/(dtw[1].getDTW().getPathCost() / consistencyThresholdY));
+            Log.d("Z -> Is pathCost less than threshold? ", "" + 100/(dtw[2].getDTW().getPathCost() / consistencyThresholdZ));
+
+            double xCost = (100/(dtw[0].getDTW().getPathCost() / consistencyThresholdX)) > 100 ? 100 : (100/(dtw[0].getDTW().getPathCost() / consistencyThresholdX));
+            double yCost = (100/(dtw[1].getDTW().getPathCost() / consistencyThresholdY)) > 100 ? 100 : (100/(dtw[1].getDTW().getPathCost() / consistencyThresholdY));
+            double zCost = (100/(dtw[2].getDTW().getPathCost() / consistencyThresholdZ)) > 100 ? 100 : (100/(dtw[2].getDTW().getPathCost() / consistencyThresholdZ));
+
+            return (xCost + yCost + zCost)/3;
         }
     }
 
