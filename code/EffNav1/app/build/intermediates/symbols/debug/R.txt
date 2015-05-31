@@ -21,6 +21,7 @@ int color purple 0x7f04000f
 int color red 0x7f040010
 int color translucent_red 0x7f040011
 int color white 0x7f040012
+<<<<<<< HEAD
 int drawable bluecircle 0x7f020000
 int drawable buttonshape 0x7f020001
 int drawable greencircle 0x7f020002
@@ -51,6 +52,35 @@ int id popup_scorekeeper_squash 0x7f080010
 int id popup_scorekeeper_tabletennis 0x7f080013
 int id popup_scorekeeper_tennis 0x7f08000d
 int id reset 0x7f08000a
+=======
+int drawable basketball 0x7f020000
+int drawable bluecircle 0x7f020001
+int drawable buttonshape 0x7f020002
+int drawable golf 0x7f020003
+int drawable greencircle 0x7f020004
+int drawable ic_launcher 0x7f020005
+int drawable orangecircle 0x7f020006
+int drawable purplecircle 0x7f020007
+int drawable redcircle 0x7f020008
+int drawable tennis 0x7f020009
+int drawable textview_design_minus 0x7f02000a
+int drawable textview_design_plus 0x7f02000b
+int drawable textview_design_reset 0x7f02000c
+int drawable yellowcircle 0x7f02000d
+int id demo_collection_button 0x7f080005
+int id graph 0x7f080003
+int id launchpadFrame 0x7f080004
+int id minus 0x7f080006
+int id pager 0x7f080000
+int id pager_title_strip 0x7f080001
+int id plus 0x7f080007
+int id popup_scorekeeper 0x7f080009
+int id popup_scorekeeper_basketball 0x7f08000c
+int id popup_scorekeeper_default 0x7f08000a
+int id popup_scorekeeper_golf 0x7f08000d
+int id popup_scorekeeper_tennis 0x7f08000b
+int id reset 0x7f080008
+>>>>>>> origin/master
 int id test 0x7f080002
 int layout activity_collection_demo 0x7f030000
 int layout activity_main 0x7f030001

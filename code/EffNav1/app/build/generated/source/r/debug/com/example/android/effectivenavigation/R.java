@@ -65,17 +65,20 @@ containing a value of this type.
         public static final int white=0x7f040012;
     }
     public static final class drawable {
-        public static final int bluecircle=0x7f020000;
-        public static final int buttonshape=0x7f020001;
-        public static final int greencircle=0x7f020002;
-        public static final int ic_launcher=0x7f020003;
-        public static final int orangecircle=0x7f020004;
-        public static final int purplecircle=0x7f020005;
-        public static final int redcircle=0x7f020006;
-        public static final int textview_design_minus=0x7f020007;
-        public static final int textview_design_plus=0x7f020008;
-        public static final int textview_design_reset=0x7f020009;
-        public static final int yellowcircle=0x7f02000a;
+        public static final int basketball=0x7f020000;
+        public static final int bluecircle=0x7f020001;
+        public static final int buttonshape=0x7f020002;
+        public static final int golf=0x7f020003;
+        public static final int greencircle=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int orangecircle=0x7f020006;
+        public static final int purplecircle=0x7f020007;
+        public static final int redcircle=0x7f020008;
+        public static final int tennis=0x7f020009;
+        public static final int textview_design_minus=0x7f02000a;
+        public static final int textview_design_plus=0x7f02000b;
+        public static final int textview_design_reset=0x7f02000c;
+        public static final int yellowcircle=0x7f02000d;
     }
     public static final class id {
         public static final int demo_collection_button=0x7f080007;
@@ -86,6 +89,7 @@ containing a value of this type.
         public static final int minus=0x7f080008;
         public static final int pager=0x7f080000;
         public static final int pager_title_strip=0x7f080001;
+<<<<<<< HEAD
         public static final int plus=0x7f080009;
         public static final int popup_scorekeeper=0x7f08000b;
         public static final int popup_scorekeeper_badminton=0x7f080011;
@@ -97,6 +101,15 @@ containing a value of this type.
         public static final int popup_scorekeeper_tabletennis=0x7f080013;
         public static final int popup_scorekeeper_tennis=0x7f08000d;
         public static final int reset=0x7f08000a;
+=======
+        public static final int plus=0x7f080007;
+        public static final int popup_scorekeeper=0x7f080009;
+        public static final int popup_scorekeeper_basketball=0x7f08000c;
+        public static final int popup_scorekeeper_default=0x7f08000a;
+        public static final int popup_scorekeeper_golf=0x7f08000d;
+        public static final int popup_scorekeeper_tennis=0x7f08000b;
+        public static final int reset=0x7f080008;
+>>>>>>> origin/master
         public static final int test=0x7f080002;
     }
     public static final class layout {
