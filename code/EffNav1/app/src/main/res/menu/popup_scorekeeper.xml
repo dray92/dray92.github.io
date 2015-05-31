@@ -14,16 +14,16 @@
     <item android:id="@+id/popup_scorekeeper_golf"
         android:title="@string/popup_scorekeeper_golf" />
 
-    <item android:id="@+id/popup_scorekeeper_squash"
-        android:title="@string/popup_scorekeeper_squash" />
+    <!--<item android:id="@+id/popup_scorekeeper_squash"-->
+        <!--android:title="@string/popup_scorekeeper_squash" />-->
 
-    <item android:id="@+id/popup_scorekeeper_badminton"
-        android:title="@string/popup_scorekeeper_badminton" />
+    <!--<item android:id="@+id/popup_scorekeeper_badminton"-->
+        <!--android:title="@string/popup_scorekeeper_badminton" />-->
 
-    <item android:id="@+id/popup_scorekeeper_racquetball"
-        android:title="@string/popup_scorekeeper_racquetball" />
+    <!--<item android:id="@+id/popup_scorekeeper_racquetball"-->
+        <!--android:title="@string/popup_scorekeeper_racquetball" />-->
 
-    <item android:id="@+id/popup_scorekeeper_tabletennis"
-        android:title="@string/popup_scorekeeper_tabletennis" />
+    <!--<item android:id="@+id/popup_scorekeeper_tabletennis"-->
+        <!--android:title="@string/popup_scorekeeper_tabletennis" />-->
 
 </menu>

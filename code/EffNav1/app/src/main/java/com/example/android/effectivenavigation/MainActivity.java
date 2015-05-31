@@ -784,26 +784,32 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * Converted to: Scorekeeper section -> Keeps score...
      */
 
-    public static class ScorekeeperSectionFragment extends Fragment /*implements DialogInterface.OnClickListener*//* implements PopupMenu.OnMenuItemClickListener */{
-        private final int GAME_DEFAULT = 0;
-        private final int GAME_TENNIS = 1;
-        private final int GAME_BASKETBALL = 2;
-        private final int GAME_GOLF = 3;
-        private final int PLAYER_ONE = 0;
-        private final int PLAYER_TWO = 1;
+    public static class ScorekeeperSectionFragment extends Fragment {
+
+        // class constants
+        public static final String ARG_SECTION_NUMBER = "section_number";
+        private final int SPORT_DEFAULT = 0;
+        private final int SPORT_TENNIS = 1;
+        private final int SPORT_BASKETBALL = 2;
+        private final int SPORT_GOLF = 3;
+//        private final int SPORT_SQUASH = 4;
+//        private final int SPORT_BADMINTON = 5;
+//        private final int SPORT_RACQUETBALL = 6;
+//        private final int SPORT_TABLETENNIS = 7;
+        private final int PLAYER_ONE = 1;
+        private final int PLAYER_TWO = 2;
         private final int BEST_OF_FIVE = 3;
         private final int GAMES_TO_SET = 6;
+        private final int DEFAULT_SCORE_TO_WIN = 21;
+        private final int DEFAULT_SCORE_TO_WIN_BASKETBALL = 21;
 
-        int game = GAME_TENNIS;
-        int incrementDecrementAmount = 1;
+        // initialize/declare variables
+        int sport = SPORT_DEFAULT;
+        int scoreToWin = DEFAULT_SCORE_TO_WIN;
+        int setsToWin = BEST_OF_FIVE;
         int[] player1Score = new int[3];
         int[] player2Score = new int[3];
         String[] tennisScore = new String[] {"0", "15", "30", "40", "Ad"};
-
-
-        public static final String ARG_SECTION_NUMBER = "section_number";
-
-        boolean valueUpdated = false;
         TextView t;
         View myRootView;
 
@@ -812,27 +818,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_scorekeeper, container, false);
-            Bundle args = getArguments();
-
+//            Bundle args = getArguments();
             myRootView = rootView;
-
-            // prints "This is the Scorekeeper Section"
-//            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-//                    getString(R.string.scorekeeper_section_text, args.getInt(ARG_SECTION_NUMBER)));
-
-
             final TextView reset = (TextView)rootView.findViewById(R.id.reset);
             t = (TextView)rootView.findViewById(R.id.test);
             final TextView popupMenu = (TextView)rootView.findViewById(R.id.popup_scorekeeper);
             final TextView player1 = (TextView)rootView.findViewById(R.id.plus);
             final TextView player2 = (TextView)rootView.findViewById(R.id.minus);
-            final int[] oldVal = {Integer.parseInt((String) player1.getText())};
-
-
-
-
-
-
             popupMenu.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -845,21 +837,33 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
+                            resetScores(player1, player2);
                             if(DEBUG_ON)
                                 t.setText("Pop up option set: " + item.getTitle());
                             switch (item.getItemId()) {
                                 case R.id.popup_scorekeeper_tennis:
-//                            archive(item);
+                                    sport = SPORT_TENNIS;
+                                    // change sets to win based on what user inputs
+                                    // setsToWin = {user_input}
+
                                     return true;
-                                case R.id.popup_scorekeeper_squash:
-//                            delete(item);
+                                case R.id.popup_scorekeeper_basketball:
+                                    sport = SPORT_BASKETBALL;
+                                    scoreToWin = DEFAULT_SCORE_TO_WIN_BASKETBALL;
                                     return true;
+                                case R.id.popup_scorekeeper_golf:
+                                    sport = SPORT_GOLF;
+                                    scoreToWin = -1; // never allow user to win
+                                    return true;
+
+
                                 default:
-                                    return false;
+                                    sport = SPORT_DEFAULT;
+                                    scoreToWin = DEFAULT_SCORE_TO_WIN;
+                                    return true;
                             }
                         }
                     });
-//                    setHasOptionsMenu(true);
 
                     // debug
                     if(DEBUG_ON)
@@ -872,87 +876,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             reset.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                player2.setText("0");
-                player1.setText("0");
-                player1Score = new int[3];
-                player2Score = new int[3];
+                resetScores(player1, player2);
                 }
             });
 
+
             /* onclick on plus and minus buttons increments value */
             player1.setOnClickListener(new View.OnClickListener() {
-
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void onClick(View v) {
                     incrementScore(PLAYER_ONE, player1, player2);
-//                    int scoreValueP1;
-//                    int gameValueP1;
-//                    int setValueP1;
-//                    int scoreValueP2;
-//                    int gameValueP2;
-//                    int setValueP2;
-//
-//
-//                    player1Score[0]++;
-
-//
-//                    // tennis
-//                    if (game == GAME_TENNIS) {
-//                        Log.d("scorekeeper:", "Im in the tennis case");
-//                        // after incrementing, if player1 is ad and player 2 is ad
-//                        if (player1Score[0] == 4 && player2Score[0] == 4) {
-//                            // set both scores to 40
-//                            player1Score[0] = 3;
-//                            player2Score[0] = 3;
-//                        }
-//
-//                        // this is the case where player 1 wins the game
-//                        if ((player1Score[0] >= tennisScore.length-1) && (player1Score[0]-player2Score[0] >= 2)) {
-//                            player1Score[0] = 0;
-//                            player1Score[1]++;
-//
-//                            // this is the case where player 1 wins the set
-//                            if ((player1Score[1] >= GAMES_TO_SET) && (player1Score[1]-player2Score[1] >= 2)) {
-//                                player1Score[1] = 0;
-//                                player1Score[2]++;
-//                                if (player1Score[2] == BEST_OF_FIVE) {
-//                                    // PLAYER 1 WINS!!
-//                                    // DISPLAY SOMETHING HERE
-//
-//                                    player1Score = new int[3];
-//                                    player2Score = new int[3];
-//                                }
-//                            }
-//                        }
-//                        scoreValueP1 = Integer.parseInt(tennisScore[player1Score[0]]);
-//                        gameValueP1 = player1Score[1];
-//                        setValueP1 = player1Score[2];
-//                        scoreValueP2 = Integer.parseInt(tennisScore[player2Score[0]]);
-//                        gameValueP2 = player2Score[1];
-//                        setValueP2 = player2Score[2];
-//                        player1.setText("Set:" + Integer.toString(setValueP1) + "Game:" +  Integer.toString(gameValueP1) +
-//                                "Score:" + Integer.toString(scoreValueP1));
-//                        player2.setText("Set:" + Integer.toString(setValueP2) + "Game:" +  Integer.toString(gameValueP2) +
-//                                "Score:" + Integer.toString(scoreValueP2));
-//                    }
-//
-//                    // basketball, golf
-//                    else {
-//                        Log.d("scorekeeper:", "Im in the basketball/golf else case");
-//                        scoreValueP1 = player1Score[0];
-//                        player1.setText("" + scoreValueP1);
-//                    }
-
-
-
-
-
-
-
-
                 }
-
             });
 
             player2.setOnClickListener(new View.OnClickListener() {
@@ -960,9 +895,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 @Override
                 public void onClick(View v) {
                     incrementScore(PLAYER_TWO, player1, player2);
-//                player2Score[0]++;
-//                int minusVal = Integer.parseInt((String) player2.getText());
-//                player2.setText("" + (minusVal + incrementDecrementAmount));
 
                 }
 
@@ -972,15 +904,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             player1.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-//              if(!valueUpdated)
-                player2Score[0]--;
-                    player1.setText("" + (Integer.parseInt((String) player1.getText())
-                    - incrementDecrementAmount));
-
-                if (oldVal[0] != Integer.parseInt((String) player1.getText())) {
-                    oldVal[0] = Integer.parseInt((String) player1.getText());
-                    valueUpdated = !valueUpdated;
-                }
+                decrementScore(PLAYER_ONE, player1, player2);
                 return true;
                 }
 
@@ -988,83 +912,29 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             player2.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-//                 if(!valueUpdated)
-                    player2Score[0]--;
-                    player2.setText("" + (Integer.parseInt((String) player2.getText())
-                        - incrementDecrementAmount));
-
-                    if(oldVal[0] != Integer.parseInt((String) player2.getText())) {
-                        oldVal[0] = Integer.parseInt((String) player2.getText());
-                        valueUpdated = !valueUpdated;
-                    }
+                decrementScore(PLAYER_TWO, player1, player2);
                     return true;
                 }
-
             });
             return rootView;
         }
 
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            // Handle item selection
 
-            if(DEBUG_ON)
-                t.setText("Pop up option chosen");
 
-            switch (item.getItemId()) {
-                case R.id.popup_scorekeeper_tennis:
-//                    popup_scorekeeper_tennis();
-                    return true;
-                case R.id.popup_scorekeeper_basketball:
-//                    popup_scorekeeper_basketball();
-                    return true;
-                case R.id.popup_scorekeeper_golf:
-//                    popup_scorekeeper_golf();
-                    return true;
-                case R.id.popup_scorekeeper_squash:
-//                    popup_scorekeeper_squash();
-                    return true;
-                case R.id.popup_scorekeeper_badminton:
-//                    popup_scorekeeper_badminton();
-                    return true;
-                case R.id.popup_scorekeeper_racquetball:
-//                    popup_scorekeeper_racquetball();
-                    return true;
-                case R.id.popup_scorekeeper_tabletennis:
-//                    popup_scorekeeper_tabletennis();
-                    return true;
-                default:
-                    return super.onOptionsItemSelected(item);
-            }
-        }
-
-        public void incrementScore(int player, TextView player1, TextView player2) {
-            String scoreValueP1;
-            int gameValueP1;
-            int setValueP1;
-            String scoreValueP2;
-            int gameValueP2;
-            int setValueP2;
+        private void incrementScore(int player, TextView player1, TextView player2) {
             int[] playerScore = new int[3];
             int[] opposingPlayerScore = new int[3];
             if (player == PLAYER_ONE) {
                 playerScore = player1Score;
                 opposingPlayerScore = player2Score;
-
-
             } else if (player == PLAYER_TWO) {
                 playerScore = player2Score;
                 opposingPlayerScore = player1Score;
-
-
-
             }
             playerScore[0]++;
 
-
-
             // tennis
-            if (game == GAME_TENNIS) {
+            if (sport == SPORT_TENNIS) {
                 Log.d("scorekeeper:", "Im in the tennis case");
                 // after incrementing, if player1 is ad and player 2 is ad
                 if (playerScore[0] == 4 && opposingPlayerScore[0] == 4) {
@@ -1079,70 +949,113 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     opposingPlayerScore[0] = 0;
                     playerScore[1]++;
 
-
                     // this is the case where player 1 wins the set
                     if ((playerScore[1] >= GAMES_TO_SET) && (playerScore[1]-opposingPlayerScore[1] >= 2)) {
                         playerScore[1] = 0;
                         opposingPlayerScore[1] = 0;
                         playerScore[2]++;
-                        if (playerScore[2] == BEST_OF_FIVE) {
-                            // PLAYER 1 WINS!!
-                            // DISPLAY SOMETHING HERE
+                        if (playerScore[2] == setsToWin) {
+                            Toast.makeText(getActivity().getApplicationContext(), "Player " + player + " Won!!", Toast.LENGTH_LONG).show();
 
                             playerScore = new int[3];
                             opposingPlayerScore = new int[3];
                         }
                     }
                 }
-                scoreValueP1 = tennisScore[playerScore[0]];
-                gameValueP1 = playerScore[1];
-                setValueP1 = playerScore[2];
-                scoreValueP2 = tennisScore[opposingPlayerScore[0]];
-                gameValueP2 = opposingPlayerScore[1];
-                setValueP2 = opposingPlayerScore[2];
-
-
-                if (player == PLAYER_ONE) {
-                    player1.setText("Set:" + Integer.toString(setValueP1) + "\nGame:" +  Integer.toString(gameValueP1) +
-                            "\nScore:" + scoreValueP1);
-                    player2.setText("Set:" + Integer.toString(setValueP2) + "\nGame:" +  Integer.toString(gameValueP2) +
-                            "\nScore:" + scoreValueP2);
-                    player1Score = playerScore;
-                    player2Score = opposingPlayerScore;
-                } else if (player == PLAYER_TWO) {
-                    player2.setText("Set:" + Integer.toString(setValueP1) + "\nGame:" +  Integer.toString(gameValueP1) +
-                            "\nScore:" + scoreValueP1);
-                    player1.setText("Set:" + Integer.toString(setValueP2) + "\nGame:" +  Integer.toString(gameValueP2) +
-                            "\nScore:" + scoreValueP2);
-                    player2Score = playerScore;
-                    player1Score = opposingPlayerScore;
-                }
-            }
-
             // basketball, golf
-            else {
-                Log.d("scorekeeper:", "Im in the basketball/golf else case");
-
-                if (player == PLAYER_ONE) {
-                    scoreValueP1 = Integer.toString(playerScore[0]);
-                    player1.setText(scoreValueP1);
-                    player1Score = playerScore;
-                } else if (player == PLAYER_TWO) {
-                    scoreValueP2 = Integer.toString(playerScore[0]);
-                    player1.setText(scoreValueP2);
-                    player2Score = playerScore;
+            } else {
+                // when player wins in the default case, reset score and display text: Player x Won!!
+                if (playerScore[0] == scoreToWin) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Player " + player + " Won!!", Toast.LENGTH_LONG).show();
+                    resetScores(player1, player2);
                 }
             }
 
+            if (player == PLAYER_ONE) {
+                player1Score = playerScore;
+                player2Score = opposingPlayerScore;
+
+            } else if (player == PLAYER_TWO) {
+                player2Score = playerScore;
+                player1Score = opposingPlayerScore;
+            }
+            updateScores(player1, player2);
+        }
+
+        private void decrementScore(int player, TextView player1, TextView player2) {
+
+            int[] playerScore = new int[3];
+            int[] opposingPlayerScore = new int[3];
+            if (player == PLAYER_ONE) {
+                playerScore = player1Score;
+                opposingPlayerScore = player2Score;
 
 
+            } else if (player == PLAYER_TWO) {
+                playerScore = player2Score;
+                opposingPlayerScore = player1Score;
 
+            }
+            // only do something if the score is not the smallest possible score 0
+            if (playerScore[0] != 0 || playerScore[1] != 0 || playerScore[2] != 0) {
+                playerScore[0]--;
+
+                // tennis
+                if (sport == SPORT_TENNIS) {
+                    Log.d("scorekeeper:", "Im in the tennis case");
+                    // after incrementing, if player1 is ad and player 2 is ad
+
+                    if (playerScore[0] == -1) {
+                        // set both scores to 40
+                        playerScore[1]--;
+                        playerScore[0] = tennisScore.length - 1; // set the score to
+
+                    }
+                    if (playerScore[1] == -1) {
+                        playerScore[2]--;
+                        playerScore[1] = GAMES_TO_SET - 1;
+                    }
+
+                    if (player == PLAYER_ONE) {
+                        player1Score = playerScore;
+                        player2Score = opposingPlayerScore;
+
+
+                    } else if (player == PLAYER_TWO) {
+                        player2Score = playerScore;
+                        player1Score = opposingPlayerScore;
+                    }
+                }
+                updateScores(player1, player2);
+            }
+        }
+
+        private void updateScores(TextView player1, TextView player2) {
+            if (sport == SPORT_TENNIS) {
+                printTennisScoreToTextView(player1, Integer.toString(player1Score[2]), Integer.toString(player1Score[1]), tennisScore[player1Score[0]]);
+                printTennisScoreToTextView(player2, Integer.toString(player2Score[2]), Integer.toString(player2Score[1]), tennisScore[player2Score[0]]);
+            } else {
+                printScoreToTextView(player1, Integer.toString(player1Score[0]));
+                printScoreToTextView(player2, Integer.toString(player2Score[0]));
+            }
+        }
+
+        private void resetScores(TextView player1, TextView player2) {
+            player1Score = new int[3];
+            player2Score = new int[3];
+            updateScores(player1, player2);
 
         }
 
+        // SPORT: TENNIS
+        // Prints scores to given TextView v, set score, game score, and score
+        private void printTennisScoreToTextView(TextView v, String setScore, String gameScore, String score) {
+            v.setText("Set: " + setScore + "\nGame: " +  gameScore +
+                    "\nScore: " + score);
+        }
 
-
-
-
+        // SPORT: BASKETBALL, GOLF
+        // Prints scores to given TextView v, set score, game score, and score
+        private void printScoreToTextView(TextView v, String score) { v.setText(score); }
     }
 }
