@@ -25,7 +25,7 @@ public class ScorekeeperHelper {
     private final int GAMES_TO_SET = 6;
     private final int DEFAULT_SCORE_TO_WIN = 21;
     private final int DEFAULT_SCORE_TO_WIN_BASKETBALL = 21;
-    private final String[] tennisScore = new String[] {"0", "15", "30", "40", "Ad"};
+    private final String[] tennisScore = new String[] {"0", "15", "30", "40", "Adv"};
 
     // initialize/declare variables
     private int sport = SPORT_DEFAULT;

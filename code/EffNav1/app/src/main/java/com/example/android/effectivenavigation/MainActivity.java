@@ -30,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
@@ -54,9 +55,15 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -88,13 +95,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     private final static int REQUEST_ENABLE_BT = 1;
 
-    private final static boolean DEBUG_ON = true;
+    private final static boolean DEBUG_ON = false;
 
     private static int oldState;        // stores BluetoothProfile
 
     private Vibrator v;
 
     private ToneGenerator toneG;
+
+    private static final int BUFFER_CONSISTENCY_BOUND = 20;
 
     public static final String tempFilepath = "sensei";
     public static final String tempFilename = "temp.txt";
@@ -160,7 +169,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //updateState(btAdapter.isEnabled() ? STATE_DISCONNECTED : STATE_BLUETOOTH_OFF);
         oldState = btAdapter.isEnabled() ? STATE_DISCONNECTED : STATE_BLUETOOTH_OFF;
 
-        toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 50/*ToneGenerator.MAX_VOLUME*/);   // max volume
+        toneG = new ToneGenerator(AudioManager.STREAM_ALARM, ToneGenerator.MAX_VOLUME);   // max volume
 
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -656,7 +665,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public void onStart() {
             super.onStart();
             try {
-                mainDrawGraph();
+                drawAccelGraph();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -673,31 +682,92 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         }
 
-        private void mainDrawGraph() throws IOException {
+        private void drawAccelGraph() throws IOException {
 
             updateGlobalFileHandler();
 
             if(fileHandler.getNumMotions() > 0) {
+
                 Motion[] mySwings = fileHandler.getMotions();
 
                 int magAccel[];
                 DataPoint[] dataset;
+                DataPoint[] maxDataset = new DataPoint[mySwings.length];
+                int thickness = 2;
+                int max;
                 for(int i = 0 ; i < mySwings.length ; i++) {
                     magAccel = mySwings[i].getAccelMagVector();
                     dataset = new DataPoint[magAccel.length];
 
-                    for(int j = 0 ; j < magAccel.length ; j++)
-                        dataset[j] = new DataPoint(j, magAccel[j]);
+                    max = magAccel[0];
 
-                    drawGraph(graphs[0], dataset);
+                    for(int j = 0 ; j < magAccel.length ; j++) {
+                        dataset[j] = new DataPoint(j, magAccel[j]);
+                        max = Math.max(max, magAccel[j]);
+                    }
+                    maxDataset[i] = new DataPoint(i+1, max);
+                    drawLineGraph(graphs[0], dataset, i, thickness);
                 }
+                drawBarGraph(graphs[1], maxDataset);
             }
         }
 
-        private void drawGraph(GraphView graph, DataPoint[] dataset) {
-            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataset);
-            graph.addSeries(series);
+        private int[] colors = {Color.GRAY, Color.BLUE, Color.DKGRAY, Color.GREEN, Color.YELLOW,
+                Color.LTGRAY, Color.MAGENTA, Color.RED, Color.BLACK};
 
+        private void drawLineGraph(GraphView graph, DataPoint[] dataset, int i, int thickness) {
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataset);
+            series.setColor(colors[i%colors.length]);
+            series.setThickness(thickness);
+            GridLabelRenderer style = graph.getGridLabelRenderer();
+            style.setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
+            style.setPadding(30);
+            graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+                @Override
+                public String formatLabel(double value, boolean isValueX) {
+                    if (isValueX) {
+                        // show normal x values
+                        return super.formatLabel(value / (16384/8), isValueX);
+                    } else {
+                        // show currency for y values
+                        return super.formatLabel(value / (16384/8), isValueX) + " g";
+                    }
+                }
+            });
+            graph.addSeries(series);
+            super.onStart();
+        }
+
+        private void drawBarGraph(GraphView graph, DataPoint[] dataset) {
+            BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(dataset);
+            series.setColor(colors[(int) (Math.random() * 8)]);
+
+            series.setSpacing(50);
+
+            series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+                @Override
+                public int get(DataPoint data) {
+                    return Color.rgb((int) data.getX() * 255 / 4, (int) Math.abs(data.getY() * 255 / 6), 100);
+                }
+            });
+
+            GridLabelRenderer style = graph.getGridLabelRenderer();
+            style.setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
+            style.setPadding(30);
+            style.setLabelsSpace(30);
+            graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+                @Override
+                public String formatLabel(double value, boolean isValueX) {
+                    if (isValueX) {
+                        // show normal x values
+                        return super.formatLabel(value / (16384/8), isValueX);
+                    } else {
+                        // show currency for y values
+                        return super.formatLabel(value / (16384/8), isValueX) + " g";
+                    }
+                }
+            });
+            graph.addSeries(series);
             super.onStart();
         }
     }
@@ -713,6 +783,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         private View myRootView;
         private TextView t;
         private int CONSISTENCY_THRESHOLD = 1000000;
+        TextView scoreView;
+        TextView numView;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -721,9 +793,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Bundle args = getArguments();
             myRootView = rootView;
             t = (TextView) rootView.findViewById(R.id.test);
+            scoreView = (TextView) rootView.findViewById(R.id.score);
+            numView = (TextView) rootView.findViewById(R.id.num);
             return rootView;
         }
-
 
         @Override
         public void onStart() {
@@ -757,6 +830,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             if(DEBUG_ON)
                 t.setText("Number of motions: " + mySwings.length);
 
+            numView.setText(mySwings.length + " swings");
             double consistencyScore = 0;
 
             for (int i = 0; i < mySwings.length - 1; i++) {
@@ -764,10 +838,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
             int consistencyMax = (mySwings.length - 1);
 
-            double score = round(consistencyScore/consistencyMax, 3);
+            double score = round(consistencyScore/consistencyMax, 2);
 
             if(DEBUG_ON)
                 t.setText(t.getText() + "||" + "Score: " + score + "%");
+
+            scoreView.setText(score + "%");
         }
 
         private static double round(double value, int places) {
@@ -846,13 +922,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Log.d("Y pathcost: ", "" + dtw[1].getDTW().getPathCost());
             Log.d("Z pathcost: ", "" + dtw[2].getDTW().getPathCost());
 
-            Log.d("X -> Is pathCost less than threshold? ", "" + 100/(dtw[0].getDTW().getPathCost() / consistencyThresholdX));
-            Log.d("Y -> Is pathCost less than threshold? ", "" + 100/(dtw[1].getDTW().getPathCost() / consistencyThresholdY));
-            Log.d("Z -> Is pathCost less than threshold? ", "" + 100/(dtw[2].getDTW().getPathCost() / consistencyThresholdZ));
+            double primaryXCost = dtw[0].getDTW().getPathCost() / consistencyThresholdX;
+            double primaryYCost = dtw[1].getDTW().getPathCost() / consistencyThresholdY;
+            double primaryZCost = dtw[2].getDTW().getPathCost() / consistencyThresholdZ;
 
-            double xCost = (100/(dtw[0].getDTW().getPathCost() / consistencyThresholdX)) > 100 ? 100 : (100/(dtw[0].getDTW().getPathCost() / consistencyThresholdX));
-            double yCost = (100/(dtw[1].getDTW().getPathCost() / consistencyThresholdY)) > 100 ? 100 : (100/(dtw[1].getDTW().getPathCost() / consistencyThresholdY));
-            double zCost = (100/(dtw[2].getDTW().getPathCost() / consistencyThresholdZ)) > 100 ? 100 : (100/(dtw[2].getDTW().getPathCost() / consistencyThresholdZ));
+            Log.d("X -> Is pathCost less than threshold? ", "" + 100/primaryXCost);
+            Log.d("Y -> Is pathCost less than threshold? ", "" + 100/primaryYCost);
+            Log.d("Z -> Is pathCost less than threshold? ", "" + 100/primaryZCost);
+
+            printMotionComparerToDebugger(swing1, swing2);
+
+            double xCost = (100/primaryXCost) > 100 ?
+                    (100 - (primaryXCost * BUFFER_CONSISTENCY_BOUND)) : (100/primaryXCost);
+
+            double yCost = (100/primaryYCost) > 100 ?
+                    (100 - (primaryYCost * BUFFER_CONSISTENCY_BOUND)) : (100/primaryYCost);
+
+            double zCost = (100/primaryZCost) > 100 ?
+                    (100 - (primaryZCost * BUFFER_CONSISTENCY_BOUND)) : (100/primaryZCost);
 
             return (xCost + yCost + zCost)/3;
         }
@@ -865,13 +952,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
 
     public class ScorekeeperSectionFragment extends Fragment {
-
         // class constants
         public static final String ARG_SECTION_NUMBER = "section_number";
 
         TextView t;
         View myRootView;
-
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -897,41 +982,48 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
 
-                            if(DEBUG_ON)
-                                t.setText("Pop up option set: " + item.getTitle());
-                            switch (item.getItemId()) {
-                                case R.id.popup_scorekeeper_tennis:
-                                    myScorekeeper.changeSportToTennis();
-                                    // change sets to win based on what user inputs
-                                    // setsToWin = {user_input}
-                                    player1.setBackground(getResources().getDrawable((R.drawable.tennis)));
-                                    player2.setBackground(getResources().getDrawable((R.drawable.tennis)));
-                                    myScorekeeper.resetScores(player1, player2);
-                                    return true;
-                                case R.id.popup_scorekeeper_basketball:
-                                    myScorekeeper.changeSportToBasketball();
-                                    myScorekeeper.changeScoreToWin(DEFAULT_SCORE_TO_WIN_BASKETBALL);
-                                    player1.setBackground(getResources().getDrawable((R.drawable.basketball)));
-                                    player2.setBackground(getResources().getDrawable((R.drawable.basketball)));
-                                    myScorekeeper.resetScores(player1, player2);
-                                    return true;
-                                case R.id.popup_scorekeeper_golf:
-                                    myScorekeeper.changeSportToGolf();
-                                    myScorekeeper.changeScoreToWin(-1); // never allow them to win
-                                    player1.setBackground(getResources().getDrawable((R.drawable.golf)));
-                                    player2.setBackground(getResources().getDrawable((R.drawable.golf)));
-                                    myScorekeeper.resetScores(player1, player2);
-                                    return true;
+                        if(DEBUG_ON)
+                            t.setText("Pop up option set: " + item.getTitle());
+                        switch (item.getItemId()) {
+                            case R.id.popup_scorekeeper_tennis:
+                                myScorekeeper.changeSportToTennis();
+                                // change sets to win based on what user inputs
+                                // setsToWin = {user_input}
+                                player1.setBackground(getResources().getDrawable((R.drawable.tennisa)));
+                                player2.setBackground(getResources().getDrawable((R.drawable.tennisb)));
+                                myScorekeeper.resetScores(player1, player2);
+                                player1.setTextSize(20);
+                                player2.setTextSize(20);
+                                return true;
+                            case R.id.popup_scorekeeper_basketball:
+                                myScorekeeper.changeSportToBasketball();
+                                myScorekeeper.changeScoreToWin(DEFAULT_SCORE_TO_WIN_BASKETBALL);
+                                player1.setBackground(getResources().getDrawable((R.drawable.basketballa)));
+                                player2.setBackground(getResources().getDrawable((R.drawable.basketballb)));
+                                player1.setTextSize(40);
+                                player2.setTextSize(40);
+                                myScorekeeper.resetScores(player1, player2);
+                                return true;
+                            case R.id.popup_scorekeeper_golf:
+                                myScorekeeper.changeSportToGolf();
+                                myScorekeeper.changeScoreToWin(-1); // never allow them to win
+                                player1.setBackground(getResources().getDrawable((R.drawable.golfa)));
+                                player2.setBackground(getResources().getDrawable((R.drawable.golfb)));
+                                myScorekeeper.resetScores(player1, player2);
+                                player1.setTextSize(40);
+                                player2.setTextSize(40);
+                                return true;
 
-
-                                default:
-                                    myScorekeeper.changeSportToDefault();
-                                    myScorekeeper.changeScoreToWin(DEFAULT_SCORE_TO_WIN);
-                                    player1.setBackground(getResources().getDrawable((R.drawable.greencircle)));
-                                    player2.setBackground(getResources().getDrawable((R.drawable.redcircle)));
-                                    myScorekeeper.resetScores(player1, player2);
-                                    return true;
-                            }
+                            default:
+                                myScorekeeper.changeSportToDefault();
+                                myScorekeeper.changeScoreToWin(DEFAULT_SCORE_TO_WIN);
+                                player1.setBackground(getResources().getDrawable((R.drawable.greencircle)));
+                                player2.setBackground(getResources().getDrawable((R.drawable.redcircle)));
+                                myScorekeeper.resetScores(player1, player2);
+                                player1.setTextSize(40);
+                                player2.setTextSize(40);
+                                return true;
+                        }
                         }
                     });
 
@@ -988,11 +1080,5 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             });
             return rootView;
         }
-
-
-
-
     }
-
-
 }

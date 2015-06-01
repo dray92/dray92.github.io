@@ -46,7 +46,7 @@
 
     <TextView
         style="@style/CodeFont"
-        android:text="Tester Section"
+        android:text=""
         android:id="@+id/test" />
 
 </FrameLayout>

@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Jango\Documents\GitHub\dray92.github.io\code\EffNav1\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\libs\internal_impl-22.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
-        <dex dex="C:\Users\Jango\Documents\GitHub\dray92.github.io\code\EffNav1\app\build\intermediates\pre-dexed\debug\internal_impl-22.1.1-193c0fa8e4154e78ddd5e2cc816a42e55e197e69.jar" />
-    </item>
-    <item
-        jar="C:\Users\Jango\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.1.1\support-annotations-22.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
-        <dex dex="C:\Users\Jango\Documents\GitHub\dray92.github.io\code\EffNav1\app\build\intermediates\pre-dexed\debug\support-annotations-22.1.1-2361129d34497d6ef611490b03513f5db29fe3fb.jar" />
-    </item>
-    <item
-        jar="C:\Users\Jango\Documents\GitHub\dray92.github.io\code\EffNav1\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
-        <dex dex="C:\Users\Jango\Documents\GitHub\dray92.github.io\code\EffNav1\app\build\intermediates\pre-dexed\debug\classes-05a4b4d175415e9c652ffe851a153d75ce1599b2.jar" />
-    </item>
-    <item
-        jar="C:\Users\Jango\Documents\GitHub\dray92.github.io\code\EffNav1\app\build\intermediates\exploded-aar\com.jjoe64\graphview\4.0.1\jars\classes.jar"
+        jar="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/exploded-aar/com.jjoe64/graphview/4.0.1/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="37bf8de5b4f9e7e93006db783b9b3168e32e38e9">
-        <dex dex="C:\Users\Jango\Documents\GitHub\dray92.github.io\code\EffNav1\app\build\intermediates\pre-dexed\debug\classes-1ef807958407e8e844e501653c7f32167957c814.jar" />
+        <dex dex="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/pre-dexed/debug/classes-5c4cb7e2732af9c33f32d2067370902d4622ff96.jar" />
+    </item>
+    <item
+        jar="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
+        <dex dex="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/pre-dexed/debug/classes-9804fa76ba64b18e85c206e1d2359cd46dcaea8e.jar" />
+    </item>
+    <item
+        jar="/Users/Debosmit/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.1.1/support-annotations-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
+        <dex dex="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-134e3a843d36115889bbf464c56c9cdb9c8067ee.jar" />
+    </item>
+    <item
+        jar="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/libs/internal_impl-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
+        <dex dex="/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-01e422fff37cd1b4d7bf1596d965066c3a394689.jar" />
     </item>
 
 </items>

@@ -46,8 +46,8 @@
 
     <TextView
         style="@style/CodeFont"
-        android:text="Tester Section"
+        android:text=""
         android:id="@+id/test" />
 
 </FrameLayout>
-<!-- From: file:/C:/Users/Jango/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/layout/fragment_section_launchpad.xml -->
+<!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/layout/fragment_section_launchpad.xml -->

@@ -1,5 +1,11 @@
 package com.example.android.effectivenavigation;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Debosmit on 5/27/15.
  */
@@ -20,8 +26,29 @@ public class Motion {
     }
 
     public Motion(int[][] accelerometer, int[][] gyroscope, boolean isPositive, boolean isNegative) {
+
+        // getting data lines at 80 lines per second
+        // getting rid of 40 lines from the top
+        /*if(accelerometer.length > 40) {
+            List<int[]> listAccel = new ArrayList<int[]>(Arrays.asList(accelerometer));
+            List<int[]> listGyro = new ArrayList<int[]>(Arrays.asList(gyroscope));
+            int i = 40;
+            while(i > 40) {
+                listAccel.remove(1);
+                listGyro.remove(1);
+                i--;
+            }
+            this.accelerometer = listAccel.toArray(new int[][]{});
+            this.accelerometer = listGyro.toArray(new int[][]{});
+        } else {
+            this.accelerometer = accelerometer;
+            this.gyroscope = gyroscope;
+        }*/
+
         this.accelerometer = accelerometer;
         this.gyroscope = gyroscope;
+
+        Log.d("Accelerometer length: ", "" + accelerometer.length);
 //        this.accelerometer = smoothSliding(accelerometer);
 //        this.gyroscope = smoothSliding(gyroscope);
         this.isPositive = isPositive;

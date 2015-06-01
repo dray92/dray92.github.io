@@ -17,4 +17,51 @@
         android:text=""
         android:id="@+id/test" />
 
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:baselineAligned="false"
+        android:layout_gravity="left|top"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp">
+
+        <TextView
+            style="@style/ScoreKeeperTextReset"
+            android:background="@drawable/orangecircle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/num"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="20"
+            android:shadowColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="270dp"
+        android:layout_height="270dp"
+        android:baselineAligned="false"
+        android:layout_gravity="center"
+        android:layout_marginTop="0dp" >
+
+        <TextView
+            style="@style/ScoreKeeperTextReset"
+            android:background="@drawable/purplecircle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/score"
+            android:gravity="center"
+            android:textSize="60dp"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="20"
+            android:shadowColor="@color/black" />
+    </LinearLayout>
+
 </FrameLayout>
