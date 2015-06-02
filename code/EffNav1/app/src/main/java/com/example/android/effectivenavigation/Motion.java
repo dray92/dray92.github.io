@@ -27,30 +27,43 @@ public class Motion {
 
     public Motion(int[][] accelerometer, int[][] gyroscope, boolean isPositive, boolean isNegative) {
 
+        Log.d("Accelerometer length: ", "" + accelerometer.length);
         // getting data lines at 80 lines per second
         // getting rid of 40 lines from the top
-        /*if(accelerometer.length > 40) {
+        if(accelerometer.length > 200) {
             List<int[]> listAccel = new ArrayList<int[]>(Arrays.asList(accelerometer));
             List<int[]> listGyro = new ArrayList<int[]>(Arrays.asList(gyroscope));
-            int i = 40;
-            while(i > 40) {
-                listAccel.remove(1);
-                listGyro.remove(1);
+            int i = (int)(80*1.25);        // 1.25 seconds worth of data
+            // removing data from the top
+            while(i > 0) {
+                listAccel.remove(0);
+                listGyro.remove(0);
+                i--;
+            }
+            i = (int)(80*0.25);             // 0.5 seconds worth of data
+            // removing data from the bottom
+            while(i > 0) {
+                listAccel.remove(listAccel.size()-1);
+                listGyro.remove(listGyro.size()-1);
                 i--;
             }
             this.accelerometer = listAccel.toArray(new int[][]{});
-            this.accelerometer = listGyro.toArray(new int[][]{});
+            this.gyroscope = listGyro.toArray(new int[][]{});
         } else {
             this.accelerometer = accelerometer;
             this.gyroscope = gyroscope;
-        }*/
+        }
 
-        this.accelerometer = accelerometer;
-        this.gyroscope = gyroscope;
+        /*this.accelerometer = accelerometer;
+        this.gyroscope = gyroscope;*/
 
-        Log.d("Accelerometer length: ", "" + accelerometer.length);
+        Log.d("this.accelerometer length: ", "" + this.accelerometer.length);
+
+
 //        this.accelerometer = smoothSliding(accelerometer);
 //        this.gyroscope = smoothSliding(gyroscope);
+
+
         this.isPositive = isPositive;
         this.isNegative = isNegative;
         accelMagVector = new int[accelerometer.length];

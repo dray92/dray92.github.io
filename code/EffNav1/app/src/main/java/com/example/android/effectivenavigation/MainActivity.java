@@ -59,6 +59,7 @@ import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -70,7 +71,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.UUID;
+
+import static java.util.Calendar.*;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -102,6 +106,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private Vibrator v;
 
     private ToneGenerator toneG;
+
+    private static int systemTime = 0;
 
     private static final int BUFFER_CONSISTENCY_BOUND = 20;
 
@@ -182,6 +188,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
         }
 
+        systemTime = getInstance().get(SECOND);
 
         myScorekeeper = new ScorekeeperHelper();
     }
@@ -233,7 +240,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             // when there is something to be read from RFduino:
         } else if (RFduinoService.ACTION_DATA_AVAILABLE.equals(action)) {
-
+            systemTime = getInstance().get(SECOND);
+            Log.d("System Time: ", systemTime + "");
             // This the data read from an RfduinoBLE.send
             byte[] data = intent.getByteArrayExtra(RFduinoService.EXTRA_DATA);
             if (data.length > 0) {
@@ -727,13 +735,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 public String formatLabel(double value, boolean isValueX) {
                     if (isValueX) {
                         // show normal x values
-                        return super.formatLabel(value / (16384/8), isValueX);
+                        return super.formatLabel(value, isValueX);
                     } else {
                         // show currency for y values
-                        return super.formatLabel(value / (16384/8), isValueX) + " g";
+                        return super.formatLabel(value / (16384 / 8), isValueX) + " g";
                     }
                 }
             });
+            setYAxisBounds(graph);
             graph.addSeries(series);
             super.onStart();
         }
@@ -760,16 +769,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 public String formatLabel(double value, boolean isValueX) {
                     if (isValueX) {
                         // show normal x values
-                        return super.formatLabel(value / (16384/8), isValueX);
+                        return super.formatLabel(value, isValueX);
                     } else {
                         // show currency for y values
-                        return super.formatLabel(value / (16384/8), isValueX) + " g";
+                        return super.formatLabel(value / (16384 / 8), isValueX) + " g";
                     }
                 }
             });
+            setYAxisBounds(graph);
             graph.addSeries(series);
             super.onStart();
         }
+    }
+
+    private static void setYAxisBounds(GraphView graph) {
+        Viewport curViewPort = graph.getViewport();
+        curViewPort.setMinY(0);
+        curViewPort.setMaxY(16384*2);
+        graph.getViewport().setYAxisBoundsManual(true);
     }
 
     /**
