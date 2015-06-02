@@ -109,10 +109,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     private static int systemTime = 0;
 
+    private int startMotionSeconds;
+    private boolean motionBeepFLag;
+    private static final double SECONDS_TO_MOTION = 2.25;
+
     private static final int BUFFER_CONSISTENCY_BOUND = 20;
 
     public static final String tempFilepath = "sensei";
     public static final String tempFilename = "temp.txt";
+
+
 
     public static TempFileHandler fileHandler;
     ScorekeeperHelper myScorekeeper;
@@ -279,11 +285,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 }
 
                 if(streamStarted) {
-                    if(!firstLineToBeIgnored)
+                    if(!firstLineToBeIgnored) {
                         writeToFile(tempFilename, dataToHex + "\n");
+                        if((getInstance().get(SECOND) - startMotionSeconds > SECONDS_TO_MOTION) && motionBeepFLag) {
+                             toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 1000);
+                            motionBeepFLag = false;
+                        }
+                    }
                     else {
                         v.vibrate(1000);    // vibrate for one second
-                        toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 1000); // 3 beeps
+                        toneG.startTone(ToneGenerator.TONE_CDMA_ANSWER, 1000); // 3 beeps
+                        startMotionSeconds = getInstance().get(SECOND);
+                        motionBeepFLag = true;
 //                    toneG.startTone(ToneGenerator.TONE_CDMA_HIGH_PBX_S_X4, 1000);   // 2 trings
 //                    toneG.startTone(ToneGenerator.TONE_PROP_ACK, 1000);              // 2 ACK beeps
 
@@ -302,7 +315,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         Button connectButton = (Button)rootView.findViewById(R.id.demo_collection_button);
         if(oldState == BluetoothProfile.STATE_DISCONNECTED)
             connectButton.setText("Look for Senseiii");
-        else
+        else if(oldState == BluetoothProfile.STATE_CONNECTED)
             connectButton.setText("Disconnect from Senseiii");
         }
     };
@@ -435,6 +448,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 t.setText("");
             }
 
+            if(BluetoothProfile.STATE_CONNECTED == STATE_CONNECTED || oldState == STATE_CONNECTED) {
+                b.setText("Disconnect from Senseiii");
+            } else {
+                b.setText("Look for Senseiii");
+            }
             if(DEBUG_ON) {
                 t.setText("Tester Section");
                 int val = BluetoothProfile.STATE_CONNECTED;
@@ -532,9 +550,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             registerReceiver(btStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
             registerReceiver(rfduinoStateReceiver, RFduinoService.getIntentFilter());
 
-
-
-
             return rootView;
         }
 
@@ -549,14 +564,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(DEBUG_ON) {
-                            final TextView t = (TextView) rootView.findViewById(R.id.test);
-                            //t.setText(BluetoothHelper.getDeviceInfoText(btDevice, rssi, scanRecord));
-                            int val = BluetoothProfile.STATE_CONNECTED;
-                            t.setText("Connected to: \"" +
-                                    BluetoothHelper.getDeviceName(btDevice, rssi, scanRecord) + "\"");
-                            b.setText("Disconnect from Senseiii");
-                        }
+                    if(DEBUG_ON) {
+                        final TextView t = (TextView) rootView.findViewById(R.id.test);
+                        //t.setText(BluetoothHelper.getDeviceInfoText(btDevice, rssi, scanRecord));
+                        int val = BluetoothProfile.STATE_CONNECTED;
+                        t.setText("Connected to: \"" +
+                                BluetoothHelper.getDeviceName(btDevice, rssi, scanRecord) + "\"");
+                    }
+                        b.setText("Disconnect from Senseiii");
                     }
                 });
             }
@@ -663,8 +678,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             myRootview = rootView;
 
             graphs = new GraphView[]{(GraphView) myRootview.findViewById(R.id.graph1),
-                    (GraphView) myRootview.findViewById(R.id.graph2),
-                    (GraphView) myRootview.findViewById(R.id.graph3)};
+                    (GraphView) myRootview.findViewById(R.id.graph2)};
 
             return rootView;
         }
@@ -743,6 +757,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 }
             });
             setYAxisBounds(graph);
+            graph.setTitle("Swing Accelerations");
+            graph.setTitleColor(Color.GRAY);
             graph.addSeries(series);
             super.onStart();
         }
@@ -777,6 +793,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 }
             });
             setYAxisBounds(graph);
+            graph.setTitle("Peak Acceleration");
+            graph.setTitleColor(Color.GRAY);
             graph.addSeries(series);
             super.onStart();
         }
@@ -785,7 +803,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private static void setYAxisBounds(GraphView graph) {
         Viewport curViewPort = graph.getViewport();
         curViewPort.setMinY(0);
-        curViewPort.setMaxY(16384*2);
+        curViewPort.setMaxY(16384 * 2);
         graph.getViewport().setYAxisBoundsManual(true);
     }
 
@@ -802,6 +820,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         private int CONSISTENCY_THRESHOLD = 1000000;
         TextView scoreView;
         TextView numView;
+        TextView speedView;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -812,6 +831,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             t = (TextView) rootView.findViewById(R.id.test);
             scoreView = (TextView) rootView.findViewById(R.id.score);
             numView = (TextView) rootView.findViewById(R.id.num);
+            //speedView = (TextView) rootView.findViewById(R.id.speed);
             return rootView;
         }
 
@@ -861,6 +881,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 t.setText(t.getText() + "||" + "Score: " + score + "%");
 
             scoreView.setText(score + "%");
+
+            double maxSpeed = 0.0d;
+            for(Motion swing: mySwings)
+                maxSpeed = Math.max(swing.getMaxVelocity(), maxSpeed);
+
         }
 
         private static double round(double value, int places) {

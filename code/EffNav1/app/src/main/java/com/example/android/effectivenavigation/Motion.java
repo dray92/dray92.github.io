@@ -18,6 +18,9 @@ public class Motion {
     private boolean isNegative;
     private int accelxMax, accelyMax, accelzMax;
     private int[] absX, absY, absZ;
+    private final double timeBetweenData = 80.0d;
+    private double[] velocity;
+    private double maxVelocity;
 
     private final int SMOOTH_WINDOW_SIZE = 4;       // change depending on length????
 
@@ -33,7 +36,7 @@ public class Motion {
         if(accelerometer.length > 200) {
             List<int[]> listAccel = new ArrayList<int[]>(Arrays.asList(accelerometer));
             List<int[]> listGyro = new ArrayList<int[]>(Arrays.asList(gyroscope));
-            int i = (int)(80*1.25);        // 1.25 seconds worth of data
+            int i = (int)(80*2.25);        // 2.25 seconds worth of data
             // removing data from the top
             while(i > 0) {
                 listAccel.remove(0);
@@ -53,6 +56,7 @@ public class Motion {
             this.accelerometer = accelerometer;
             this.gyroscope = gyroscope;
         }
+        this.velocity = new double[accelerometer.length];
 
         /*this.accelerometer = accelerometer;
         this.gyroscope = gyroscope;*/
@@ -73,6 +77,7 @@ public class Motion {
         absX = new int[accelerometer.length];
         absY = new int[accelerometer.length];
         absZ = new int[accelerometer.length];
+        this.maxVelocity = 0;
         setMagAcceleration();
         setAbsAccel();
     }
@@ -89,14 +94,40 @@ public class Motion {
     }
 
     private void setMagAcceleration() {
+        double netAcceleration = 0.0d;
         for(int row = 0 ; row < accelerometer.length ; row++) {
             accelMagVector[row] = getMagnitude(accelerometer[row][0],
                     accelerometer[row][1], accelerometer[row][2]);
+
             accelxMax = Math.abs(accelerometer[row][0]) > accelxMax ? Math.abs(accelerometer[row][0]) : accelxMax;
             accelyMax = Math.abs(accelerometer[row][1]) > accelyMax ? Math.abs(accelerometer[row][1]) : accelyMax;
             accelzMax = Math.abs(accelerometer[row][2]) > accelzMax ? Math.abs(accelerometer[row][2]) : accelzMax;
+
+            if(row == 0)
+                this.velocity[row] = 0;
+            else {
+                netAcceleration = (double)(accelMagVector[row]);
+                Log.d("accelMagVector" + row, "" + accelMagVector[row]);
+                netAcceleration = ((netAcceleration) / (16384 / 8))*(9.81);
+                Log.d("netAcceleration " + row, "" + netAcceleration);
+                netAcceleration =- (9.81/2);
+                Log.d("netAcceleration - grav: " + row, "" + netAcceleration);
+                velocity[row] = velocity[row - 1] + (netAcceleration / timeBetweenData);
+                Log.d("Vel " + row, "" + velocity[row]);
+            }
+        }
+        setMaxVelocity();
+
+    }
+
+    private void setMaxVelocity() {
+        for(int i = 0 ; i < velocity.length ; i++) {
+            maxVelocity = Math.max(maxVelocity, velocity[i]);
+
         }
     }
+
+    public double getMaxVelocity() { return maxVelocity; }
 
     public int[] getabsX() { return absX; }
 

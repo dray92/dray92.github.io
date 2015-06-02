@@ -50,7 +50,7 @@
 
         <TextView
             style="@style/ScoreKeeperTextReset"
-            android:background="@drawable/purplecircle"
+            android:background="@drawable/redcircle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -63,5 +63,7 @@
             android:shadowRadius="20"
             android:shadowColor="@color/black" />
     </LinearLayout>
+
+
 
 </FrameLayout><!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/layout/fragment_section_consistency.xml -->

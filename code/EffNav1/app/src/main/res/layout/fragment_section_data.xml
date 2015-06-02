@@ -18,19 +18,16 @@
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
-        android:layout_height="150dip"
-        android:id="@+id/graph1" />
+        android:layout_height="200dip"
+        android:id="@+id/graph1"
+        android:layout_marginTop="15dp" />
+
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
-        android:layout_height="150dip"
-        android:id="@+id/graph3"
-        android:layout_gravity="center_horizontal|bottom" />
-
-    <com.jjoe64.graphview.GraphView
-        android:layout_width="match_parent"
-        android:layout_height="150dip"
+        android:layout_height="200dip"
         android:id="@+id/graph2"
-        android:layout_gravity="center" />
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="15dp" />
 
 </FrameLayout>
