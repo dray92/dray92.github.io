@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:orientation="vertical"
+    tools:context=".MainActivity" tools:deviceIds="wear_square"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--reset button-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|left"
+            android:baselineAligned="false"
+            android:layout_marginTop="0dp">
+            <TextView
+                android:background="@drawable/resetbutton"
+                style="@style/ScoreKeeperTextReset"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/reset"
+                android:gravity="center"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="20"
+                android:shadowColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
+
+        <!--list popup-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="right">
+            <TextView
+                android:background="@drawable/list"
+                style="@style/ScoreKeeperTextReset"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/popup"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="20"
+                android:shadowColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--minus button-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="0dp"
+        android:layout_weight="0.52">
+        <TextView
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:background="@drawable/redcircle"
+            style="@style/ScoreKeeperTextReset"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/button_init"
+            android:id="@+id/minus"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="20"
+            android:shadowColor="@color/black" />
+
+    </LinearLayout>
+
+
+    <!--plus button-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:background="@drawable/greencircle"
+            style="@style/ScoreKeeperTextReset"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/button_init"
+            android:id="@+id/plus"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="20"
+            android:shadowColor="@color/black" />
+    </LinearLayout>
+
+</LinearLayout>

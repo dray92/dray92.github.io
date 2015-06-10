@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:layout_gravity">center_horizontal|bottom</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:background">@color/maroon</item>
+    </style>
+
+    <style name="ScoreKeeperTextPlus" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="ScoreKeeperTextMinus" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">@color/green</item>
+    </style>
+
+    <style name="ScoreKeeperTextReset" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

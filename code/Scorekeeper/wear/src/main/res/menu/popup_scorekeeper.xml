@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/popup_scorekeeper_default"
+        android:title="@string/popup_scorekeeper_default" />
+
+    <item android:id="@+id/popup_scorekeeper_tennis"
+        android:title="@string/popup_scorekeeper_tennis" />
+
+    <item android:id="@+id/popup_scorekeeper_basketball"
+        android:title="@string/popup_scorekeeper_basketball" />
+
+    <item android:id="@+id/popup_scorekeeper_golf"
+        android:title="@string/popup_scorekeeper_golf" />
+
+    <!--<item android:id="@+id/popup_scorekeeper_squash"-->
+    <!--android:title="@string/popup_scorekeeper_squash" />-->
+
+    <!--<item android:id="@+id/popup_scorekeeper_badminton"-->
+    <!--android:title="@string/popup_scorekeeper_badminton" />-->
+
+    <!--<item android:id="@+id/popup_scorekeeper_racquetball"-->
+    <!--android:title="@string/popup_scorekeeper_racquetball" />-->
+
+    <!--<item android:id="@+id/popup_scorekeeper_tabletennis"-->
+    <!--android:title="@string/popup_scorekeeper_tabletennis" />-->
+
+</menu>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Scorekeeper</string>
+    <string name="hello_round">Hello Round World!</string>
+    <string name="hello_square">Changing Hello Square World!</string>
+
+
+    <!--scorekeeper inits-->
+    <string name="button_init">0</string>
+
+    <string name="popup_scorekeeper_default">Default</string>
+    <string name="popup_scorekeeper_tennis">Tennis</string>
+    <string name="popup_scorekeeper_basketball">Basketball</string>
+    <string name="popup_scorekeeper_golf">Golf</string>
+    <string name="popup_scorekeeper_racquetball">Racquetball</string>
+    <string name="popup_scorekeeper_badminton">Badminton</string>
+    <string name="popup_scorekeeper_squash">Squash</string>
+    <string name="popup_scorekeeper_tabletennis">Table Tennis</string>
+
+</resources>

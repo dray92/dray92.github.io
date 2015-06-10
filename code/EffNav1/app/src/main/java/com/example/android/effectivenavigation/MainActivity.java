@@ -118,8 +118,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public static final String tempFilepath = "sensei";
     public static final String tempFilename = "temp.txt";
 
-
-
     public static TempFileHandler fileHandler;
     ScorekeeperHelper myScorekeeper;
     private final int DEFAULT_SCORE_TO_WIN = 21;
@@ -193,7 +191,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 new File(dir, children[i]).delete();
             }
         }
-
         systemTime = getInstance().get(SECOND);
 
         myScorekeeper = new ScorekeeperHelper();
@@ -640,23 +637,23 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         };
     }
 
-    /**
-     * A dummy fragment representing a section of the app, but that simply displays dummy text.
-     */
-    public static class DummySectionFragment extends Fragment {
-
-        public static final String ARG_SECTION_NUMBER = "section_number";
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
-            Bundle args = getArguments();
-            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-                    getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
+//    /**
+//     * A dummy fragment representing a section of the app, but that simply displays dummy text.
+//     */
+//    public static class DummySectionFragment extends Fragment {
+//
+//        public static final String ARG_SECTION_NUMBER = "section_number";
+//
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                                 Bundle savedInstanceState) {
+//            View rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
+//            Bundle args = getArguments();
+//            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
+//                    getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));
+//            return rootView;
+//        }
+//    }
 
     /**
      * Adapted from dummy fragment representing a section of the app, but that
@@ -993,6 +990,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * Converted to: Scorekeeper section -> Keeps score...
      */
 
+    @SuppressLint("ValidFragment")
     public class ScorekeeperSectionFragment extends Fragment {
         // class constants
         public static final String ARG_SECTION_NUMBER = "section_number";
@@ -1016,64 +1014,64 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 @Override
                 public void onClick(View v) {
 
-                    PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(), v);
-                    MenuInflater inflater = popup.getMenuInflater();
-                    inflater.inflate(R.menu.popup_scorekeeper, popup.getMenu());
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(), v);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.popup_scorekeeper, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
 
-                        if(DEBUG_ON)
-                            t.setText("Pop up option set: " + item.getTitle());
-                        switch (item.getItemId()) {
-                            case R.id.popup_scorekeeper_tennis:
-                                myScorekeeper.changeSportToTennis();
-                                // change sets to win based on what user inputs
-                                // setsToWin = {user_input}
-                                player1.setBackground(getResources().getDrawable((R.drawable.tennisa)));
-                                player2.setBackground(getResources().getDrawable((R.drawable.tennisb)));
-                                myScorekeeper.resetScores(player1, player2);
-                                player1.setTextSize(20);
-                                player2.setTextSize(20);
-                                return true;
-                            case R.id.popup_scorekeeper_basketball:
-                                myScorekeeper.changeSportToBasketball();
-                                myScorekeeper.changeScoreToWin(DEFAULT_SCORE_TO_WIN_BASKETBALL);
-                                player1.setBackground(getResources().getDrawable((R.drawable.basketballa)));
-                                player2.setBackground(getResources().getDrawable((R.drawable.basketballb)));
-                                player1.setTextSize(40);
-                                player2.setTextSize(40);
-                                myScorekeeper.resetScores(player1, player2);
-                                return true;
-                            case R.id.popup_scorekeeper_golf:
-                                myScorekeeper.changeSportToGolf();
-                                myScorekeeper.changeScoreToWin(-1); // never allow them to win
-                                player1.setBackground(getResources().getDrawable((R.drawable.golfa)));
-                                player2.setBackground(getResources().getDrawable((R.drawable.golfb)));
-                                myScorekeeper.resetScores(player1, player2);
-                                player1.setTextSize(40);
-                                player2.setTextSize(40);
-                                return true;
-
-                            default:
-                                myScorekeeper.changeSportToDefault();
-                                myScorekeeper.changeScoreToWin(DEFAULT_SCORE_TO_WIN);
-                                player1.setBackground(getResources().getDrawable((R.drawable.greencircle)));
-                                player2.setBackground(getResources().getDrawable((R.drawable.redcircle)));
-                                myScorekeeper.resetScores(player1, player2);
-                                player1.setTextSize(40);
-                                player2.setTextSize(40);
-                                return true;
-                        }
-                        }
-                    });
-
-                    // debug
                     if(DEBUG_ON)
-                        t.setText("Pop up");
+                        t.setText("Pop up option set: " + item.getTitle());
+                    switch (item.getItemId()) {
+                        case R.id.popup_scorekeeper_tennis:
+                            myScorekeeper.changeSportToTennis();
+                            // change sets to win based on what user inputs
+                            // setsToWin = {user_input}
+                            player1.setBackground(getResources().getDrawable((R.drawable.tennisa)));
+                            player2.setBackground(getResources().getDrawable((R.drawable.tennisb)));
+                            myScorekeeper.resetScores(player1, player2);
+                            player1.setTextSize(20);
+                            player2.setTextSize(20);
+                            return true;
+                        case R.id.popup_scorekeeper_basketball:
+                            myScorekeeper.changeSportToBasketball();
+                            myScorekeeper.changeScoreToWin(DEFAULT_SCORE_TO_WIN_BASKETBALL);
+                            player1.setBackground(getResources().getDrawable((R.drawable.basketballa)));
+                            player2.setBackground(getResources().getDrawable((R.drawable.basketballb)));
+                            player1.setTextSize(40);
+                            player2.setTextSize(40);
+                            myScorekeeper.resetScores(player1, player2);
+                            return true;
+                        case R.id.popup_scorekeeper_golf:
+                            myScorekeeper.changeSportToGolf();
+                            myScorekeeper.changeScoreToWin(-1); // never allow them to win
+                            player1.setBackground(getResources().getDrawable((R.drawable.golfa)));
+                            player2.setBackground(getResources().getDrawable((R.drawable.golfb)));
+                            myScorekeeper.resetScores(player1, player2);
+                            player1.setTextSize(40);
+                            player2.setTextSize(40);
+                            return true;
 
-                    popup.show();
+                        default:
+                            myScorekeeper.changeSportToDefault();
+                            myScorekeeper.changeScoreToWin(DEFAULT_SCORE_TO_WIN);
+                            player1.setBackground(getResources().getDrawable((R.drawable.greencircle)));
+                            player2.setBackground(getResources().getDrawable((R.drawable.redcircle)));
+                            myScorekeeper.resetScores(player1, player2);
+                            player1.setTextSize(40);
+                            player2.setTextSize(40);
+                            return true;
+                    }
+                    }
+                });
+
+                // debug
+                if(DEBUG_ON)
+                    t.setText("Pop up");
+
+                popup.show();
                 }
             });
 
