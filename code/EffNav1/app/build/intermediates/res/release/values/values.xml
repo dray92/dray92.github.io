@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/values/color.xml -->
+    <eat-comment/>
+    <color name="black">#000000</color>
+    <color name="blue">#FF33B5E5</color>
+    <color name="bright_yellow">#ffff00</color>
+    <color name="dark_blue">#FF0099CC</color>
+    <color name="dark_green">#FF669900</color>
+    <color name="dark_orange">#FFFF8800</color>
+    <color name="dark_purple">#FF9933CC</color>
+    <color name="dark_red">#FFCC0000</color>
+    <color name="gold">#FFD700</color>
+    <color name="gray">#808080</color>
+    <color name="green">#00FF00</color>
+    <color name="light_green">#FF99CC00</color>
+    <color name="light_purple">#A020F0</color>
+    <color name="maroon">#800000</color>
+    <color name="orange">#FFFFBB33</color>
+    <color name="purple">#FFAA66CC</color>
+    <color name="red">#FFFF4444</color>
+    <color name="translucent_red">#ff0000</color>
+    <color name="white">#FFFFFF</color>
+    <declare-styleable name="GraphViewXML"><attr format="string" name="seriesData"/><attr format="string" name="seriesType"/><attr format="string" name="seriesTitle"/><attr name="android:title"/><attr format="color" name="seriesColor"/></declare-styleable>
+    <!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">Senseiii</string>
+    <string name="consistency_section_text">This is the Consistency Section.</string>
+    <string name="data_section_text">This is the Data Section.</string>
+    <string name="demo_external_activity">Demo External Activity</string>
+    <string name="dummy_section_text">Section %1d is just a dummy section.</string>
+    <string name="popup_scorekeeper_badminton">Badminton</string>
+    <string name="popup_scorekeeper_basketball">Basketball</string>
+    <string name="popup_scorekeeper_default">Default</string>
+    <string name="popup_scorekeeper_golf">Golf</string>
+    <string name="popup_scorekeeper_racquetball">Racquetball</string>
+    <string name="popup_scorekeeper_squash">Squash</string>
+    <string name="popup_scorekeeper_tabletennis">Table Tennis</string>
+    <string name="popup_scorekeeper_tennis">Tennis</string>
+    <string name="scan">Look for Senseiii</string>
+    <string name="scorekeeper_section_text">This is the Scorekeeper Section.</string>
+    <string name="tab1">Start</string>
+    <string name="tab2">Data</string>
+    <string name="tab3">Consistency</string>
+    <string name="tab4">Scorekeeper</string>
+    <!-- From: file:/Users/Debosmit/Documents/GitHub/dray92.github.io/code/EffNav1/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:layout_gravity">center_horizontal|bottom</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:background">@color/maroon</item>
+    </style>
+    <style name="ScoreKeeperTextMinus" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">@color/green</item>
+    </style>
+    <style name="ScoreKeeperTextPlus" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">@color/red</item>
+    </style>
+    <style name="ScoreKeeperTextReset" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>
