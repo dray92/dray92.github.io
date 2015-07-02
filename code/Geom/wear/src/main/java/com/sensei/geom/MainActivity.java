@@ -1,27 +1,29 @@
 package com.sensei.geom;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.support.wearable.view.WatchViewStub;
-import android.widget.TextView;
 
-
-import android.app.Activity;
 import android.content.Intent;
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+
 import android.support.v4.app.NotificationManagerCompat;
+
 import android.util.Log;
+
 import android.view.View;
 import android.view.Window;
+
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -81,10 +83,10 @@ public class MainActivity extends Activity
     private float minZ;
     final Runnable r = new Runnable()
     {
-        public void run()
-        {
-            HomeActivity.access$102(HomeActivity.this, false);
-            HomeActivity.this.startListenToSensor();
+        public void run() {
+            MainActivity.
+            MainActivity.access$102(HomeActivity.this, false);
+            MainActivity.this.startListenToSensor();
         }
     };
 
@@ -430,7 +432,7 @@ public class MainActivity extends Activity
 
 
     public static enum State {
-        HUNTING;
+        static State HUNTING;
         static State REST;
         static State CONFIRMING;
         static State CONFIRMED;
@@ -438,11 +440,12 @@ public class MainActivity extends Activity
 
         static
         {
-            HUNTING("HUNTING", 0);
+            HUNTING = new State("HUNTING", 0);
             REST = new State("REST", 1);
             CONFIRMING = new State("CONFIRMING", 2);
             CONFIRMED = new State("CONFIRMED", 3);
             IMPACT = new State("IMPACT", 4);
+            
             State[] arrayOfState = new State[5];
             arrayOfState[0] = HUNTING;
             arrayOfState[1] = REST;
@@ -464,8 +467,12 @@ public class MainActivity extends Activity
         public float y;
         public float z;
 
-        private Values()
-        {
+        private Values(long timestamp, float w, float x, float y, float z) {
+            this.timestamp = timestamp;
+            this.w = w;
+            this.x = x;
+            this.y = y;
+            this.z = z;
         }
     }
 }
